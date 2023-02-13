@@ -113,10 +113,10 @@ const id = '1';
 						</div>
 						<div className="price">
               <span className="ins"><i className="fas fa-regular fa-indian-rupee-sign"></i>1499.00</span>
-              <span class="pdp-mrp">MRP <s>₹2999</s></span>
-              <span class="pdp-discount primary-clr">(50% OFF)</span>
+              <span className="pdp-mrp">MRP <s>₹2999</s></span>
+              <span className="pdp-discount primary-clr">(50% OFF)</span>
             </div>
-            <p class="pdp-selling-price"><span class="pdp-vatInfo">inclusive of all taxes</span></p>
+            <p className="pdp-selling-price"><span className="pdp-vatInfo">inclusive of all taxes</span></p>
 
 						<div className="des">Pure cotton Tshirt in black, featuring the “Carving Smiles” screenprint on the chest, and the Over
             logo label on the right hip side. Regular fit.</div>
@@ -136,13 +136,13 @@ const id = '1';
 
             <div className="size-container">
               <p className="attributeHeading"><strong>select size</strong></p>
-              <div class="size-tab-content">
-                  <button type="button" class="size-select-button"data-size="6">6</button>
-                  <button type="button" class="size-select-button active"data-size="7">7</button>
-                  <button type="button" class="size-select-button"data-size="8">8</button>
-                  <button type="button" class="size-select-button"data-size="9">9</button>
-                  <button type="button" class="size-select-button"data-size="10">10</button>
-                  <button type="button" class="size-select-button"data-size="11">11</button>
+              <div className="size-tab-content">
+                  <button type="button" className="size-select-button"data-size="6">6</button>
+                  <button type="button" className="size-select-button active"data-size="7">7</button>
+                  <button type="button" className="size-select-button"data-size="8">8</button>
+                  <button type="button" className="size-select-button"data-size="9">9</button>
+                  <button type="button" className="size-select-button"data-size="10">10</button>
+                  <button type="button" className="size-select-button"data-size="11">11</button>
               </div>
             </div>
 

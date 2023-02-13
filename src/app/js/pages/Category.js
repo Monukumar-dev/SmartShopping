@@ -253,7 +253,7 @@ export default function Category() {
           {
            productList.length>0 ? productList.map((item) => (
               <div className="col-ss-12 col-xs-6 col-sm-6 col-md-3 col-lg-3" key={item.id}>
-                <Product data={item} />
+                <Product data={item} addToCart={item}/>
               </div>
 
             )) : <h3 className="text-center p-4">Not found any Product</h3>
