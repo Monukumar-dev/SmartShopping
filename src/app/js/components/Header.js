@@ -5,16 +5,8 @@ import CartSidebar from "./CartSidebar";
 
 import Logo from '../../style/images/logo.svg';
 
-//import { logout } from "../redux/slice/authSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
 
 export default function  Header(props) {
-
-  const { cartItems } = useSelector((state)=> state.allCart)
-  const dispatch = useDispatch();
-
-  
   const auth = localStorage.getItem('user-info');
   const navigate = useNavigate();
 
@@ -46,7 +38,7 @@ export default function  Header(props) {
     <>
       <CartSidebar CartSidebarToggle={toggleSidebar} CloseCartSidebar={closeCartSidebar} />
       
-      <Navbar bg="white" variant="light" expand="lg" className="mainMenu" fixed="top">
+      <Navbar bg="" variant="light" expand="lg" className="mainMenu">
       <Container>
         <Navbar.Brand href="#">
           <img className="Logo img-fluid" src={Logo} />
@@ -75,11 +67,7 @@ export default function  Header(props) {
             <li className="nav-item dropdown">
               <p className="nav-link miniCartBtn mb-0 text-clr" onClick={closeCartSidebar}>
                 <i className="fa-solid fa-bag-shopping"></i>
-                {
-                  cartItems.length>0 ? <span className="cartCount">{cartItems.length}</span> : " "
-                }
-                
-
+                {/* <span className="cartCount">1</span> */}
               </p>
             </li>
             <li className="nav-item">
@@ -89,7 +77,7 @@ export default function  Header(props) {
               </Dropdown.Toggle>
               {
                 auth ? <Dropdown.Menu>
-                        <Dropdown.Item onClick={()=> dispatch(logout)}>Logout</Dropdown.Item>
+                        <Dropdown.Item onClick={logout}>Logout</Dropdown.Item>
                       </Dropdown.Menu>
               :
               <Dropdown.Menu>

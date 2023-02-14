@@ -164,7 +164,7 @@ export default function CartSidebar (props) {
               </p>
             </div>
             <div className="col-6">
-              {/* <p className="total-amount price"></p> */}
+              {/* <p class="total-amount price"></p> */}
               <div className="amount price-container">
                 <p className="align-items-center bold f-20 price mb-0">
                   <span>

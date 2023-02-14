@@ -31,7 +31,7 @@ export default function Register() {
     if (success) navigate('/login')
 
     // redirect authenticated user to profile screen
-    if (userInfo.id) navigate('/user-profile')
+    if (userInfo) navigate('/user-profile')
     
   }, [navigate, userInfo, success])
 

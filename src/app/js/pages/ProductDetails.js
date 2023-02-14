@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useParams, useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 // Import Swiper React components
@@ -31,14 +31,10 @@ import Product2 from '../../style/images/product2.jpg';
 export default function ProductDetails() {
 
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
+
   const [productList, setProductList] = useState([]);
 
-  const params = useParams();
-  const navigate = useNavigate();
-
-  const productApiUrl = `https://63cec9f4fdfe2764c72a860a.mockapi.io/api/products/${params.id}`;
-
-  //console.log(productApiUrl,'single Product');
+  const productApiUrl = "https://63cec9f4fdfe2764c72a860a.mockapi.io/api/products"
 
   useEffect(()=> {
     getProducts();
@@ -46,9 +42,12 @@ export default function ProductDetails() {
 
   const getProducts = async () => {
     let result  = await axios.get(productApiUrl);
-    console.log('single Product', result.data);
+    console.log('Product Home', result.data);
     setProductList(result.data);
 }
+
+const id = '1';
+
 
   function renderProductGallery() {
     return (
@@ -67,9 +66,9 @@ export default function ProductDetails() {
             modules={[FreeMode, Navigation, Thumbs]}
             className="mySwiper2"
           >
-            <SwiperSlide><img className="img-fluid w-100" src={productList.img} /></SwiperSlide>
-            <SwiperSlide><img className="img-fluid w-100" src={productList.img} /></SwiperSlide>
-            <SwiperSlide><img className="img-fluid w-100" src={productList.img} /></SwiperSlide>
+            <SwiperSlide><img className="img-fluid" src={Product1} /></SwiperSlide>
+            <SwiperSlide><img className="img-fluid" src={Product2} /></SwiperSlide>
+            <SwiperSlide><img className="img-fluid" src={Product1} /></SwiperSlide>
           </Swiper>
 
         </div>
@@ -101,7 +100,7 @@ export default function ProductDetails() {
            {renderProductGallery()}
 					</div>
 					<div className="details-info col-md-6">
-						<Link className="product-name" href="#">{productList.title} </Link>
+						<Link className="product-name" href="#">U.S. Polo Assn Men Grey Solid Sneakers </Link>
 						<div className="rating">
 							<ul className="list-star">
 								<li><a href="#"><i className="fa fa-star" aria-hidden="true"></i></a></li>
@@ -113,13 +112,14 @@ export default function ProductDetails() {
 							<span className="text">( Be the firt person to review this item )</span>
 						</div>
 						<div className="price">
-              <span className="ins"><i className="fas fa-regular fa-indian-rupee-sign"></i>{productList.price}</span>
-              <span className="pdp-mrp"><s>₹1999</s></span>
-              <span className="pdp-discount primary-clr">(50% OFF)</span>
+              <span className="ins"><i className="fas fa-regular fa-indian-rupee-sign"></i>1499.00</span>
+              <span class="pdp-mrp">MRP <s>₹2999</s></span>
+              <span class="pdp-discount primary-clr">(50% OFF)</span>
             </div>
-            <p className="pdp-selling-price"><span className="pdp-vatInfo">inclusive of all taxes</span></p>
+            <p class="pdp-selling-price"><span class="pdp-vatInfo">inclusive of all taxes</span></p>
 
-						<div className="des">{productList.desc}</div>
+						<div className="des">Pure cotton Tshirt in black, featuring the “Carving Smiles” screenprint on the chest, and the Over
+            logo label on the right hip side. Regular fit.</div>
 
             <div className="colors-container">
                   <p className="attributeHeading"><strong>More Colors</strong></p>
@@ -136,26 +136,26 @@ export default function ProductDetails() {
 
             <div className="size-container">
               <p className="attributeHeading"><strong>select size</strong></p>
-              <div className="size-tab-content">
-                  <button type="button" className="size-select-button"data-size="6">6</button>
-                  <button type="button" className="size-select-button active"data-size="7">7</button>
-                  <button type="button" className="size-select-button"data-size="8">8</button>
-                  <button type="button" className="size-select-button"data-size="9">9</button>
-                  <button type="button" className="size-select-button"data-size="10">10</button>
-                  <button type="button" className="size-select-button"data-size="11">11</button>
+              <div class="size-tab-content">
+                  <button type="button" class="size-select-button"data-size="6">6</button>
+                  <button type="button" class="size-select-button active"data-size="7">7</button>
+                  <button type="button" class="size-select-button"data-size="8">8</button>
+                  <button type="button" class="size-select-button"data-size="9">9</button>
+                  <button type="button" class="size-select-button"data-size="10">10</button>
+                  <button type="button" class="size-select-button"data-size="11">11</button>
               </div>
             </div>
 
             
 
 						<div className="quantity">
-							<input className="input-text qty text" type="text" size="4" value={1} onChange={()=> null} title="Qty" name="quantity" />
+							<input className="input-text qty text" type="text" size="4" value={1} title="Qty" name="quantity" />
 							<div className="group-quantity-button">
                 <a className="plus" href="#"><i className="fa fa-sort-asc" aria-hidden="true"></i></a>
 								<a className="minus" href="#"><i className="fa fa-sort-desc" aria-hidden="true"></i></a>
 							</div>
             </div>
-            <Link to={`/cart/${params.id}`} className="add-to-cart">ADD TO CART</Link>
+            <Link to={`/cart/${id}`} className="add-to-cart">ADD TO CART</Link>
             <ul className="group-button ps-0">
               <li><a href="#"><i className="fal fa-regular fa-heart"></i> Add to Wishlist</a></li>
               <li><a href="#"><i className="fas fa-regular fa-arrows-rotate"></i> Add to Compare</a></li>
@@ -276,7 +276,7 @@ export default function ProductDetails() {
 		<div className="related-product py-4">
 			<div className="container">
 				<h3 className="supper-title mb-4 text-center">Related Products</h3>
-        {/* <FeatureCarousel Products={productList} slidesPerView={4} /> */}
+        <FeatureCarousel Products={productList} slidesPerView={4} />
 			</div>
 		</div>
 	</div>
