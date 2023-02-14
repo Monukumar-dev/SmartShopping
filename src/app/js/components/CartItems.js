@@ -2,6 +2,9 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { removeItem, increaseItemQuantity, decreaseItemQuantity } from "../redux/slice/cartSlice";
 
+//import * as abc from "../redux/slice/cartSlice"; 
+
+
 export default function CartItems(props) {
 
     const dispatch = useDispatch();

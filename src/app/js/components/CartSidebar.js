@@ -2,14 +2,20 @@ import React, { useEffect, useState } from "react";
 import '../../style/scss/cart.scss';
 
 import { useSelector, useDispatch } from "react-redux";
-//import { getCartTotal } from "../redux/slice/cartSlice";
+import { getCartTotal } from "../redux/slice/cartSlice";
 
 import CartItems from "../components/CartItems";
 
 
 export default function CartSidebar (props) {
 
+  const dispatch = useDispatch();
+
    const { cartItems, totalQty, totalPrice } = useSelector((state)=> state.allCart)
+
+   useEffect(() => {
+    dispatch(getCartTotal());
+  }, [cartItems]);
 
     const [miniCart, setMiniCart] = useState(props.CartSidebarToggle);
 

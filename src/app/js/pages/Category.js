@@ -7,7 +7,7 @@ import { fetchProducts, STATUSES } from "../redux/slice/productSlice";
 
 
 
-export default function Category() {
+export default function Category () {
 
   const dispatch = useDispatch();
 
