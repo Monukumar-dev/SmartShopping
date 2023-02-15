@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { getCartTotal } from "../redux/slice/cartSlice";
 
 import CartItems from "../components/CartItems";
+import { Link } from "react-router-dom";
 
 
 export default function CartSidebar (props) {
@@ -78,8 +79,8 @@ export default function CartSidebar (props) {
           </div>
           <div className="row">
             <div className="col-12 mx-auto text-center">
-              <a className="btn btn-primary me-1" href="/cart">View Cart</a>
-              <a className="btn btn-primary ms-1" href="/checkout">Checkout</a>
+              <Link className="btn btn-primary me-1" to="/cart">View Cart</Link>
+              <Link className="btn btn-primary ms-1" to="/checkout">Checkout</Link>
             </div>
           </div>
         </div>

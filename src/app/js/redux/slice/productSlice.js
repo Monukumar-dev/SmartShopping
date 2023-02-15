@@ -1,18 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
-
-
-export const STATUSES = Object.freeze({
-    IDLE: 'idle',
-    ERROR: 'error',
-    LOADING: 'loading',
-
-})
+import { getProducts } from "../action/productAction";
+import { STATUS } from "../../constants/Status";
 
 const productSlice = createSlice({
     name: 'product',
     initialState: {
         data: [],
-        status: STATUSES.IDLE,
+        status: STATUS.IDLE,
     },
 
     reducers: {
@@ -23,29 +17,22 @@ const productSlice = createSlice({
         setStatus(state, action) {
             state.status = action.payload;
         },
-    }
+    },
+    extraReducers: (builder) => {
+        builder
+          .addCase(getProducts.pending, (state, action) => {
+            state.status = STATUS.LOADING;
+          })
+          .addCase(getProducts.fulfilled, (state, action) => {
+            state.data = action.payload;
+            state.status = STATUS.IDLE;
+          })
+          .addCase(getProducts.rejected, (state, action) => {
+            state.status = STATUS.ERROR;
+          });
+      },
 
 })
 //console.log(productSlice);
 export const { setProducts, setStatus } = productSlice.actions;
 export default productSlice.reducer;
-
-
-// Thunks 
-export function fetchProducts() {
-    return async function fetchProductsThunk(dispatch, getState) {
-        dispatch(setStatus(STATUSES.LOADING));
-
-        try {
-            const res = await fetch('https://63cec9f4fdfe2764c72a860a.mockapi.io/api/products');
-            const data = await res.json();
-            console.log(data);
-            dispatch(setProducts(data));
-            dispatch(setStatus(STATUSES.IDLE));
-            
-        } catch (error) {
-            console.log(error);
-            dispatch(setStatus(STATUSES.ERROR));
-        }
-    };
-}

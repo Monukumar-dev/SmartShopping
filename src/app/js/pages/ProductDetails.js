@@ -22,33 +22,42 @@ import FeatureCarousel from '../components/FeatureCarousel';
 import Sneakers1 from '../../style/images/Sneakers1.jpg';
 import Sneakers2 from '../../style/images/Sneakers2.jpg';
 import Sneakers3 from '../../style/images/Sneakers3.jpg';
-import Product1 from '../../style/images/product1.jpg';
-import Product2 from '../../style/images/product2.jpg';
 
 
+import { useDispatch, useSelector } from "react-redux";
+import { increaseItemQuantity, decreaseItemQuantity, getCartTotal } from "../redux/slice/cartSlice";
+
+import { getProductsById } from "../redux/action/productAction";
 
 
 export default function ProductDetails() {
 
-  const [thumbsSwiper, setThumbsSwiper] = useState(null);
-  const [productList, setProductList] = useState([]);
+  const dispatch = useDispatch();
+
+  const {cartItems, totalQty } = useSelector((state)=> state.allCart);
 
   const params = useParams();
   const navigate = useNavigate();
 
-  const productApiUrl = `https://63cec9f4fdfe2764c72a860a.mockapi.io/api/products/${params.id}`;
+
+
+  const [thumbsSwiper, setThumbsSwiper] = useState(null);
+  const [productList, setProductList] = useState([]);
+
+  //const productApiUrl = `https://63cec9f4fdfe2764c72a860a.mockapi.io/api/products/${params.id}`;
 
   //console.log(productApiUrl,'single Product');
 
   useEffect(()=> {
-    getProducts();
+    dispatch(getProductsById(params.id));
+    //getProducts();
   }, [])
 
-  const getProducts = async () => {
-    let result  = await axios.get(productApiUrl);
-    console.log('single Product', result.data);
-    setProductList(result.data);
-}
+//   const getProducts = async () => {
+//     let result  = await axios.get(productApiUrl);
+//     console.log('single Product', result.data);
+//     setProductList(result.data);
+// }
 
   function renderProductGallery() {
     return (
@@ -146,16 +155,18 @@ export default function ProductDetails() {
               </div>
             </div>
 
-            
-
 						<div className="quantity">
-							<input className="input-text qty text" type="text" size="4" value={1} onChange={()=> null} title="Qty" name="quantity" />
+							<input className="input-text qty text" type="text" size="4" value={cartItems.quantity} onChange={()=> null} title="Qty" name="quantity" />
 							<div className="group-quantity-button">
-                <a className="plus" href="#"><i className="fa fa-sort-asc" aria-hidden="true"></i></a>
-								<a className="minus" href="#"><i className="fa fa-sort-desc" aria-hidden="true"></i></a>
+                <a className="plus" href="#" onClick={()=> dispatch(increaseItemQuantity(productList.id))}>
+                  <i className="fa fa-sort-asc" aria-hidden="true"></i>
+                </a>
+								<a className="minus" href="#" onClick={()=> dispatch(decreaseItemQuantity(productList.id))}>
+                  <i className="fa fa-sort-desc" aria-hidden="true"></i>
+                </a>
 							</div>
             </div>
-            <Link to={`/cart/${params.id}`} className="add-to-cart">ADD TO CART</Link>
+            <Link to="/cart" className="add-to-cart">ADD TO CART</Link>
             <ul className="group-button ps-0">
               <li><a href="#"><i className="fal fa-regular fa-heart"></i> Add to Wishlist</a></li>
               <li><a href="#"><i className="fas fa-regular fa-arrows-rotate"></i> Add to Compare</a></li>
