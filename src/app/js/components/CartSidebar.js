@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from "react";
 import '../../style/scss/cart.scss';
 
+import { useSelector, useDispatch } from "react-redux";
+import { getCartTotal } from "../redux/slice/cartSlice";
+
+import CartItems from "../components/CartItems";
+import { Link } from "react-router-dom";
+
 
 export default function CartSidebar (props) {
 
