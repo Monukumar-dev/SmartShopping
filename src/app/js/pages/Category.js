@@ -1,30 +1,30 @@
 import React, { useEffect, useState } from "react";
 
 import '../../style/scss/category.scss';
+
 import Product from "../components/Product";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchProducts, STATUSES } from "../redux/slice/productSlice";
-
+import { STATUS } from "../constants/Status";
+import { getProducts } from "../redux/action/productAction";
 
 
 export default function Category () {
 
   const dispatch = useDispatch();
-
   const {data:productList, status} = useSelector((state) => state.product )
   
   //const [productList, setProductList] = useState([]);
 
   useEffect(()=> {
-    dispatch(fetchProducts());
+    dispatch(getProducts());
   }, [])
 
-  if (status === STATUSES.LOADING) {
+  if (status === STATUS.LOADING) {
     return <h2>Product Is loading....</h2>;
  }
 
- if (status === STATUSES.ERROR) {
-   return <h2>Somethings went wrong..</h2>
+ if (status === STATUS.ERROR) {
+   return <h2>Somethings went wrong Check API..</h2>
 }
 
 

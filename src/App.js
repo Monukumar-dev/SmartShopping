@@ -27,7 +27,7 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/men" element={<Category />} />
             <Route path="/products/:id" element={<ProductDetails />} />
-            <Route path="/cart/:id" element={<Cart />} />
+            <Route path="/cart" element={<Cart />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/forget-password" element={<h2 className="text-center p-4">Password Reset</h2>} />
