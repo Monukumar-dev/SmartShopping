@@ -10,7 +10,7 @@ export const getProducts = createAsyncThunk(
     'fetch/getProducts',
     async () => {
     const data = await axios.get(`${base_url}products`).then((res) => res.data);
-    console.log(data, "fetch Product data");
+    //console.log(data, "fetch Product data");
     return data;
   });
 
@@ -19,8 +19,10 @@ export const getProducts = createAsyncThunk(
     async (id) => {
     const data = await axios.get(`${base_url}products/${id}`).then((res) => res.data);
     //const data = request(`${base_url}products/`).get(id);
-    console.log(data, "fetch Product data");
+    //console.log(data, "fetch Product data");
     return data;
   });
+
+  
 
   

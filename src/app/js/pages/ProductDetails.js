@@ -28,27 +28,42 @@ import { increaseItemQuantity, decreaseItemQuantity, getCartTotal } from "../red
 
 import { getProductsById } from "../redux/action/productAction";
 
+import useFetch from "../services/useFetch";
+
 
 export default function ProductDetails() {
 
-  const dispatch = useDispatch();
-
   const {cartItems, totalQty } = useSelector((state)=> state.allCart);
+  const {data:productList, status} = useSelector((state) => state.product)
 
-  const {data:productList, status} = useSelector((state) => state.product )
-
+  const dispatch = useDispatch();
   const params = useParams();
   const navigate = useNavigate();
-
-
 
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   //const [productList, setProductList] = useState([]);
 
   useEffect(()=> {
     dispatch(getProductsById(params.id));
-    //getProducts();
   }, [])
+
+
+  const { data, error, loading } = useFetch(`products`);
+  console.log(productList, "single product");
+  console.log(data, "products ");
+
+  if (!error && loading) {
+    return ("loading...");
+  }
+  if (!loading && error) {
+    return <h3>{error.message}</h3>;
+  }
+  
+  //console.log(productList.category, "category");
+  const relatedProducts = data.filter((item) => item.category === "Shoes");
+  console.log(relatedProducts, "category");
+
+  
 
   function renderProductGallery() {
     return (
@@ -278,7 +293,7 @@ export default function ProductDetails() {
 		<div className="related-product py-4">
 			<div className="container">
 				<h3 className="supper-title mb-4 text-center">Related Products</h3>
-        {/* <FeatureCarousel Products={productList} slidesPerView={4} /> */}
+        {/* <FeatureCarousel Products={relatedProducts} slidesPerView={4} /> */}
 			</div>
 		</div>
 	</div>
