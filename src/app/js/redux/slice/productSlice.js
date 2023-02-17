@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getProducts } from "../action/productAction";
+import { getProducts, getProductsById } from "../action/productAction";
 import { STATUS } from "../../constants/Status";
 
 const productSlice = createSlice({
@@ -30,6 +30,23 @@ const productSlice = createSlice({
           .addCase(getProducts.rejected, (state, action) => {
             state.status = STATUS.ERROR;
           });
+
+
+          //getProductsById
+          builder
+          .addCase(getProductsById.pending, (state, action) => {
+            state.status = STATUS.LOADING;
+          })
+          .addCase(getProductsById.fulfilled, (state, action) => {
+            state.data = action.payload;
+            state.status = STATUS.IDLE;
+          })
+          .addCase(getProductsById.rejected, (state, action) => {
+            state.status = STATUS.ERROR;
+          });
+
+
+          
       },
 
 })

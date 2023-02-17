@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
-import axios from "axios";
 
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -36,28 +35,20 @@ export default function ProductDetails() {
 
   const {cartItems, totalQty } = useSelector((state)=> state.allCart);
 
+  const {data:productList, status} = useSelector((state) => state.product )
+
   const params = useParams();
   const navigate = useNavigate();
 
 
 
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
-  const [productList, setProductList] = useState([]);
-
-  //const productApiUrl = `https://63cec9f4fdfe2764c72a860a.mockapi.io/api/products/${params.id}`;
-
-  //console.log(productApiUrl,'single Product');
+  //const [productList, setProductList] = useState([]);
 
   useEffect(()=> {
     dispatch(getProductsById(params.id));
     //getProducts();
   }, [])
-
-//   const getProducts = async () => {
-//     let result  = await axios.get(productApiUrl);
-//     console.log('single Product', result.data);
-//     setProductList(result.data);
-// }
 
   function renderProductGallery() {
     return (
