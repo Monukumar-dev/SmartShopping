@@ -1,8 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+import { useDispatch } from "react-redux";
+import { addToCart } from "../redux/slice/cartSlice";
 
 export default function Product(props) {
+
+    const dispatch = useDispatch();
 
     //console.log(props.data, "category list");
 
@@ -14,9 +18,10 @@ export default function Product(props) {
                 <div className="thumb">
                     <div className="group-button">
                         <a href="#" className="wishlist-button"></a>
-                        <a href="#" className="quickview-button"><span className="icon">
-                            <i className="fa fa-eye" aria-hidden="true"></i></span> Quick View
-                        </a>
+                        <Link onClick={()=> dispatch(addToCart(props.data))} className="quickview-button">
+                            <span className="icon">
+                            <i className="fa fa-bag" aria-hidden="true"></i></span> Add to Cart
+                        </Link>
                     </div>
                     <Link to={`/products/${id}`}><img src={img} alt={title} /></Link>
                 </div>

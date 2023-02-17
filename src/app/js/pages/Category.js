@@ -1,25 +1,30 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 
 import '../../style/scss/category.scss';
 import Product from "../components/Product";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchProducts, STATUSES } from "../redux/slice/productSlice";
 
 
 
-export default function Category() {
+export default function Category () {
 
-  const [productList, setProductList] = useState([]);
+  const dispatch = useDispatch();
 
-  const productApiUrl = "https://63cec9f4fdfe2764c72a860a.mockapi.io/api/products"
+  const {data:productList, status} = useSelector((state) => state.product )
+  
+  //const [productList, setProductList] = useState([]);
 
   useEffect(()=> {
-    getProducts();
+    dispatch(fetchProducts());
   }, [])
 
-  const getProducts = async () => {
-    let result  = await axios.get(productApiUrl);
-    console.log('Product Home', result.data);
-    setProductList(result.data);
+  if (status === STATUSES.LOADING) {
+    return <h2>Product Is loading....</h2>;
+ }
+
+ if (status === STATUSES.ERROR) {
+   return <h2>Somethings went wrong..</h2>
 }
 
 
@@ -247,8 +252,8 @@ export default function Category() {
         <div className="row product-grid">
           {
            productList.length>0 ? productList.map((item) => (
-              <div className="col-ss-12 col-xs-6 col-sm-6 col-md-6 col-lg-4" key={item.id}>
-                <Product data={item} />
+              <div className="col-ss-12 col-xs-6 col-sm-6 col-md-3 col-lg-3" key={item.id}>
+                <Product data={item} addToCart={item}/>
               </div>
 
             )) : <h3 className="text-center p-4">Not found any Product</h3>
@@ -275,8 +280,9 @@ export default function Category() {
     );
   }
 
-
  
+
+
   return (
     <div className="main-content grid-category-page inner-page">
 		<div className="container">

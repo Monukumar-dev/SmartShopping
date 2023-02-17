@@ -1,6 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit';
 import { registerUser, userLogin } from '../action/authActions';
 
+
 const initialState = {
     loading: false,
     userInfo: {}, // for user object
@@ -12,7 +13,13 @@ const initialState = {
 const authSlice = createSlice({
     name: 'auth',
     initialState,
-    reducers: {},
+    reducers: {
+
+      logout: (state) => {
+         localStorage.clear();
+       },
+      
+    },
     extraReducers: {
          
          // login user
@@ -49,5 +56,6 @@ const authSlice = createSlice({
     },
 })
 
+export const {logout} = authSlice.actions;
 
-export default authSlice.reducer
+export default authSlice.reducer;

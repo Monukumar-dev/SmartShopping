@@ -50,7 +50,7 @@ export default function HomePage() {
         <div className="our-products specials-products">
           <h4 className="section-title text-center">Specials Products</h4>
           <p className="section-des text-center">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum scelerisque risus lacus, vitae vehicula nisl rhoncus vitae. Sed consectetur sapien velit</p>
-          <ProductCarousel Products={productList} slidesPerView={4} />
+          <ProductCarousel Products={productList} slidesPerView={5} />
         </div>
       </div>
     </section>
@@ -66,7 +66,7 @@ export default function HomePage() {
           <div className="col-xs-12 col-sm-12 col-md-6">
             <div className="banner banner-effect1">
               <a href="#">
-                <img className="img-fluid" src={banner1} alt="" />
+                <img className="img-fluid w-100" src={banner1} alt="" />
               </a>
             </div>
           </div>
@@ -75,21 +75,21 @@ export default function HomePage() {
               <div className="col-xs-6 col-sm-6 col-md-6 col-ss-12">
                 <div className="banner banner-effect1">
                   <a href="#">
-                    <img className="img-fluid" src={banner2} alt="" />
+                    <img className="img-fluid w-100" src={banner2} alt="" />
                   </a>
                 </div>
               </div>
               <div className="col-xs-6 col-sm-6 col-md-6 col-ss-12">
                 <div className="banner banner-effect1">
                   <a href="#">
-                    <img className="img-fluid" src={banner3} alt="" />
+                    <img className="img-fluid w-100" src={banner3} alt="" />
                   </a>
                 </div>
               </div>
               <div className="col-xs-12 col-sm-12 col-md-12">
                 <div className="banner banner-effect1 item-last">
                   <a href="#">
-                    <img className="img-fluid" src={banner4} alt="" />
+                    <img className="img-fluid w-100" src={banner4} alt="" />
                   </a>
                 </div>
               </div>

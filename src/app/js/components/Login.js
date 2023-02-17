@@ -16,41 +16,17 @@ export default function Login() {
   //const [error, setError] = useState(false);
 
   const navigate = useNavigate(); 
-
-  // useEffect(()=>{
-  //   const auth = localStorage.getItem('user-info');
-  //   if (auth) {
-  //     navigate('/')
-  //   }
-  // },[])
-
+  const auth = localStorage.getItem('user-info');
   // redirect authenticated user to profile screen
   useEffect(() => {
-    if (userInfo) {
-      //navigate('/')
+    if (auth) {
+      //console.log(userInfo.id);
+      navigate('/')
     }
-  }, [navigate, userInfo])
+  }, [navigate, auth])
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
-    // const data1 = {email: data.Email, password: data.Password};
-    // console.log(data, 'Req Data');
-
-    // let result = await axios.get(apiUrl, data1);
-
-    // console.log(result.data, 'Result');
-
-    // if (result.data.email == data1.email && result.data.password == data1.password) {
-    //     console.log('User login Successfully'); 
-    //     localStorage.setItem('user-info', JSON.stringify(result.data))
-    //     navigate('/')
-    // } else {
-    //   setError(true);
-    //   console.log({Error: 'No User found'});
-    //   //setError(true);
-    // }
-
     dispatch(userLogin(data))
 
   }
@@ -70,10 +46,6 @@ export default function Login() {
             <div className="col text-center">
               <h3 className="login-title text-clr mb-4 mt-lg-2">
                 Welcome Back,
-                {/* <br />
-                <small className="small">
-                  If you have a Smart Shopping Id you can login and save yourself a hassle.
-                </small> */}
               </h3>
               {error && <p className="text-secondary">User Not Found 😔</p> }
               

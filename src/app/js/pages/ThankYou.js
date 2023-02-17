@@ -27,7 +27,7 @@ export default function ThankYou() {
                                 <p className="f-18">
                                   Your order was placed successfully Thank you for buying.
                                 </p>
-                                <div class="order-details my-4 text-start">
+                                <div className="order-details my-4 text-start">
                                   <p><strong>Product Name :</strong> U.S. Polo Assn Men Grey Solid Sneakers</p>
                                   <p><strong>Qty :</strong> 2</p>
                                   <p><strong>Payment Mode :</strong> PHONEPE</p>
