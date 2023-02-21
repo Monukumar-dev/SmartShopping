@@ -20,39 +20,39 @@ const authSlice = createSlice({
        },
       
     },
-    extraReducers: {
+    extraReducers: (builder) =>  {
          
          // login user
-         [userLogin.pending]: (state) => {
+         builder
+          .addCase(userLogin.pending, (state, action) => {
             state.loading = true
             state.error = null
-         },
-         [userLogin.fulfilled]: (state, { payload }) => {
+          })
+          .addCase(userLogin.fulfilled, (state, action) => {
             state.loading = false
-            state.userInfo = payload
+            state.userInfo = action.payload
             //state.userToken = payload.userToken
-         },
-         [userLogin.rejected]: (state, { payload }) => {
+          })
+          .addCase(userLogin.rejected, (state, action) => {
             state.loading = false
-            state.error = payload
-         },
+            state.error = action.payload
+          });
 
-
-         // register user
-         [registerUser.pending] : (state) => {
+          // Register user
+         builder
+         .addCase(registerUser.pending, (state, action) => {
             state.loading = true
             state.error = null
-         },
-
-         [registerUser.fulfilled] : (state, { payload }) => {
+         })
+         .addCase(registerUser.fulfilled, (state, action) => {
             state.loading = false
             state.success = true // registration successful
-         },
-
-         [registerUser.rejected] : (state, { payload }) => {
+         })
+         .addCase(registerUser.rejected, (state, action) => {
             state.loading = false
-            state.error = payload
-         },
+            state.error = action.payload
+         });
+
     },
 })
 

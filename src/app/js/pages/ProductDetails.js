@@ -24,7 +24,8 @@ import Sneakers3 from '../../style/images/Sneakers3.jpg';
 
 
 import { useDispatch, useSelector } from "react-redux";
-import { increaseItemQuantity, decreaseItemQuantity, getCartTotal } from "../redux/slice/cartSlice";
+import {addToCart, increaseItemQuantity, decreaseItemQuantity, getCartTotal } from "../redux/slice/cartSlice";
+//import { addToCart } from "../redux/slice/cartSlice";
 
 import { getProductsById } from "../redux/action/productAction";
 
@@ -34,23 +35,27 @@ import useFetch from "../services/useFetch";
 export default function ProductDetails() {
 
   const {cartItems, totalQty } = useSelector((state)=> state.allCart);
-  const {data:productList, status} = useSelector((state) => state.product)
+  const {data:product, status} = useSelector((state) => state.product);
 
   const dispatch = useDispatch();
-  const params = useParams();
   const navigate = useNavigate();
-
-  const [thumbsSwiper, setThumbsSwiper] = useState(null);
-  //const [productList, setProductList] = useState([]);
+  const params = useParams();
 
   useEffect(()=> {
     dispatch(getProductsById(params.id));
   }, [])
 
+  useEffect(()=> {
+    dispatch(getCartTotal());
+  }, [cartItems])
+
+  const [thumbsSwiper, setThumbsSwiper] = useState(null);
+  const curCartItem = cartItems.findIndex((item)=> item.id === params.id);
+
 
   const { data, error, loading } = useFetch(`products`);
-  console.log(productList, "single product");
-  console.log(data, "products ");
+  //console.log(product, "single product");
+  //console.log(data, "All Products ");
 
   if (!error && loading) {
     return ("loading...");
@@ -59,9 +64,9 @@ export default function ProductDetails() {
     return <h3>{error.message}</h3>;
   }
   
-  //console.log(productList.category, "category");
-  const relatedProducts = data.filter((item) => item.category === "Shoes");
-  console.log(relatedProducts, "category");
+  //console.log(product.category, "category");
+  const relatedProducts = data? data.filter((item) => item.category === product.category): [];
+  //console.log(relatedProducts, "category Name");
 
   
 
@@ -82,9 +87,9 @@ export default function ProductDetails() {
             modules={[FreeMode, Navigation, Thumbs]}
             className="mySwiper2"
           >
-            <SwiperSlide><img className="img-fluid w-100" src={productList.img} /></SwiperSlide>
-            <SwiperSlide><img className="img-fluid w-100" src={productList.img} /></SwiperSlide>
-            <SwiperSlide><img className="img-fluid w-100" src={productList.img} /></SwiperSlide>
+            <SwiperSlide><img className="img-fluid w-100" src={product.img} /></SwiperSlide>
+            <SwiperSlide><img className="img-fluid w-100" src={product.img} /></SwiperSlide>
+            <SwiperSlide><img className="img-fluid w-100" src={product.img} /></SwiperSlide>
           </Swiper>
 
         </div>
@@ -116,7 +121,7 @@ export default function ProductDetails() {
            {renderProductGallery()}
 					</div>
 					<div className="details-info col-md-6">
-						<Link className="product-name" href="#">{productList.title} </Link>
+						<Link className="product-name" href="#">{product.title} </Link>
 						<div className="rating">
 							<ul className="list-star">
 								<li><a href="#"><i className="fa fa-star" aria-hidden="true"></i></a></li>
@@ -128,13 +133,13 @@ export default function ProductDetails() {
 							<span className="text">( Be the firt person to review this item )</span>
 						</div>
 						<div className="price">
-              <span className="ins"><i className="fas fa-regular fa-indian-rupee-sign"></i>{productList.price}</span>
+              <span className="ins"><i className="fas fa-regular fa-indian-rupee-sign"></i>{product.price}</span>
               <span className="pdp-mrp"><s>₹1999</s></span>
               <span className="pdp-discount primary-clr">(50% OFF)</span>
             </div>
             <p className="pdp-selling-price"><span className="pdp-vatInfo">inclusive of all taxes</span></p>
 
-						<div className="des">{productList.desc}</div>
+						<div className="des">{product.desc}</div>
 
             <div className="colors-container">
                   <p className="attributeHeading"><strong>More Colors</strong></p>
@@ -162,17 +167,23 @@ export default function ProductDetails() {
             </div>
 
 						<div className="quantity">
-							<input className="input-text qty text" type="text" size="4" value={cartItems.quantity} onChange={()=> null} title="Qty" name="quantity" />
+							<input className="input-text qty text" type="text" size="4"
+              value={cartItems.quantity? cartItems.quantity : '1'} onChange={()=> null} title="Qty" name="quantity" />
 							<div className="group-quantity-button">
-                <a className="plus" href="#" onClick={()=> dispatch(increaseItemQuantity(productList.id))}>
+                <Link className="plus" to="#" onClick={()=> dispatch(increaseItemQuantity(product.id))}>
                   <i className="fa fa-sort-asc" aria-hidden="true"></i>
-                </a>
-								<a className="minus" href="#" onClick={()=> dispatch(decreaseItemQuantity(productList.id))}>
+                </Link>
+								<Link className="minus" to="#" onClick={()=> dispatch(decreaseItemQuantity(product.id))}>
                   <i className="fa fa-sort-desc" aria-hidden="true"></i>
-                </a>
+                </Link>
 							</div>
             </div>
-            <Link to="/cart" className="add-to-cart">ADD TO CART</Link>
+            
+              { curCartItem>=0 ? <Link to="/cart" className="add-to-cart border-0">GO TO CART </Link> : 
+              <button className="add-to-cart border-0" onClick={()=> dispatch(addToCart(product))}>ADD TO CART</button>
+              }
+              
+            
             <ul className="group-button ps-0">
               <li><a href="#"><i className="fal fa-regular fa-heart"></i> Add to Wishlist</a></li>
               <li><a href="#"><i className="fas fa-regular fa-arrows-rotate"></i> Add to Compare</a></li>
@@ -293,7 +304,7 @@ export default function ProductDetails() {
 		<div className="related-product py-4">
 			<div className="container">
 				<h3 className="supper-title mb-4 text-center">Related Products</h3>
-        {/* <FeatureCarousel Products={relatedProducts} slidesPerView={4} /> */}
+        <FeatureCarousel Products={relatedProducts} slidesPerView={4} />
 			</div>
 		</div>
 	</div>

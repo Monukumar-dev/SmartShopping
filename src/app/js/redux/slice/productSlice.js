@@ -10,15 +10,16 @@ const productSlice = createSlice({
     },
 
     reducers: {
-        setProducts(state, action) {
-            state.data = action.payload;
-        },
+        // setProducts(state, action) {
+        //     state.data = action.payload;
+        // },
 
-        setStatus(state, action) {
-            state.status = action.payload;
-        },
+        // setStatus(state, action) {
+        //     state.status = action.payload;
+        // },
     },
     extraReducers: (builder) => {
+      //getProducts
         builder
           .addCase(getProducts.pending, (state, action) => {
             state.status = STATUS.LOADING;
@@ -30,7 +31,6 @@ const productSlice = createSlice({
           .addCase(getProducts.rejected, (state, action) => {
             state.status = STATUS.ERROR;
           });
-
 
           //getProductsById
           builder
@@ -44,9 +44,7 @@ const productSlice = createSlice({
           .addCase(getProductsById.rejected, (state, action) => {
             state.status = STATUS.ERROR;
           });
-
-
-          
+   
       },
 
 })
