@@ -46,7 +46,7 @@ export default function ProductDetails() {
   }, [])
 
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
-  
+
   const curCartItem = cartItems.findIndex((item)=> item.id === params.id);
 
 
