@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-const base_url = "https://63cec9f4fdfe2764c72a860a.mockapi.io/api/";
+const base_url = "https://fakestoreapi.com/products";
 
 export default function useFetch(url) {
   

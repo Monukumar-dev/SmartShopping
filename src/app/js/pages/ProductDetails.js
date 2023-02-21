@@ -45,10 +45,6 @@ export default function ProductDetails() {
     dispatch(getProductsById(params.id));
   }, [])
 
-  useEffect(()=> {
-    dispatch(getCartTotal());
-  }, [cartItems])
-
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const curCartItem = cartItems.findIndex((item)=> item.id === params.id);
 
@@ -66,7 +62,7 @@ export default function ProductDetails() {
   
   //console.log(product.category, "category");
   const relatedProducts = data? data.filter((item) => item.category === product.category): [];
-  //console.log(relatedProducts, "category Name");
+  console.log(relatedProducts, "category Name");
 
   
 
