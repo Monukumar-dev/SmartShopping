@@ -1,0 +1,13 @@
+//export let DEVOTEE_SERVICE = process.env.REACT_APP_URL_DEVOTEE_SERVICE;
+export let ROOT = "/"
+export let HOME = "/home"
+export let WISHLIST = "/wishlist"
+export let CART = "/cart"
+export let CHECKOUT = "/checkout"
+export let THANKYOU = "/thankyou"
+export let REGISTER = "/register"
+export let LOGIN = "/login"
+export let LOGOUT = "/logout"
+export let FORGOT_PASSWORD = "/forgot-password"
+export let FEEDBACK = "/feedback"
+export let CONTACTUS = "/contact-us"

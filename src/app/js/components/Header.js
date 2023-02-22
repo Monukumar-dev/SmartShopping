@@ -1,11 +1,13 @@
 import React, {useState} from "react";
 import {Link, useNavigate} from 'react-router-dom';
+import { LOGIN, REGISTER, ROOT } from "../utils/Url";
+
 import {Button, Dropdown, Form, Navbar, Nav, NavDropdown, Container } from 'react-bootstrap';
 import CartSidebar from "./CartSidebar";
 
 import Logo from '../../style/images/logo.svg';
 
-//import { logout } from "../redux/slice/authSlice";
+import { logout } from "../redux/slice/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 
@@ -20,8 +22,8 @@ export default function  Header(props) {
 
   const [miniCart, setMiniCart] = useState(false);
 
-  const logout =()=> {
-    localStorage.clear();
+  const logOut =()=> {
+    dispatch(logout())
     navigate('/login');
     console.log("Logout successfuly");
   }
@@ -48,9 +50,9 @@ export default function  Header(props) {
       
       <Navbar bg="white" variant="light" expand="lg" className="mainMenu" fixed="top">
       <Container>
-        <Navbar.Brand href="#">
+        <Link className="navbar-brand" to={ROOT}>
           <img className="Logo img-fluid" src={Logo} />
-        </Navbar.Brand>
+        </Link>
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
           <Nav
@@ -89,12 +91,12 @@ export default function  Header(props) {
               </Dropdown.Toggle>
               {
                 auth ? <Dropdown.Menu>
-                        <Dropdown.Item onClick={()=> dispatch(logout)}>Logout</Dropdown.Item>
+                        <Dropdown.Item onClick={logOut}>Logout</Dropdown.Item>
                       </Dropdown.Menu>
               :
               <Dropdown.Menu>
-                <Link to="/login" className="dropdown-item">Login</Link>
-                <Link to="/register" className="dropdown-item">Register</Link>
+                <Link to={LOGIN} className="dropdown-item">Login</Link>
+                <Link to={REGISTER} className="dropdown-item">Register</Link>
               </Dropdown.Menu>
 
               }
@@ -107,7 +109,6 @@ export default function  Header(props) {
               </button>
             </li>
           </ul>
-
         </Navbar.Collapse>
       </Container>
     </Navbar>

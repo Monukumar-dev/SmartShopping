@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { REGISTER, ROOT } from "../utils/Url";
 
 import { useDispatch, useSelector } from "react-redux";
 import { userLogin } from "../redux/action/authActions";
-
-//   "password": "Colorado",
-//   "email": "Shaylee59@hotmail.com",
 
 export default function Login() {
 
@@ -20,8 +18,7 @@ export default function Login() {
   // redirect authenticated user to profile screen
   useEffect(() => {
     if (auth) {
-      //console.log(userInfo.id);
-      navigate('/')
+      navigate(ROOT)
     }
   }, [navigate, auth])
 
@@ -44,10 +41,8 @@ export default function Login() {
         <div className="loginBox">
           <div className="row mx-0">
             <div className="col text-center">
-              <h3 className="login-title text-clr mb-4 mt-lg-2">
-                Welcome Back,
-              </h3>
-              {error && <p className="text-secondary">User Not Found 😔</p> }
+              <h3 className="login-title text-clr mb-4 mt-lg-2">Welcome Back</h3>
+              {error? <p className="text-secondary">{error} 😔</p> : ''}
               
             </div>
           </div>
@@ -78,12 +73,12 @@ export default function Login() {
                 </div>
                 <div className="row">
                   <div className="col-12 text-center">
-                    <a href="#" className="btn btn-outline-primary w-100">Request OTP</a>
+                    <Link to="#" className="btn btn-outline-primary w-100">Request OTP</Link>
                   </div>
                 </div>
                 <div className="text-center w-100 pt-4 pb-5 pb-lg-3">
                   <span className="txt1">Don't have an account?   </span>
-                  <Link className="txt1 bo1 hov1 primary-clr" to="/register">Sign up</Link>
+                  <Link className="txt1 bo1 hov1 primary-clr" to={REGISTER}>Sign up</Link>
                 </div>
               </div>
             </div>

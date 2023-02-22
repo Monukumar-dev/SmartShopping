@@ -19,18 +19,9 @@ export const getProducts = createAsyncThunk(
     'fetch/getProductsById',
     async (id) => {
     const data = await axios.get(`${base_url}products/${id}`).then((res) => res.data);
-    //const data = request(`${base_url}products/`).get(id);
-    console.log(data, "fetch Product data");
+    //console.log(data, "fetch Product data");
     return data;
   });
-
-//getProductsByCategory
-  // export const getProductsByCategory = createAsyncThunk(
-  //   'fetch/getProductsByCategory',
-  //   async (id) => {
-  //   const data = await axios.get(`${base_url}products/${id}`).then((res) => res.data);
-  //   return data;
-  // });
 
   
 

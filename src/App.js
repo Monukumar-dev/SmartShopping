@@ -1,4 +1,5 @@
 import {BrowserRouter,Routes, Route,} from "react-router-dom";
+import * as url from '../src/app/js/utils/Url';
 import PrivateComponent from "./app/js/components/PrivateComponent";
 
 import Header from "./app/js/components/Header";
@@ -20,17 +21,17 @@ function App() {
         <Header />
         <Routes>
             <Route element={<PrivateComponent />} >
-              <Route path="/wishlist" element={<h1>Welcome to wishlist...</h1>} />
-              <Route path="/checkout" element={<Checkout />} />
-              <Route path="/thankyou" element={<ThankYou />} />
+              <Route path={url.WISHLIST} element={<h1>Welcome to wishlist...</h1>} />
+              <Route path={url.CHECKOUT} element={<Checkout />} />
+              <Route path={url.THANKYOU} element={<ThankYou />} />
             </Route>
-            <Route path="/" element={<HomePage />} />
+            <Route path={url.ROOT} element={<HomePage />} />
             <Route path="/men" element={<Category />} />
             <Route path="/products/:id" element={<ProductDetails />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/forget-password" element={<h2 className="text-center p-4">Password Reset</h2>} />
+            <Route path={url.CART} element={<Cart />} />
+            <Route path={url.LOGIN} element={<Login />} />
+            <Route path={url.REGISTER} element={<Register />} />
+            <Route path={url.FORGOT_PASSWORD} element={<h2 className="text-center p-4">Password Reset</h2>} />
 
         </Routes>
         <Footer />

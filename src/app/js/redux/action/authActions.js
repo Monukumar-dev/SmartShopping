@@ -1,18 +1,19 @@
+import { createAsyncThunk } from "@reduxjs/toolkit"
+import * as url from '../../utils/Url';
 import axios from "axios";
-import { createAsyncThunk } from "@reduxjs/toolkit";
 
-const baseURL = "https://6339831366857f698fb72ce1.mockapi.io/api/users";
+const baseURL = "https://easyshop.webiknows.in/api";
 
 export const registerUser = createAsyncThunk(
     'auth/resister',
-    async ({firstName, lastName, email, password, passwordConfirm, mobile}, {rejectWithValue}) => {
+    async ({name, email, password, password_confirmation, tc}, {rejectWithValue}) => {
         try {
             const config = {
                 headers: {
                     'Content-Type': 'application/json',
                   },
             }
-            await axios.post(baseURL, {firstName, lastName, email, password, passwordConfirm, mobile}, config)
+           await axios.post(`${baseURL}${url.REGISTER}`, {name, email, password, password_confirmation, tc}, config)
         }catch (error) {
             // return custom error message from backend if present
             if (error.response && error.response.data.message) {
@@ -34,7 +35,7 @@ export const userLogin = createAsyncThunk(
                 'Content-Type': 'application/json',
                 },
             }
-            const {data} = await axios.get(`${baseURL}/1`, {email, password}, config)
+            const {data} = await axios.post(`${baseURL}${url.LOGIN}`, {email, password}, config)
             localStorage.setItem('user-info', JSON.stringify(data))
             return data
 
