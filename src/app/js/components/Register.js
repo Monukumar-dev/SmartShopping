@@ -7,20 +7,19 @@ import { registerUser } from "../redux/action/authActions";
 
 export default function Register() {
 
-  const { loading, userInfo, error, success } = useSelector( (state) => state.auth )
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const dispatch = useDispatch()
+  const { loading, userInfo, error, success } = useSelector( (state) => state.auth )
+  const isLogin =  userInfo?.token ? true : false;
 
   const [data, setData] = useState({name: '', email: '', password: '', password_confirmation: '', tc: 'true'});
-
-  const navigate = useNavigate(); 
-  const auth = localStorage.getItem('user-info');
-
+  
   useEffect(()=>{
-    if (auth) {
+    if (isLogin) {
       navigate(ROOT)
     }
-  },[auth])
+  },[isLogin])
 
 
   const handleRegister = async (e) => {

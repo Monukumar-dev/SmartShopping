@@ -4,27 +4,26 @@ import { LOGIN, REGISTER, ROOT } from "../utils/Url";
 
 import {Button, Dropdown, Form, Navbar, Nav, NavDropdown, Container } from 'react-bootstrap';
 import CartSidebar from "./CartSidebar";
-
 import Logo from '../../style/images/logo.svg';
 
-import { logout } from "../redux/slice/authSlice";
+import { userLogout } from "../redux/action/authActions";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+
 
 export default function  Header(props) {
 
-  const { cartItems } = useSelector((state)=> state.allCart)
   const dispatch = useDispatch();
-
-  
-  const auth = localStorage.getItem('user-info');
   const navigate = useNavigate();
 
+  const { cartItems } = useSelector((state)=> state.allCart)
+  const { userInfo } = useSelector((state)=> state.auth)
+
+  const isLogin =  userInfo?.token ? true : false;
   const [miniCart, setMiniCart] = useState(false);
 
   const logOut =()=> {
-    dispatch(logout())
-    navigate('/login');
+    dispatch(userLogout())
+    navigate(LOGIN);
     console.log("Logout successfuly");
   }
 
@@ -90,7 +89,7 @@ export default function  Header(props) {
                 <i className="fa-solid fa-user"></i>
               </Dropdown.Toggle>
               {
-                auth ? <Dropdown.Menu>
+                isLogin ? <Dropdown.Menu>
                         <Dropdown.Item onClick={logOut}>Logout</Dropdown.Item>
                       </Dropdown.Menu>
               :

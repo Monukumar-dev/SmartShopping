@@ -7,13 +7,62 @@ import { useDispatch, useSelector } from "react-redux";
 import { STATUS } from "../constants/Status";
 import { getProducts } from "../redux/action/productAction";
 
+import { setCategoryFilter, setPriceFilter } from '../redux/slice/filterSlice';
+
 
 export default function Category () {
 
   const dispatch = useDispatch();
   const {data:productList, status} = useSelector((state) => state.product )
+
+  const filters = useSelector((state) => state.filter);
+
+  const handleFilterChange = (event) => {
+    console.log('check' , event.value);
+    const { name, value } = event.target;
+
+    if (name === 'category') {
+      if (event.currentTarget.checked) {
+        dispatch(setCategoryFilter(value));
+      } else {
+        dispatch(setCategoryFilter(''));
+      }
+      
+    } else if (name === 'price') {
+      if (event.currentTarget.checked) {
+        dispatch(setPriceFilter(value));
+      } else {
+        dispatch(setPriceFilter(''));
+      }
+      
+    }
+  };
+
+  const filteredProducts = productList.filter((product) => {
+    // filter by category
+    if (filters.category && product.category !== filters.category) {
+      return false;
+    }
+    if (filters.price && product.price !== filters.price) {
+      return false;
+    }
   
-  //const [productList, setProductList] = useState([]);
+    // filter by price
+    // if (filters.price) {
+    //   const [minPrice, maxPrice] = filters.price.split('-');
+    //   const productPrice = parseFloat(product.price);
+    //   if (minPrice && productPrice < parseFloat(minPrice)) {
+    //     return false;
+    //   }
+    //   if (maxPrice && productPrice > parseFloat(maxPrice)) {
+    //     return false;
+    //   }
+    // }
+  
+    // product passes all filters
+    return true;
+  });
+  
 
   useEffect(()=> {
     dispatch(getProducts());
@@ -41,22 +90,22 @@ export default function Category () {
             <div className="style-2">
                 <label className="CusCheckBox control--checkbox">
                   Tshirts
-                  <input type="checkbox" />
+                  <input name="category"  type="checkbox" value='Fish' onChange={handleFilterChange} />
                   <div className="control__indicator"></div>
                 </label>
                 <label className="CusCheckBox control--checkbox">
                   Lounge Tshirts
-                  <input type="checkbox" />
+                  <input name="category" type="checkbox" value='Chair' onChange={handleFilterChange}/>
                   <div className="control__indicator"></div>
                 </label>
                 <label className="CusCheckBox control--checkbox">
                   Shoes
-                  <input type="checkbox" />
+                  <input name="category" type="checkbox" value='Chicken' onChange={handleFilterChange} />
                   <div className="control__indicator"></div>
                 </label>
                 <label className="CusCheckBox control--checkbox">
                   Clothing
-                  <input type="checkbox" />
+                  <input name="category" type="checkbox" value='Shoes' onChange={handleFilterChange} />
                   <div className="control__indicator"></div>
                 </label>
           </div>
@@ -103,22 +152,22 @@ export default function Category () {
             <div className="style-2">
                 <label className="CusCheckBox control--checkbox">
                   Tshirts
-                  <input type="checkbox" />
+                  <input type="checkbox" name="price" value='533.00' onChange={handleFilterChange} />
                   <div className="control__indicator"></div>
                 </label>
                 <label className="CusCheckBox control--checkbox">
                   Lounge Tshirts
-                  <input type="checkbox" />
+                  <input type="checkbox" name="price" value='363.00' onChange={handleFilterChange} />
                   <div className="control__indicator"></div>
                 </label>
                 <label className="CusCheckBox control--checkbox">
                   Shoes
-                  <input type="checkbox" />
+                  <input type="checkbox" name="price" value='300' onChange={handleFilterChange} />
                   <div className="control__indicator"></div>
                 </label>
                 <label className="CusCheckBox control--checkbox">
                   Clothing
-                  <input type="checkbox" />
+                  <input type="checkbox" name="price" value='300' onChange={handleFilterChange} />
                   <div className="control__indicator"></div>
                 </label>
           </div>
@@ -251,7 +300,7 @@ export default function Category () {
 
         <div className="row product-grid">
           {
-           productList.length>0 ? productList.map((item) => (
+           filteredProducts.length>0 ? filteredProducts.map((item) => (
               <div className="col-ss-12 col-xs-6 col-sm-6 col-md-3 col-lg-3" key={item.id}>
                 <Product data={item} addToCart={item}/>
               </div>

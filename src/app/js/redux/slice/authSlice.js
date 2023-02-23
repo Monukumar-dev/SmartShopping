@@ -1,10 +1,10 @@
 import {createSlice} from '@reduxjs/toolkit';
-import { registerUser, userLogin } from '../action/authActions';
+import { registerUser, userLogin, userLogout  } from '../action/authActions';
 
 
 const initialState = {
     loading: false,
-    userInfo: {}, // for user object
+    userInfo: localStorage.getItem('user-info')? JSON.parse(localStorage.getItem('user-info')) : null, // for user object
     //userToken: null, // for storing the JWT
     error: null,
     success: false,
@@ -13,13 +13,7 @@ const initialState = {
 const authSlice = createSlice({
     name: 'auth',
     initialState,
-    reducers: {
-
-      logout: (state) => {
-         localStorage.clear();
-       },
-      
-    },
+    reducers: {},
     extraReducers: (builder) =>  {
          
          // login user
@@ -53,9 +47,20 @@ const authSlice = createSlice({
             state.error = action.payload
          });
 
+         // Logout User
+         builder
+         .addCase(userLogout.fulfilled, (state, action) => {
+            state.loading = false
+            state.userInfo = action.payload
+         })
+         .addCase(userLogout.rejected, (state, action) => {
+            state.loading = false
+            state.error = action.payload
+         });
+
     },
 })
 
-export const {logout} = authSlice.actions;
+//export const {logout} = authSlice.actions;
 
 export default authSlice.reducer;

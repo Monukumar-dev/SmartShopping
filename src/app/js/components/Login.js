@@ -6,21 +6,22 @@ import { useDispatch, useSelector } from "react-redux";
 import { userLogin } from "../redux/action/authActions";
 
 export default function Login() {
+  
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const {loading, userInfo, error} = useSelector((state) => state.auth)
-  const dispatch = useDispatch();
+  const isLogin =  userInfo?.token ? true : false;
 
   const [data, setData] = useState({email: '', password: ''});
-  //const [error, setError] = useState(false);
 
-  const navigate = useNavigate(); 
-  const auth = localStorage.getItem('user-info');
+
   // redirect authenticated user to profile screen
   useEffect(() => {
-    if (auth) {
+    if (isLogin) {
       navigate(ROOT)
     }
-  }, [navigate, auth])
+  }, [navigate, isLogin])
 
   const handleLogin = async (e) => {
     e.preventDefault();

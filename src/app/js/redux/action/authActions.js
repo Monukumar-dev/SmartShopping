@@ -49,3 +49,32 @@ export const userLogin = createAsyncThunk(
         }
     }
 )
+export const userLogout = createAsyncThunk(
+    'auth/logout',
+    async (payload, {rejectWithValue}) => {
+        try {
+           const isLogin =  JSON.parse(localStorage.getItem('user-info'))
+           const token = isLogin.token;
+
+           console.log(token, 'token');
+             // configure header's Content-Type as JSON
+            const config = {
+                headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+                },
+            }
+            await axios.post(`${baseURL}${url.LOGOUT}`, payload, config)
+            localStorage.clear();
+            return null
+
+        } catch (error) {
+            // return custom error message from API if any
+            if (error.response && error.response.data.message) {
+                console.log(rejectWithValue(error.response.data.message))
+            } else {
+                console.log(rejectWithValue(error.message))
+            }
+        }
+    }
+)

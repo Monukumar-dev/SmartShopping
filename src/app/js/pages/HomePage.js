@@ -32,12 +32,12 @@ export default function HomePage() {
 
   const getBanners = async () => {
       let result  = await axios.get(apiUrl);
-      console.log('Homepage', result.data);
+      //console.log('Homepage', result.data);
       setBanner(result.data);
   }
   const getProducts = async () => {
     let result  = await axios.get(productApiUrl);
-    console.log('Product Home', result.data);
+    //console.log('Product Home', result.data);
     setProductList(result.data);
 }
 
