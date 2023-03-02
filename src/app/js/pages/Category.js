@@ -18,7 +18,7 @@ export default function Category () {
   const filters = useSelector((state) => state.filter);
 
   const handleFilterChange = (event) => {
-    console.log('check' , event.value);
+    //console.log('check' , event.value);
     const { name, value } = event.target;
 
     if (name === 'category') {

@@ -1,8 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import * as url from '../../utils/Url';
 import axios from "axios";
-
-const baseURL = "https://easyshop.webiknows.in/api";
+//import { BASE_URL } from "../../utils/Url";
 
 export const registerUser = createAsyncThunk(
     'auth/resister',
@@ -13,7 +12,7 @@ export const registerUser = createAsyncThunk(
                     'Content-Type': 'application/json',
                   },
             }
-           await axios.post(`${baseURL}${url.REGISTER}`, {name, email, password, password_confirmation, tc}, config)
+           await axios.post(`${url.BASE_URL}${url.REGISTER}`, {name, email, password, password_confirmation, tc}, config)
         }catch (error) {
             // return custom error message from backend if present
             if (error.response && error.response.data.message) {
@@ -35,7 +34,7 @@ export const userLogin = createAsyncThunk(
                 'Content-Type': 'application/json',
                 },
             }
-            const {data} = await axios.post(`${baseURL}${url.LOGIN}`, {email, password}, config)
+            const {data} = await axios.post(`${url.BASE_URL}${url.LOGIN}`, {email, password}, config)
             localStorage.setItem('user-info', JSON.stringify(data))
             return data
 
@@ -64,7 +63,7 @@ export const userLogout = createAsyncThunk(
                 'Authorization': `Bearer ${token}`,
                 },
             }
-            await axios.post(`${baseURL}${url.LOGOUT}`, payload, config)
+            await axios.post(`${url.BASE_URL}${url.LOGOUT}`, payload, config)
             localStorage.clear();
             return null
 

@@ -1,4 +1,4 @@
-//export let DEVOTEE_SERVICE = process.env.REACT_APP_URL_DEVOTEE_SERVICE;
+export let BASE_URL = process.env.REACT_APP_API_SERVICE;
 export let ROOT = "/"
 export let HOME = "/home"
 export let WISHLIST = "/wishlist"
