@@ -12,6 +12,11 @@ import ProductDetails from "./app/js/pages/ProductDetails";
 import Cart from "./app/js/pages/Cart";
 import Checkout from "./app/js/pages/Checkout";
 import ThankYou from './app/js/pages/ThankYou';
+import MyAccount from "./app/js/pages/account/MyAccount";
+import ChangePassword from "./app/js/pages/account/ChangePassword";
+import Address from "./app/js/pages/account/Address";
+import Orders from "./app/js/pages/account/Orders";
+import Wishlist from "./app/js/pages/account/Wishlist";
 
 
 function App() {
@@ -21,7 +26,11 @@ function App() {
         <Header />
         <Routes>
             <Route element={<PrivateComponent />} >
-              <Route path={url.WISHLIST} element={<h1>Welcome to wishlist...</h1>} />
+              <Route path={url.ACCOUNT} element={<MyAccount />} />
+              <Route path={url.CHANGE_PASSWORD} element={<ChangePassword />} />
+              <Route path={url.ADDRESS} element={<Address />} />
+              <Route path={url.ORDERS} element={<Orders />} />
+              <Route path={url.WISHLIST} element={<Wishlist />} />
               <Route path={url.CHECKOUT} element={<Checkout />} />
               <Route path={url.THANKYOU} element={<ThankYou />} />
             </Route>

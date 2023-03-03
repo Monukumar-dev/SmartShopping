@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {Link, useNavigate} from 'react-router-dom';
-import { LOGIN, REGISTER, ROOT } from "../utils/Url";
+import { ACCOUNT, LOGIN, REGISTER, ROOT } from "../utils/Url";
 
 import {Button, Dropdown, Form, Navbar, Nav, NavDropdown, Container } from 'react-bootstrap';
 import CartSidebar from "./CartSidebar";
@@ -90,6 +90,7 @@ export default function  Header(props) {
               </Dropdown.Toggle>
               {
                 isLogin ? <Dropdown.Menu>
+                        <Link to={ACCOUNT} className="dropdown-item">My account</Link>
                         <Dropdown.Item onClick={logOut}>Logout</Dropdown.Item>
                       </Dropdown.Menu>
               :
