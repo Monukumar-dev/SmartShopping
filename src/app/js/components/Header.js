@@ -19,6 +19,7 @@ export default function  Header(props) {
   const { userInfo } = useSelector((state)=> state.auth)
 
   const isLogin =  userInfo?.token ? true : false;
+  
   const [miniCart, setMiniCart] = useState(false);
 
   const logOut =()=> {
@@ -54,11 +55,7 @@ export default function  Header(props) {
         </Link>
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
-          <Nav
-            className="me-auto my-2 my-lg-0 text-uppercase"
-            style={{ maxHeight: '100px' }}
-            navbarScroll
-          >
+          <Nav className="me-auto my-2 my-lg-0 text-uppercase" navbarScroll>
             <Link className="nav-link active" to="/">Home</Link>
             <Link className="nav-link active" to="/men">Men</Link>
             <Link className="nav-link active" to="/">Women</Link>
