@@ -1,25 +1,50 @@
-import React, { useEffect} from "react";
+import React, { useEffect, useState} from "react";
 import MyAccountSidebar from "../../components/MyAccountSidebar";
 import '../../../style/scss/myAccount.scss';
 
-import { useSelector, useDispatch } from "react-redux";
-import { userLogged } from "../../redux/action/authActions";
+
+import * as url from '../../utils/Url';
+import { request } from "../../services/Request";
+
+//import { useSelector, useDispatch } from "react-redux";
+//import { userLogged } from "../../redux/action/authActions";
 
 
 export default function MyAccount() {
+  const [data, setData] = useState({fName: '', lName: '', email: '', mobile: '', gender: '', dob: '' });
   
-  //const { userInfo } = useSelector((state)=> state.auth)
-  //console.log(userInfo, 'auth');
-  const dispatch = useDispatch();
+// const abc = axios.get('https://easyshop.webiknows.in/api/loggeduser', {
+// 'headers': {
+//       'content-type':'application/json',
+//       'Authorization': 'Bearer 1|2U4Ho6l0V3y3tFvYpRWSQThihNQQ5wMbGRp5y6yK'
+//   }
+// });
 
-    const data = dispatch(userLogged());
-    //console.log(userLogged, 'dispatch');
+// console.log(abc);
+
+const getUserData = async () => {
+  const result = await request(url.BASE_URL).get("/loggeduser");
+  const { user, status, message} = result.data 
+  setData(user);
+  //console.log(result.data, 'await fetch'); 
+}
+
+useEffect(()=> {
+  getUserData();
+}, [])
+  
+  //const userData = request(url.BASE_URL).get("/loggeduser");
+  //console.log(userData, 'User Res');
+  //console.log(userData.PromiseResult.data, 'User Res');
 
   const updateProfile = (id) => {
-    //dispatch(userLogin(data))
     //console.log(id);
-
   }
+
+  const onChange = (e) => {  
+    e.persist();   
+    setData({ ...data, [e.target.name]: e.target.value });  
+  } 
  
   return (
     <section>
@@ -37,30 +62,30 @@ export default function MyAccount() {
           <div className="col-sm-8 setting-ctn">
             <div className="c-input setting-item">
               <label>Email:</label>
-              <input type="email" placeholder="email" name="email" id="email" />
+              <input type="email" name="email" className="form-control" value={data.email} onChange={onChange} placeholder="email" />
             </div>
             <div className="setting-item row">
               <div className="col-6">
                 <label>First Name:*</label>
-                <input type="text" name="first_name" id="first_name" className="form-control" placeholder="Your Name"  />
+                <input type="text" name="Fname" className="form-control" value={data.fName} onChange={onChange} placeholder="Your Name" />
               </div>
               <div className="col-6">
                 <label>Last Name:*</label>
-                <input type="text" name="last_name" id="last_name" className="form-control" placeholder="Last Name" />
+                <input type="text" name="lname" className="form-control"  value={data.lName} onChange={onChange} placeholder="Last Name" />
               </div>
             </div>
 
             <div className="setting-item row">
               <div className="col">
                 <label>Mobile:*</label>
-                <input type="text" name="mobile" id="mobile" className="form-control" placeholder="Your Contact Number" />
+                <input type="text" name="mobile" className="form-control" value={data.mobile} onChange={onChange} placeholder="Your Contact Number" />
               </div>
             </div>
             <div className="setting-item j-gender">
               <label style={{marginBottom: '15px'}}>Gender:*</label>
               <div className="gender-item">
                 <label className="she-radio">
-                  <input type="radio" className="gender" name="gender" id="gender" checked /> <i />
+                  <input type="radio" className="gender" name="gender" id="gender" /> <i />
                 </label>
                 Male
               </div>
@@ -72,7 +97,7 @@ export default function MyAccount() {
             </div>
             <div className="c-input setting-item">
               <label>Birthday:*</label>
-              <input type="Date" name="dob" id="dob" placeholder="Birthday" defaultValue />
+              <input type="Date" name="dob" placeholder="Birthday" value={data.dob} onChange={onChange}  />
             </div>
           </div>
 

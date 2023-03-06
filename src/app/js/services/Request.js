@@ -1,13 +1,14 @@
 import axios from 'axios';
 import { undefinedOrNull, empty, notUndefinedAndNull } from '../utils/Validation'
-import { getToken } from './Session';
+//import { getToken } from './Session';
 
 export function request(baseUrl) {
-
     let request = axios.create({
         baseURL: baseUrl,
         timeout: 90000,
     });
+
+
 
     request.interceptors.response.use(function (response) {
         if ("data" in response.data) {
@@ -57,10 +58,13 @@ export function request(baseUrl) {
         return Promise.reject({ "status": "error", "message": message, "data": data });
     });
 
-    let token = getToken();
+    //let token = getToken();
+
+    const isLogin =  JSON.parse(localStorage.getItem('user-info'))
+           const token = isLogin.token;
 
     if (!empty(token)) {
-        request.defaults.headers.common['Authorization'] = token;
+         request.defaults.headers.common['Authorization'] = `Bearer ${token}`;
         // request.defaults.headers.common['Access-Control-Allow-Origin'] = process.env.REACT_APP_URL_ATLAS_ORIGIN;
     }
     return request;
