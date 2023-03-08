@@ -59,9 +59,8 @@ export function request(baseUrl) {
     });
 
     //let token = getToken();
-
-    const isLogin =  JSON.parse(localStorage.getItem('user-info'))
-           const token = isLogin.token;
+        const isLogin =  JSON.parse(localStorage.getItem('user-info'))
+        const token = isLogin.token;
 
     if (!empty(token)) {
          request.defaults.headers.common['Authorization'] = `Bearer ${token}`;

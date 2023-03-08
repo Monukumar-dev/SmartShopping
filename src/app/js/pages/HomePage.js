@@ -3,8 +3,6 @@ import axios from "axios";
 import HomeBanner from "../components/HomeBanner";
 import ProductCarousel from "../components/FeatureCarousel";
 
-
-
 import banner1 from '../../style/images/banner16.jpg';
 import banner2 from '../../style/images/banner17.jpg';
 import banner3 from '../../style/images/banner18.jpg';
@@ -23,23 +21,23 @@ export default function HomePage() {
 
   const productApiUrl = "https://63cec9f4fdfe2764c72a860a.mockapi.io/api/products"
 
-  
+
+const getBanners = async () => {
+    let result  = await axios.get(apiUrl);
+    //console.log('Homepage', result.data);
+    setBanner(result.data);
+}
+const getProducts = async () => {
+  let result  = await axios.get(productApiUrl);
+  //console.log('Product Home', result.data);
+  setProductList(result.data);
+}
 
   useEffect(()=> {
     getBanners();
     getProducts();
   }, [])
 
-  const getBanners = async () => {
-      let result  = await axios.get(apiUrl);
-      //console.log('Homepage', result.data);
-      setBanner(result.data);
-  }
-  const getProducts = async () => {
-    let result  = await axios.get(productApiUrl);
-    //console.log('Product Home', result.data);
-    setProductList(result.data);
-}
 
 
   function renderSpecialsProducts() {

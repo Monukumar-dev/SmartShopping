@@ -8,6 +8,7 @@ import { STATUS } from "../constants/Status";
 import { getProducts } from "../redux/action/productAction";
 
 import { setCategoryFilter, setPriceFilter } from '../redux/slice/filterSlice';
+import Loader from "../components/Loader";
 
 
 export default function Category () {
@@ -18,58 +19,49 @@ export default function Category () {
   const filters = useSelector((state) => state.filter);
 
   const handleFilterChange = (event) => {
-    //console.log('check' , event.value);
     const { name, value } = event.target;
-
     if (name === 'category') {
-      if (event.currentTarget.checked) {
-        dispatch(setCategoryFilter(value));
-      } else {
-        dispatch(setCategoryFilter(''));
-      }
-      
+      dispatch(setCategoryFilter(value));
     } else if (name === 'price') {
-      if (event.currentTarget.checked) {
-        dispatch(setPriceFilter(value));
-      } else {
-        dispatch(setPriceFilter(''));
-      }
-      
+      dispatch(setPriceFilter(value));
     }
   };
 
+  // filter products based on the current filter settings
   const filteredProducts = productList.filter((product) => {
     // filter by category
     if (filters.category && product.category !== filters.category) {
       return false;
     }
-    if (filters.price && product.price !== filters.price) {
-      return false;
-    }
-  
+
     // filter by price
-    // if (filters.price) {
-    //   const [minPrice, maxPrice] = filters.price.split('-');
-    //   const productPrice = parseFloat(product.price);
-    //   if (minPrice && productPrice < parseFloat(minPrice)) {
-    //     return false;
-    //   }
-    //   if (maxPrice && productPrice > parseFloat(maxPrice)) {
-    //     return false;
-    //   }
-    // }
-  
+    if (filters.price) {
+      const [minPrice, maxPrice] = filters.price.split('-');
+      const productPrice = parseFloat(product.price);
+      if (minPrice && productPrice < parseFloat(minPrice)) {
+        return false;
+      }
+      if (maxPrice && productPrice > parseFloat(maxPrice)) {
+        return false;
+      }
+    }
+
     // product passes all filters
     return true;
   });
-  
+
+  // const handleFilterChange = (e) => {
+  //   console.log('click on filter');
+
+  // }
 
   useEffect(()=> {
     dispatch(getProducts());
   }, [])
 
+
   if (status === STATUS.LOADING) {
-    return <h2>Product Is loading....</h2>;
+    return <Loader />;
  }
 
  if (status === STATUS.ERROR) {

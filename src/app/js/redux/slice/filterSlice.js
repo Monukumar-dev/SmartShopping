@@ -25,7 +25,7 @@ const filterSlice = createSlice({
         state.all_products.push(action.payload)
       },
       setCategoryFilter: (state, action) => {
-        state.category.push(action.payload)
+        state.filters.category = action.payload;
       },
       setPriceFilter: (state, action) => {
         state.price = action.payload;

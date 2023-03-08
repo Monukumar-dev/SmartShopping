@@ -26,7 +26,6 @@ const getUserData = async () => {
   const result = await request(url.BASE_URL).get("/loggeduser");
   const { user, status, message} = result.data 
   setData(user);
-  //console.log(result.data, 'await fetch'); 
 }
 
 useEffect(()=> {

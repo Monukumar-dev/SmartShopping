@@ -14,6 +14,7 @@ import Sneakers2 from '../../style/images/Sneakers2.jpg';
 import Sneakers3 from '../../style/images/Sneakers3.jpg';
 
 
+
 import { useDispatch, useSelector } from "react-redux";
 import {addToCart, increaseItemQuantity, decreaseItemQuantity, getCartTotal } from "../redux/slice/cartSlice";
 //import { addToCart } from "../redux/slice/cartSlice";
@@ -21,6 +22,7 @@ import {addToCart, increaseItemQuantity, decreaseItemQuantity, getCartTotal } fr
 import { getProductsById } from "../redux/action/productAction";
 
 import useFetch from "../services/useFetch";
+import Loader from "../components/Loader";
 
 
 
@@ -47,7 +49,7 @@ export default function ProductDetails() {
   //console.log(data, "All Products ");
 
   if (!error && loading) {
-    return ("loading...");
+    return <Loader />;
   }
   if (!loading && error) {
     return <h3>{error.message}</h3>;

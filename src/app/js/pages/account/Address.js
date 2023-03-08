@@ -2,18 +2,10 @@ import React, { useEffect} from "react";
 import MyAccountSidebar from "../../components/MyAccountSidebar";
 import '../../../style/scss/myAccount.scss';
 
-import { useSelector, useDispatch } from "react-redux";
-import { userLogged } from "../../redux/action/authActions";
 
 
 export default function Address() {
   
-  //const { userInfo } = useSelector((state)=> state.auth)
-  //console.log(userInfo, 'auth');
-  const dispatch = useDispatch();
-
-    const data = dispatch(userLogged());
-    //console.log(userLogged, 'dispatch');
 
   const updateProfile = (id) => {
     //dispatch(userLogin(data))
