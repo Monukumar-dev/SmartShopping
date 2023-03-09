@@ -20,6 +20,7 @@ import {addToCart, increaseItemQuantity, decreaseItemQuantity, getCartTotal } fr
 //import { addToCart } from "../redux/slice/cartSlice";
 
 import { getProductsById } from "../redux/action/productAction";
+import { addToWishlist } from "../redux/slice/wishlistSlice";
 
 import useFetch from "../services/useFetch";
 import Loader from "../components/Loader";
@@ -37,7 +38,7 @@ export default function ProductDetails() {
 
   useEffect(()=> {
     dispatch(getProductsById(params.id));
-  }, [])
+  }, [params])
 
   
 
@@ -139,7 +140,11 @@ export default function ProductDetails() {
               
             
             <ul className="group-button ps-0">
-              <li><a href="#"><i className="fal fa-regular fa-heart"></i> Add to Wishlist</a></li>
+              <li>
+                <p className="curser-pointer" onClick={()=> dispatch(addToWishlist(product))}>
+                  <i className="fal fa-regular fa-heart"></i> Add to Wishlist
+                </p>
+              </li>
               <li><a href="#"><i className="fas fa-regular fa-arrows-rotate"></i> Add to Compare</a></li>
               <li><a href="#"><i className="fa-regular fa-envelope"></i> Email to a Friend</a></li>
             </ul>

@@ -13,10 +13,15 @@ import Loader from "../components/Loader";
 
 export default function Category () {
 
-  const dispatch = useDispatch();
+   const dispatch = useDispatch();
   const {data:productList, status} = useSelector((state) => state.product )
 
-  const filters = useSelector((state) => state.filter);
+  const {
+    filters: { text, category, color, price, maxPrice, minPrice },
+    updateFilterValue,
+    all_products,
+    clearFilters,
+  }  = useSelector((state) => state.filter);
 
   const handleFilterChange = (event) => {
     const { name, value } = event.target;
@@ -30,13 +35,16 @@ export default function Category () {
   // filter products based on the current filter settings
   const filteredProducts = productList.filter((product) => {
     // filter by category
-    if (filters.category && product.category !== filters.category) {
-      return false;
+    if (category && product.category !== category) {
+      //console.log(category, 'FILTER CATEGORY');
+      //console.log(product.category, 'PRODUCT.CATEGORY');
+      //return false;
+      dispatch(setCategoryFilter('all'));
     }
 
     // filter by price
-    if (filters.price) {
-      const [minPrice, maxPrice] = filters.price.split('-');
+    if (price) {
+      const [minPrice, maxPrice] = price.split('-');
       const productPrice = parseFloat(product.price);
       if (minPrice && productPrice < parseFloat(minPrice)) {
         return false;
@@ -50,16 +58,11 @@ export default function Category () {
     return true;
   });
 
-  // const handleFilterChange = (e) => {
-  //   console.log('click on filter');
-
-  // }
-
   useEffect(()=> {
     dispatch(getProducts());
   }, [])
 
-
+  
   if (status === STATUS.LOADING) {
     return <Loader />;
  }
@@ -67,7 +70,6 @@ export default function Category () {
  if (status === STATUS.ERROR) {
    return <h2>Somethings went wrong Check API..</h2>
 }
-
 
   function renderLeftSidebar() {
     return (
