@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {Link, useNavigate} from 'react-router-dom';
-import { LOGIN, REGISTER, ROOT } from "../utils/Url";
+import { ACCOUNT, LOGIN, REGISTER, ROOT } from "../utils/Url";
 
 import {Button, Dropdown, Form, Navbar, Nav, NavDropdown, Container } from 'react-bootstrap';
 import CartSidebar from "./CartSidebar";
@@ -19,6 +19,7 @@ export default function  Header(props) {
   const { userInfo } = useSelector((state)=> state.auth)
 
   const isLogin =  userInfo?.token ? true : false;
+  
   const [miniCart, setMiniCart] = useState(false);
 
   const logOut =()=> {
@@ -54,11 +55,7 @@ export default function  Header(props) {
         </Link>
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
-          <Nav
-            className="me-auto my-2 my-lg-0 text-uppercase"
-            style={{ maxHeight: '100px' }}
-            navbarScroll
-          >
+          <Nav className="me-auto my-2 my-lg-0 text-uppercase" navbarScroll>
             <Link className="nav-link active" to="/">Home</Link>
             <Link className="nav-link active" to="/men">Men</Link>
             <Link className="nav-link active" to="/">Women</Link>
@@ -90,6 +87,7 @@ export default function  Header(props) {
               </Dropdown.Toggle>
               {
                 isLogin ? <Dropdown.Menu>
+                        <Link to={ACCOUNT} className="dropdown-item">My account</Link>
                         <Dropdown.Item onClick={logOut}>Logout</Dropdown.Item>
                       </Dropdown.Menu>
               :

@@ -1,26 +1,18 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 
-// Import Swiper React components
-import { Swiper, SwiperSlide } from "swiper/react";
-// Import Swiper styles
-import "swiper/css";
-import "swiper/css/free-mode";
-import "swiper/css/navigation";
-import "swiper/css/thumbs";
-
-// import required modules
-import { FreeMode, Navigation, Thumbs } from "swiper";
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 
 import '../../style/scss/productDetails.scss';
 
 import FeatureCarousel from '../components/FeatureCarousel';
+import ProductGallery from "../components/ProductGallery";
 
 import Sneakers1 from '../../style/images/Sneakers1.jpg';
 import Sneakers2 from '../../style/images/Sneakers2.jpg';
 import Sneakers3 from '../../style/images/Sneakers3.jpg';
+
 
 
 import { useDispatch, useSelector } from "react-redux";
@@ -28,8 +20,11 @@ import {addToCart, increaseItemQuantity, decreaseItemQuantity, getCartTotal } fr
 //import { addToCart } from "../redux/slice/cartSlice";
 
 import { getProductsById } from "../redux/action/productAction";
+import { addToWishlist } from "../redux/slice/wishlistSlice";
 
 import useFetch from "../services/useFetch";
+import Loader from "../components/Loader";
+
 
 
 export default function ProductDetails() {
@@ -43,9 +38,9 @@ export default function ProductDetails() {
 
   useEffect(()=> {
     dispatch(getProductsById(params.id));
-  }, [])
+  }, [params])
 
-  const [thumbsSwiper, setThumbsSwiper] = useState(null);
+  
 
   const curCartItem = cartItems.findIndex((item)=> item.id === params.id);
 
@@ -55,7 +50,7 @@ export default function ProductDetails() {
   //console.log(data, "All Products ");
 
   if (!error && loading) {
-    return ("loading...");
+    return <Loader />;
   }
   if (!loading && error) {
     return <h3>{error.message}</h3>;
@@ -64,43 +59,6 @@ export default function ProductDetails() {
   //console.log(product.category, "category");
   const relatedProducts = data? data.filter((item) => item.category === product.category): [];
   console.log(relatedProducts, "category Name");
-
-  
-
-  function renderProductGallery() {
-    return (
-     <>
-     <div className="row">
-        <div className="col-12 col-md-12">
-            <Swiper
-            style={{
-              "--swiper-navigation-color": "#333",
-              "--swiper-pagination-color": "#333",
-            }}
-            loop={true}
-            spaceBetween={10}
-            navigation={true}
-            thumbs={{ swiper: thumbsSwiper }}
-            modules={[FreeMode, Navigation, Thumbs]}
-            className="mySwiper2"
-          >
-            <SwiperSlide><img className="img-fluid w-100" src={product.img} /></SwiperSlide>
-            <SwiperSlide><img className="img-fluid w-100" src={product.img} /></SwiperSlide>
-            <SwiperSlide><img className="img-fluid w-100" src={product.img} /></SwiperSlide>
-          </Swiper>
-
-        </div>
-     </div>
-
-     
-     
-     
-     
-     </>
-    );
-  }
-
-
  
   return (
     <div className="main-content product-single-page">
@@ -115,7 +73,7 @@ export default function ProductDetails() {
 			<div className="product-single-content">
 				<div className="about-product row">
 					<div className="details-thumb col-md-6">
-           {renderProductGallery()}
+           <ProductGallery data={product} />
 					</div>
 					<div className="details-info col-md-6">
 						<Link className="product-name" href="#">{product.title} </Link>
@@ -182,7 +140,11 @@ export default function ProductDetails() {
               
             
             <ul className="group-button ps-0">
-              <li><a href="#"><i className="fal fa-regular fa-heart"></i> Add to Wishlist</a></li>
+              <li>
+                <p className="curser-pointer" onClick={()=> dispatch(addToWishlist(product))}>
+                  <i className="fal fa-regular fa-heart"></i> Add to Wishlist
+                </p>
+              </li>
               <li><a href="#"><i className="fas fa-regular fa-arrows-rotate"></i> Add to Compare</a></li>
               <li><a href="#"><i className="fa-regular fa-envelope"></i> Email to a Friend</a></li>
             </ul>

@@ -1,8 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import * as url from '../../utils/Url';
 import axios from "axios";
-
-const baseURL = "https://easyshop.webiknows.in/api";
+//import { BASE_URL } from "../../utils/Url";
 
 export const registerUser = createAsyncThunk(
     'auth/resister',
@@ -13,7 +12,7 @@ export const registerUser = createAsyncThunk(
                     'Content-Type': 'application/json',
                   },
             }
-           await axios.post(`${baseURL}${url.REGISTER}`, {name, email, password, password_confirmation, tc}, config)
+           await axios.post(`${url.BASE_URL}${url.REGISTER}`, {name, email, password, password_confirmation, tc}, config)
         }catch (error) {
             // return custom error message from backend if present
             if (error.response && error.response.data.message) {
@@ -35,7 +34,7 @@ export const userLogin = createAsyncThunk(
                 'Content-Type': 'application/json',
                 },
             }
-            const {data} = await axios.post(`${baseURL}${url.LOGIN}`, {email, password}, config)
+            const {data} = await axios.post(`${url.BASE_URL}${url.LOGIN}`, {email, password}, config)
             localStorage.setItem('user-info', JSON.stringify(data))
             return data
 
@@ -49,6 +48,37 @@ export const userLogin = createAsyncThunk(
         }
     }
 )
+
+export const userLogged = createAsyncThunk(
+    'auth/logged',
+    async (payload, {rejectWithValue}) => {
+        try {
+           const isLogin =  JSON.parse(localStorage.getItem('user-info'))
+           const token = isLogin.token;
+
+            console.log(token, 'token');
+             // configure header's Content-Type as JSON
+            const config = {
+                headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+                },
+            }
+            const {data} = await axios.get(`${url.BASE_URL}/loggeduser`, config)
+            //console.log(data.user, 'Acion');
+            return data.user
+
+        } catch (error) {
+            // return custom error message from API if any
+            if (error.response && error.response.data.message) {
+                console.log(rejectWithValue(error.response.data.message))
+            } else {
+                console.log(rejectWithValue(error.message))
+            }
+        }
+    }
+)
+
 export const userLogout = createAsyncThunk(
     'auth/logout',
     async (payload, {rejectWithValue}) => {
@@ -64,7 +94,7 @@ export const userLogout = createAsyncThunk(
                 'Authorization': `Bearer ${token}`,
                 },
             }
-            await axios.post(`${baseURL}${url.LOGOUT}`, payload, config)
+            await axios.post(`${url.BASE_URL}${url.LOGOUT}`, payload, config)
             localStorage.clear();
             return null
 

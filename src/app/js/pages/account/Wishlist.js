@@ -1,0 +1,69 @@
+import React, { useEffect} from "react";
+import MyAccountSidebar from "../../components/MyAccountSidebar";
+import '../../../style/scss/myAccount.scss';
+
+import { useSelector, useDispatch } from "react-redux";
+import { removeFromWishList, removeAll } from "../../redux/slice/wishlistSlice";
+
+export default function Wishlist() {
+  const dispatch = useDispatch();
+  const {wishList} = useSelector((state)=> state.wishlist);
+ 
+  return (
+    <section>
+      <div className="container">
+      <div className="row m-my-account">
+      <MyAccountSidebar />
+  
+  {/*  my accountsidebar */}
+  <div className="col-xs-9 col-md-9 col-lg-9 c-addressbook">
+  <h3>My Wishlist</h3>
+  <div className="c-account-setting">
+    {/*  product grids start here */}
+    <div className="row align-items-center product-grid pt-3">
+
+      {
+        wishList.length>0 ? wishList.map((product) => (
+                <div className="col-6 col-md-3 mb-3" key={product.id}>
+                <div className="card">
+                  {/*<span class="onsale">26% OFF</span>*/}
+                  <a href="" className="text-clr">
+                    <img className="card-img-top" src={product.img} alt="" />
+                  </a>
+                  <div className="card-body">
+                    <a href="" className="text-clr">
+                      <p className="card-text mb-0">{product.title}</p>
+                    </a>
+                    <p className="align-items-center bold d-flex f-20 price mb-0">
+                      <span><i className="fa fa-inr" />{product.price}</span>
+                      {/*<del><span class="amount"><i class="fa fa-inr"></i>799</span></del>*/}
+                    </p>
+                    <div className="my-3">
+                      <p onClick={()=> dispatch(removeFromWishList(product))} className="link-primary text-clr curser-pointer">
+                        Remove
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+        )) : <div><h3>wishlist is empty</h3></div>
+      }
+
+
+
+      
+    </div>{/*  product grids END here */}
+  </div>
+</div>
+
+
+
+
+
+
+</div>   
+      </div>
+    </section>
+    
+  ); 
+}
