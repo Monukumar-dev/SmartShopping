@@ -234,59 +234,19 @@ export default function Category () {
           <div className="control">
             <span className="title">Showing 1–9 of 100 results</span>
             <div className="filters-content">
-              <a href="#" className="filter-more">Filters +</a>
-              <div className="filter-inner">
-                <div className="row">
-                  <div className="col-xs-12 col-sm-6 col-md-6 col-lg-3">
-                    <h4 className="title">Filter by Brands</h4>
-                    <ul className="list-filter">
-                      <li><a href="#">Sofas <span className="count"> (26)</span></a></li>
-                      <li><a href="#">Lights & Lamps <span className="count"> (12)</span></a></li>
-                      <li><a href="#">Decorations <span className="count"> (8)</span></a></li>
-                      <li><a href="#">Chairs <span className="count"> (36)</span></a></li>
-                      <li><a href="#">Tables <span className="count"> (23)</span></a></li>
-                    </ul>
-                  </div>
-                  <div className="col-xs-12 col-sm-6 col-md-6 col-lg-3">
-                    <h4 className="title">Filter by Price</h4>
-                    <ul className="list-filter">
-                      <li><a href="#">Less than $50  <span className="count"> (26)</span></a></li>
-                      <li><a href="#">$50 - 100  <span className="count"> (12)</span></a></li>
-                      <li><a href="#">$100 - 200  <span className="count"> (8)</span></a></li>
-                      <li><a href="#">$200 - 400 <span className="count"> (36)</span></a></li>
-                      <li><a href="#">$400 - 600 <span className="count"> (23)</span></a></li>
-                    </ul>
-                  </div>
-                  <div className="col-xs-12 col-sm-6 col-md-6 col-lg-3">
-                    <div className="widget widget_filter_color">
-                      <h3 className="title">Filter by colors</h3>
-                      <ul className="list-color">
-                        <li><a href="#" className="red"></a></li>
-                        <li><a href="#" className="gray"></a></li>
-                        <li className="current"><a href="#" className="blue-0"></a></li>
-                        <li><a href="#" className="orange"></a></li>
-                        <li><a href="#" className="blue-1"></a></li>
-                        <li><a href="#" className="black"></a></li>
-                        <li><a href="#" className="green"></a></li>
-                      </ul>
-                    </div>
-                  </div>
-                  <div className="col-xs-12 col-sm-6 col-md-6 col-lg-3">
-                    <h3 className="title">POPULAR TAGS</h3>
-                    <ul className="list-tags">
-                      <li><a href="#">Chairs</a></li>
-                      <li><a href="#">Bedroom</a></li>
-                      <li><a href="#">Clock</a></li>
-                      <li><a href="#">Tea table</a></li>
-                      <li><a href="#">TV Cabinets</a></li>
-                      <li><a href="#">New Comming</a></li>
-                      <li><a href="#">Curtains</a></li>
-                      <li><a href="#">Shoes</a></li>
-                      <li><a href="#">Sofas</a></li>
-                    </ul>
-                  </div>
+              <div class="form-group short-by">
+                     <form className="align-items-center d-flex">
+                        <label class="control-label pe-2" for="input-sort">SortBy:</label>
+                        <select id="input-sort" name="OrderByGet" class="form-select">
+                              <option value="pop" selected="">Default</option>
+                              <option value="ATOZ">Name (A - Z)</option>
+                              <option value="ZTOA">Name (Z - A)</option>
+                              <option value="pricelow">Price (Low &gt; High)</option>
+                              <option value="pricehigh">Price (High &gt; Low)</option>
+                          </select>
+
+                     </form>
                 </div>
-              </div>
             </div>
           </div>
         </div>
