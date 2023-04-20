@@ -14,7 +14,7 @@ import Loader from "../components/Loader";
 export default function Category () {
 
    const dispatch = useDispatch();
-  const {data:productList, status} = useSelector((state) => state.product )
+   const {data:productList, status} = useSelector((state) => state.product )
 
   const {
     filters: { text, category, color, price, maxPrice, minPrice },
@@ -57,6 +57,24 @@ export default function Category () {
     // product passes all filters
     return true;
   });
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageData, setPageData] = useState([]);
+  const [pageCount, setPageCount] = useState(0) ;
+
+  //Handle Next 
+  const handleNext = () => {
+    if (currentPage === pageCount) return currentPage;
+    setCurrentPage(currentPage + 1)
+  }
+  //Handle Previous 
+  const handlePrevious = () => {
+    if (currentPage === 1) return currentPage;
+    setCurrentPage(currentPage - 1)
+  }
+
+
+
 
   useEffect(()=> {
     dispatch(getProducts());
@@ -234,11 +252,11 @@ export default function Category () {
           <div className="control">
             <span className="title">Showing 1–9 of 100 results</span>
             <div className="filters-content">
-              <div class="form-group short-by">
+              <div className="form-group short-by">
                      <form className="align-items-center d-flex">
-                        <label class="control-label pe-2" for="input-sort">SortBy:</label>
-                        <select id="input-sort" name="OrderByGet" class="form-select">
-                              <option value="pop" selected="">Default</option>
+                        <label className="control-label pe-2" htmlFor="input-sort">SortBy:</label>
+                        <select defaultValue={'pop'} id="input-sort" name="OrderByGet" className="form-select">
+                              <option value="pop">Default</option>
                               <option value="ATOZ">Name (A - Z)</option>
                               <option value="ZTOA">Name (Z - A)</option>
                               <option value="pricelow">Price (Low &gt; High)</option>
