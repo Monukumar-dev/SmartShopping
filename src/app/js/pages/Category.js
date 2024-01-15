@@ -12,7 +12,9 @@ import Loader from "../components/Loader";
 
 
 export default function Category () {
-
+   const [cate, setCate] = useState([]);
+   //const [filteredProducts, setFilteredProducts] = useState([]);
+   //const cate = []
    const dispatch = useDispatch();
    const {data:productList, status} = useSelector((state) => state.product )
 
@@ -25,36 +27,38 @@ export default function Category () {
 
   const handleFilterChange = (event) => {
     const { name, value } = event.target;
+    console.log(name, value);
+    //setCate(...cate, [...cate, value]);
+    setCate([...cate, value]);
     if (name === 'category') {
-      dispatch(setCategoryFilter(value));
+      dispatch(setCategoryFilter(cate));
     } else if (name === 'price') {
       dispatch(setPriceFilter(value));
     }
   };
 
   // filter products based on the current filter settings
-  const filteredProducts = productList.filter((product) => {
-    // filter by category
-    if (category && product.category !== category) {
-      //console.log(category, 'FILTER CATEGORY');
-      //console.log(product.category, 'PRODUCT.CATEGORY');
-      //return false;
-      dispatch(setCategoryFilter('all'));
-    }
+  // const filteredProducts = productList.filter((product) => {
+  //   // filter by category
+  //   if (category && product.category !== category) {
+  //     //console.log(category, 'FILTER CATEGORY');
+  //     //console.log(product.category, 'PRODUCT.CATEGORY');
+  //     //return false;
+  //     dispatch(setCategoryFilter('all'));
+  //   }
 
-    // filter by price
-    if (price) {
-      const [minPrice, maxPrice] = price.split('-');
-      const productPrice = parseFloat(product.price);
-      if (minPrice && productPrice < parseFloat(minPrice)) {
-        return false;
-      }
-      if (maxPrice && productPrice > parseFloat(maxPrice)) {
-        return false;
-      }
-    }
+    // Filter products based on the current filter settings
+    // const filteredProducts1 = productList.filter((product) => {
+    // if (category && category !== 'all' && product.category !== category) {
+    //   return false;
+    // }
 
-    // product passes all filters
+    const filteredProducts = cate.map((item, i) => {
+      productList.filter((product) => {
+        if (item && item !== 'all' && product.category !== item) {
+          return false;
+        }
+      })
     return true;
   });
 
@@ -101,22 +105,22 @@ export default function Category () {
           <form className="">
             <div className="style-2">
                 <label className="CusCheckBox control--checkbox">
-                  Tshirts
+                Fish
                   <input name="category"  type="checkbox" value='Fish' onChange={handleFilterChange} />
                   <div className="control__indicator"></div>
                 </label>
                 <label className="CusCheckBox control--checkbox">
-                  Lounge Tshirts
+                Chair
                   <input name="category" type="checkbox" value='Chair' onChange={handleFilterChange}/>
                   <div className="control__indicator"></div>
                 </label>
                 <label className="CusCheckBox control--checkbox">
-                  Shoes
+                Chicken
                   <input name="category" type="checkbox" value='Chicken' onChange={handleFilterChange} />
                   <div className="control__indicator"></div>
                 </label>
                 <label className="CusCheckBox control--checkbox">
-                  Clothing
+                Shoes
                   <input name="category" type="checkbox" value='Shoes' onChange={handleFilterChange} />
                   <div className="control__indicator"></div>
                 </label>
