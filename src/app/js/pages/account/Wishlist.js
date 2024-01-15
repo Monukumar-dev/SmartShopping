@@ -1,13 +1,28 @@
 import React, { useEffect} from "react";
 import MyAccountSidebar from "../../components/MyAccountSidebar";
 import '../../../style/scss/myAccount.scss';
+import wishlistEmpty from '../../../style/images/emptyWishlist.jpg'
 
 import { useSelector, useDispatch } from "react-redux";
 import { removeFromWishList, removeAll } from "../../redux/slice/wishlistSlice";
+import { Link } from "react-router-dom";
+import { ROOT } from "../../utils/Url";
 
 export default function Wishlist() {
   const dispatch = useDispatch();
   const {wishList} = useSelector((state)=> state.wishlist);
+
+
+  const renderEmptyWishlist = () => {
+    return (
+      <div className="text-center">
+        <img className="img-fluid w-50 pb-3" src={wishlistEmpty}/>
+        <h5 className="text-secondary text-uppercase">wishlist is empty</h5>
+        <p className="text-center mb-0">seems like you don't have wishes here.<br/>make a wish!</p>
+        <Link className="btn btn-primary px-4 mt-3 white" to={ROOT}>Start Shopping</Link>
+      </div>
+    )
+  }
  
   return (
     <section>
@@ -46,12 +61,8 @@ export default function Wishlist() {
                   </div>
                 </div>
               </div>
-        )) : <div><h3>wishlist is empty</h3></div>
+        )) : renderEmptyWishlist()
       }
-
-
-
-      
     </div>{/*  product grids END here */}
   </div>
 </div>

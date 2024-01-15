@@ -35,7 +35,6 @@ export default function ProductGallery(props) {
             <SwiperSlide><img className="img-fluid w-100" src={img} /></SwiperSlide>
             <SwiperSlide><img className="img-fluid w-100" src={img} /></SwiperSlide>
           </Swiper>
-
         </div>
      </div>
     );

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import HomeBanner from "../components/HomeBanner";
 import ProductCarousel from "../components/FeatureCarousel";
@@ -9,13 +9,14 @@ import banner3 from '../../style/images/banner18.jpg';
 import banner4 from '../../style/images/banner19.jpg';
 
 import DealsOffersBg  from '../../style/images/background10.jpg'; 
-import AddressForm from "../components/AddressForm";
+
 
 
 export default function HomePage() {
+
   const [banner, setBanner] = useState([]);
   const [productList, setProductList] = useState([]);
-
+  
   const apiUrl = "https://6339831366857f698fb72ce1.mockapi.io/api/home_banners";
 
   const productApiUrl = "https://63cec9f4fdfe2764c72a860a.mockapi.io/api/products"
@@ -155,7 +156,6 @@ const getProducts = async () => {
   return (
     <>
       <HomeBanner bannerData={banner} />
-      
       {renderHomeOffer()}
       {renderSpecialsProducts()}
       {renderDealsOffers()}

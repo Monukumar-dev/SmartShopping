@@ -6,6 +6,8 @@ import '../../style/scss/cart.scss';
 import { useSelector, useDispatch } from "react-redux";
 import { getCartTotal } from "../redux/slice/cartSlice";
 import CartItems from "../components/CartItems";
+import CartEmpty from "../components/CartEmpty";
+
 
 export default function Cart() {
 
@@ -89,16 +91,15 @@ export default function Cart() {
   }
 
 
- 
+
+       {/* {cartItems.length>0 && renderRightContent()}       */}
+
   return (
     <div className="main-content grid-category-page inner-page">
 		<div className="container">
-    <div className="row mx-0 j-cart-list">
-    {renderLeftContent()}
-    {renderRightContent()}
-    
-   </div>
-    
+      <div className="row mx-0 j-cart-list">
+        {cartItems.length>0 ? <>{renderLeftContent()}{renderRightContent()}</> : <CartEmpty />}
+      </div>
 		</div>
 	</div>
   ); 

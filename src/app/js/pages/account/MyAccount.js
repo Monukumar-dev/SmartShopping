@@ -11,16 +11,7 @@ import { request } from "../../services/Request";
 
 
 export default function MyAccount() {
-  const [data, setData] = useState({fName: '', lName: '', email: '', mobile: '', gender: '', dob: '' });
-  
-// const abc = axios.get('https://easyshop.webiknows.in/api/loggeduser', {
-// 'headers': {
-//       'content-type':'application/json',
-//       'Authorization': 'Bearer 1|2U4Ho6l0V3y3tFvYpRWSQThihNQQ5wMbGRp5y6yK'
-//   }
-// });
-
-// console.log(abc);
+  const [data, setData] = useState({name: '', lName: '', email: '', mobile: '', gender: '', dob: '' });
 
 const getUserData = async () => {
   const result = await request(url.BASE_URL).get("/loggeduser");
@@ -31,10 +22,6 @@ const getUserData = async () => {
 useEffect(()=> {
   getUserData();
 }, [])
-  
-  //const userData = request(url.BASE_URL).get("/loggeduser");
-  //console.log(userData, 'User Res');
-  //console.log(userData.PromiseResult.data, 'User Res');
 
   const updateProfile = (id) => {
     //console.log(id);
@@ -66,7 +53,7 @@ useEffect(()=> {
             <div className="setting-item row">
               <div className="col-6">
                 <label>First Name:*</label>
-                <input type="text" name="Fname" className="form-control" value={data.fName} onChange={onChange} placeholder="Your Name" />
+                <input type="text" name="Fname" className="form-control" value={data.name} onChange={onChange} placeholder="Your Name" />
               </div>
               <div className="col-6">
                 <label>Last Name:*</label>

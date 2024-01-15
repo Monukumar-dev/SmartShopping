@@ -1,5 +1,6 @@
+export let BASE_URL = "https://easyshop.webiknows.in/api";
 //export let BASE_URL = process.env.REACT_APP_API_SERVICE;
-export let BASE_URL = process.env.REACT_APP_API_SERVICE_LOCAL;
+//export let BASE_URL = process.env.REACT_APP_API_SERVICE_LOCAL;
 export let ROOT = "/"
 export let HOME = "/home"
 export let LOGIN = "/login"

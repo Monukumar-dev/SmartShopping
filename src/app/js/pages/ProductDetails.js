@@ -43,8 +43,7 @@ export default function ProductDetails() {
   
 
   const curCartItem = cartItems.findIndex((item)=> item.id === params.id);
-
-
+  
   const { data, error, loading } = useFetch(`products`);
   //console.log(product, "single product");
   //console.log(data, "All Products ");

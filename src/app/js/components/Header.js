@@ -17,6 +17,7 @@ export default function  Header(props) {
 
   const { cartItems } = useSelector((state)=> state.allCart)
   const { userInfo } = useSelector((state)=> state.auth)
+  const { wishList } = useSelector((state)=> state.wishlist);
 
   const isLogin =  userInfo?.token ? true : false;
   
@@ -67,7 +68,9 @@ export default function  Header(props) {
           <ul className="navbar-nav top_menu_right">
             <li className="nav-item">
                 <Link className="nav-link text-clr" to="/wishlist">
-                  <i className="fa-regular fa-heart"></i>
+                  {
+                    wishList.length>0 ? <i className="fa-solid fa-heart"></i> : <i className="fa-regular fa-heart"></i>
+                  }
                 </Link>
             </li>
             <li className="nav-item dropdown">

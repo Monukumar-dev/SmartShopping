@@ -1,27 +1,27 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useEffect, useState } from "react";
+import axios from "axios";
 
-const useFetch = (url, options = {}) => {
+const base_url = "https://63cec9f4fdfe2764c72a860a.mockapi.io/api/";
+
+export default function useFetch(url) {
+  
   const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const fetchData = async () => {
+    (async function () {
       try {
-        const response = await axios(url, options);
+        setLoading(true);
+        const response = await axios.get(`${base_url + url}`);
         setData(response.data);
-      } catch (error) {
-        setError(error);
+      } catch (err) {
+        setError(err);
       } finally {
         setLoading(false);
       }
-    };
+    })();
+  }, [url]);
 
-    fetchData();
-  }, [url, options]);
-
-  return { data, loading, error };
-};
-
-export default useFetch;
+  return { data, error, loading };
+}

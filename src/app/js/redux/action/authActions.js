@@ -34,8 +34,8 @@ export const userLogin = createAsyncThunk(
                 'Content-Type': 'application/json',
                 },
             }
-            const {data} = await axios.post(`https://6339831366857f698fb72ce1.mockapi.io/api/user`, {email, password}, config)
-            localStorage.setItem('user-info', JSON.stringify(data.id))
+            const {data} = await axios.post(`${url.BASE_URL}${url.LOGIN}`, {email, password}, config)
+            localStorage.setItem('user-info', JSON.stringify(data))
             return data
 
         } catch (error) {
