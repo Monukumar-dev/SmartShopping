@@ -1,0 +1,803 @@
+/* make the customizations */
+$theme-colors: (
+    "primary": #e3a645,
+    "secondary": #d0665b
+);
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap');
+@import "~bootstrap/scss/bootstrap";
+
+/*-----------------
+1. Variable
+-----------------------*/
+$primary-clr :#e3a645;
+$secondary-clr: #d0665b;
+$border-clr : #8B93DC;
+$input-label-clr : #52575C;
+$lightgrey:#0000000a;
+$white:#fff;
+$black : #000;
+$background-color_1: transparent;
+
+/*-----------------
+2. Background Color 232323
+-----------------------*/
+.bg-primary {background: $primary-clr}
+.bg-secondary {background: $secondary-clr}
+.bg-lightgrey {background: $lightgrey}
+
+.bg-lightgrey2 {background: #fbfbfb;}
+.bg-lightgrey3 {background: #f7f7f7;}
+.bg-white {background: $white}
+.bg-t {background: transparent !important;}
+
+
+/*-----------------
+3. Color and Fonts 
+-----------------------*/
+.primary-clr {color: $primary-clr !important;}
+.secondary-clr {color: $secondary-clr !important;}
+.white {color: #fff !important;}
+.black {color: #000 !important;}
+.gray {color: #989898 !important;}
+.text-clr {color: #333 !important;}
+.green{color:#38BC68;}
+
+
+/*-----------------
+COMMON CSS 
+-----------------------*/
+body {
+	padding-top: 72px;
+	font-family: 'Montserrat', sans-serif;
+}
+.curser-pointer {
+	cursor: pointer;
+}
+.mainMenu {
+    box-shadow: 0 2px 7px 0 rgba(1, 1, 1, 0.2);
+}
+
+section {
+	padding:3.5rem 0;
+}
+.section-title {
+    font-size: 2.2rem;
+    letter-spacing: -0.5px;
+    line-height: 24px;
+    color: #222;
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    font-weight: 500;
+	text-transform: uppercase;
+}
+.section-des {
+    font-size: 1rem;
+    color: #999;
+    line-height: 24px;
+    margin: 1.5rem auto 2.2rem;
+    max-width: 47.5rem;
+}
+
+//  Custom Checkbox
+.CusCheckBox {
+	display: block;
+	position: relative;
+	padding-left: 30px;
+	padding-top: 2px;
+	margin-bottom: 8px;
+	cursor: pointer;
+	font-size: 14px;
+  }
+  .CusCheckBox input {
+	position: absolute;
+	z-index: -1;
+	opacity: 0;
+  }
+  .control__indicator {
+	position: absolute;
+	top: 2px;
+	left: 0;
+	margin-right: 10px;
+	display: inline-block;
+	vertical-align: text-top;
+	width: 20px;
+	height: 20px;
+	background: $white;
+	border: 1.8px solid lighten($input-label-clr, 40%);
+	border-radius: 3.6px;
+  }
+  .CusCheckBox input:disabled ~ .control__indicator {
+	background: #e6e6e6;
+	opacity: 0.6;
+	pointer-events: none;
+  }
+  .control__indicator:after {
+	content: '';
+	position: absolute;
+	display: none;
+  }
+  .CusCheckBox input:checked ~ .control__indicator:after {
+	display: block;
+  }
+  .control--checkbox .control__indicator:after {
+	left: 4px;
+	top: 7px;
+	background: $primary-clr;
+	width: 2px;
+	height: 2px;
+	box-shadow: 
+	  2px 0 0 $primary-clr,
+	  4px 0 0 $primary-clr,
+	  4px -2px 0 $primary-clr,
+	  4px -4px 0 $primary-clr,
+	  4px -6px 0 $primary-clr,
+	  4px -8px 0 $primary-clr;
+	transform: rotate(45deg);
+  }
+  .control--checkbox input:disabled ~ .control__indicator:after {
+	border-color: $primary-clr;
+  }
+
+  // END Checkbox Custom
+
+/*------------------------------
+13.FLOATING LABEL
+-------------------------------*/
+@-webkit-keyframes inputHighlighter {
+	from {
+		background: #5264AE;
+	}
+	to {
+		width: 0;
+		background: transparent;
+	}
+}
+@-moz-keyframes inputHighlighter {
+	from {
+		background: #5264AE;
+	}
+	to {
+		width: 0;
+		background: transparent;
+	}
+}
+@keyframes inputHighlighter {
+	from {
+		background: #5264AE;
+	}
+	to {
+		width: 0;
+		background: transparent;
+	}
+}
+/****  floating-Lable style end ****/
+.float-labels {
+	.form-group {
+		position: relative;
+		margin-bottom: 10px;
+	}
+	input {
+		border: none;
+		border-radius: 0;
+		border-bottom: 1px solid #999;
+		padding: 10px 0;
+		box-sizing: border-box;
+		&:focus {
+			~ {
+				label {
+					top: -6px;
+					left: 0;
+					font-size: 11px;
+				}
+			}
+			box-shadow: none;
+			border-bottom: 1px solid $primary-clr;
+		}
+		&:read-only {
+			~ {
+				label {
+					top: -6px;
+					left: 0;
+					font-size: 11px;
+				}
+			}
+		}
+		&:valid {
+			~ {
+				label {
+					top: -6px;
+					left: 0;
+					font-size: 11px;
+				}
+			}
+		}
+	}
+	textarea {
+		border: none;
+		border-radius: 0;
+		border-bottom: 1px solid #999;
+		padding: 10px 0;
+		box-sizing: border-box;
+		&:focus {
+			~ {
+				label {
+					top: -6px;
+					left: 0;
+					font-size: 11px;
+				}
+			}
+			box-shadow: none;
+			border-bottom: 1px solid $primary-clr;
+		}
+		&:valid {
+			~ {
+				label {
+					top: -6px;
+					left: 0;
+					font-size: 11px;
+				}
+			}
+		}
+	}
+	label {
+		position: absolute;
+		top: 15px;
+		left: 0px;
+		transition: .5s;
+		pointer-events: none;
+	}
+	input[disabled] {
+		~ {
+			label {
+				top: -6px;
+				left: 0;
+				font-size: 11px;
+			}
+		}
+	}
+}
+.floating-label {
+	position: relative;
+	margin-bottom: 20px;
+}
+.floating-select {
+	font-size: 14px;
+	padding: 4px 0;
+	display: block;
+	width: 100%;
+	height: 30px;
+	min-height: 50px;
+	line-height: 30px;
+	background-color: $background-color_1;
+	border: none;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+	&:focus {
+		outline: none;
+		border-bottom: 1px solid $primary-clr;
+		~ {
+			label {
+				top: -8px;
+				font-size: 11px;
+			}
+			.bar {
+				&:before {
+					width: 50%;
+				}
+				&:after {
+					width: 50%;
+				}
+			}
+			.highlight {
+				-webkit-animation: inputHighlighter 0.3s ease;
+				-moz-animation: inputHighlighter 0.3s ease;
+				animation: inputHighlighter 0.3s ease;
+			}
+		}
+	}
+	&:not([value=""]) {
+		&:valid {
+			~ {
+				label {
+					top: -8px;
+					font-size: 11px;
+				}
+			}
+		}
+	}
+}
+.select-label {
+	font-size: 14px;
+	font-weight: normal;
+	position: absolute;
+	pointer-events: none;
+	left: 5px;
+	top: 5px;
+	transition: 0.2s ease all;
+	-moz-transition: 0.2s ease all;
+	-webkit-transition: 0.2s ease all;
+}
+.highlight {
+	position: absolute;
+	height: 50%;
+	width: 100%;
+	top: 15%;
+	left: 0;
+	pointer-events: none;
+	opacity: 0.5;
+}
+.floating-input {
+	&:focus {
+		~ {
+			.highlight {
+				-webkit-animation: inputHighlighter 0.3s ease;
+				-moz-animation: inputHighlighter 0.3s ease;
+				animation: inputHighlighter 0.3s ease;
+			}
+		}
+	}
+}
+
+//HEADER CSS
+.Logo {
+    height: 3rem;
+}
+.mainMenu {
+    box-shadow: 0 2px 7px 0 rgba(1, 1, 1, 0.2);
+}
+.breadcrumb-item{
+	text-transform: uppercase;
+	a {
+		color: #333;
+		text-decoration: none;
+	}
+}
+
+//FOOTER CSS
+#footer {
+	background-color: $primary-clr;
+	margin-top: 3rem;
+	ul {
+		text-align: left;
+		list-style: none;
+		padding: 0;
+		li {
+			margin-bottom: 5px;
+			a {
+				font-weight: 500;
+				color: $white;
+				font-size: 14px;
+				text-decoration: none;
+				transition: all 0.3s;
+				&:hover {
+					color: $secondary-clr;
+					margin-left: 6px;
+				}
+			}
+		}
+	}
+	h3,p {
+		font-size: 14px;
+		text-align: left;
+		margin-bottom: 15px;
+		font-weight: bold;
+		color: $white;
+	}
+	
+	.footer_link_developer {
+		li {
+			margin-bottom: 5px;
+			width: 100%;
+			display: inline-block;
+			float: none;
+		}
+	}
+	.widget {
+		margin-bottom: 0;
+    .widgettitle {
+			font-size: 16px;
+			color: #fff;
+			font-family: 'Montserrat', sans-serif;
+			text-transform: uppercase;
+			margin: 0 0 20px;
+			padding-bottom: 5px;
+		}
+	}
+	.list-tags li {
+		display: inline-block;
+		list-style: none;
+		margin: 5px 3px 5px 1px;
+
+		a {
+			font-size: 13px;
+			color: $white;
+			padding: 0 15px;
+			line-height: 40px;
+			border-radius: 3px;
+			border: solid 1px #e6e6e6;
+			display: inline-block;
+			&:hover {
+				margin-left: 0;
+				background-color: $white;
+				color: $primary-clr;
+			}
+		}
+	}
+	.footer_logo {
+		img {
+			margin-bottom: 1rem!important;
+			max-height: 50px;
+		}
+	}
+
+}
+
+
+
+// LOGIN PAGE SCSS
+.lg-loginbox {
+	max-width: 500px !important;
+	border-radius: 2px;
+	border: 0px solid #c1c1c1 !important;
+    padding: 1rem;
+    
+    .login-title {
+        font-size: 1.2rem;
+        line-height: 1.5rem;
+        margin-top: 1.8rem;
+        margin-bottom: 1.8rem;
+        font-weight: 600;
+    }
+    .txt1 {
+        font-size: 14px;
+        color: #999;
+        line-height: 1.4;
+    }
+}
+.lg-bg-white {
+    background: #fff !important;
+}
+
+// Minicart CSS
+.minicartSidebar {
+	position: fixed;
+	top: 0;
+	right: 0;
+	height: 100%;
+	width: 400px;
+	z-index: 9999;
+	padding: 20px;
+	overflow-x: hidden;
+	background: #F8F8FA;
+	box-shadow: -6px 0 15px 0 rgba(0, 0, 0, 0.3);
+	-webkit-transition: all 0.5s ease;
+	-ms-transition: all 0.5s ease;
+	transition: all 0.5s ease;
+	transform: translateX(110%);
+	opacity: 0;
+	&.open {
+		opacity: 1;
+		transform: translateX(0);
+	}
+	.cart-middle {
+		float: left;
+		width: 100%;
+		height: calc(100vh - 230px);
+		overflow: auto;
+	}
+	.cart-bottom {
+		position: absolute;
+		bottom: 20px;
+		left: 0;
+	}
+	.itemContainer-base-itemRight {
+		min-height: 120px;
+	}
+}
+.miniCartBtn {
+	&.close {
+		span {
+			color: #333;
+			font-size: 36px;
+			font-weight: bold;
+			margin-top: -6px;
+			display: inline-block;
+		}
+	}
+	.cartCount {
+		position: absolute !important;
+		background-color: $primary-clr;
+		color: $white;
+		font-size: 11px;
+		height: 18px;
+		width: 18px;
+		line-height: 18px;
+		border-radius: 50px;
+		right: -8px;
+		box-shadow: 0px 0px 6px 0px #969696;
+		text-align: center;
+	}
+
+}
+
+// HOMEPAGE
+.main-banner {
+	.banner {
+		margin: 30px 0 0;
+	}
+
+}
+.banner-effect1 a {
+    position: relative;
+    overflow: hidden;
+    display: block;
+
+	&:hover::before {
+		width: 90%;
+		height: 90%;
+		left: 5%;
+		top: 5%;
+		opacity: 0.8;
+	}
+
+	&::before {
+		width: 200%;
+		height: 200%;
+		left: -50%;
+		top: -50%;
+		content: "";
+		background-color: $primary-clr;
+		opacity: 0;
+		-webkit-transition: 0.5s ease 0s;
+		-moz-transition: 0.5s ease 0s;
+		-ms-transition: 0.5s ease 0s;
+		-o-transition: 0.5s ease 0s;
+		transition: 0.5s ease 0s;
+		content: "";
+		position: absolute;
+		z-index: 1;
+	}
+}
+.HomeBanner {
+	.swiper-slide {
+		.sliderImg {
+			width: 100%;
+			max-height: 550px;
+			object-fit: cover;
+		}
+	}
+	.swiper-slide:after {
+		content: "";
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		background: rgba(0,0,0,0.5);
+	}
+	.swiper-button-next, .swiper-button-prev {
+		color: $primary-clr;
+	}
+
+	.slide-content {
+		position: absolute;
+		z-index: 2;
+		top: 50%;
+		text-align: center;
+		left: 50%;
+		-webkit-transform: translateX(-50%) translateY(-50%);
+		-moz-transform: translateX(-50%) translateY(-50%);
+		-ms-transform: translateX(-50%) translateY(-50%);
+		-o-transform: translateX(-50%) translateY(-50%);
+		transform: translateX(-50%) translateY(-50%);
+		max-width: 640px;
+
+		.title {
+			font-size: 50px;
+			color: #fff;
+			letter-spacing: -0.5px;
+			text-transform: uppercase;
+			font-family: 'Montserrat', sans-serif;
+			margin: 0;
+		}
+		.subtitle {
+			font-size: 18px;
+			color: #fff;
+			margin: 10px 0 30px;
+			font-weight: 400;
+		}
+		.button {
+			font-size: 14px;
+			font-weight: 600;
+			color: #fff;
+			text-transform: uppercase;
+			padding: 0 25px;
+			line-height: 50px;
+			border-radius: 3px;
+			height: 50px;
+			display: inline-block;
+			margin: 5px;
+		}
+	}
+}
+// CSS FOR PRODUCT BOX
+.ProductCarouselSlider {
+	.swiper-button-next,
+	.swiper-button-prev {
+		color: #aaa;
+		transform: scale(0.8);
+		top: 40%;
+	}
+}
+.product-item {
+	margin-bottom: 15px;
+	.product-inner {
+		.thumb {
+			position: relative;
+			border: solid 1px #e7e7e7;
+			img {
+				width: 100%;
+			}
+			&:hover {
+				.quickview-button {
+					opacity: 1;
+					visibility: visible;
+				}
+			}
+		}
+	}
+	.group-button {
+		a {
+			position: absolute;
+			z-index: 1;
+			text-align: center;
+			-webkit-transition: 0.5s ease 0s;
+			-moz-transition: 0.5s ease 0s;
+			-ms-transition: 0.5s ease 0s;
+			-o-transition: 0.5s ease 0s;
+			transition: 0.5s ease 0s;
+		}
+		.wishlist-button {
+			right: 15px;
+			top: 15px;
+			width: 30px;
+			height: 30px;
+			display: inline-block;
+		}
+		.quickview-button {
+			bottom: 0;
+			left: 0;
+			height: 40px;
+			line-height: 40px;
+			text-align: center;
+			width: 100%;
+			font-size: 14px;
+			color: #fff;
+			background-color: #333;
+			opacity: 0;
+			visibility: hidden;
+			text-decoration: none;
+		}
+	}
+	.info {
+		text-align: center;
+		padding: 10px 0;
+		position: relative;
+		.price {
+			.text {
+				font-size: 15px;
+				color: #aaa;
+				margin-right: 3px;
+			}
+			.ins {
+				font-size: 15px;
+				color: #333;
+				font-family: 'Montserrat', sans-serif;
+			}
+		}
+	}
+	.product-name {
+		font-size: 14px;
+		text-transform: uppercase;
+		color: #222;
+		font-weight: 600;
+		text-decoration: none;
+	}
+}
+.rating {
+	.list-star {
+		width: 100%;
+		text-align: center;
+		margin-right: 5px;
+		float: left;
+		margin-bottom: 0;
+		padding: 0;
+		li {
+			display: inline-block;
+			list-style: none;
+			margin: 0;
+			a {
+				font-size: 13px;
+				color: $primary-clr;
+			}
+		}
+	}
+}
+// 
+.DealsOffers {
+    text-align: center;
+    background-position: center;
+    background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-size: cover;
+    height: 410px;
+    padding: 90px 15px 0;
+    margin-bottom: 0;
+    margin-top: 5px;
+	position: relative;
+	z-index: 1;
+	&::before {
+		content: "";
+		position: absolute;
+		left: 0;
+		top: 0;
+		height: 100%;
+		width: 100%;
+		background: rgba(1, 1, 1, 0.5);
+		z-index: -1;
+	}
+	.banner-info {
+		margin: 0 auto;
+		max-width: 42rem;
+		 .subtitle {
+			font-size: 28px;
+			color: #fff;
+			margin: 0;
+		}
+		.title {
+			font-size: 38px;
+			color: #fff;
+			letter-spacing: -0.5px;
+			text-transform: uppercase;
+			font-family: 'Montserrat', sans-serif;
+			margin: 15px 0 20px;
+		}
+	}
+}
+//Feature Box
+.featrue-box-list {
+    padding-top: 60px;
+    padding-bottom: 65px;
+    border-top: solid 1px #e7e7e7;
+    border-bottom: solid 1px #e7e7e7;
+	.featrue-box {
+		text-align: center;
+		.block-icon {
+			background-color: transparent;
+			width: auto;
+			height: 70px;
+			line-height: 70px;
+			a {
+				font-size: 52px;
+				color: $primary-clr;
+			}
+		}
+		.block-inner {
+			.title {
+				text-transform: uppercase;
+				font-size: 16px;
+				letter-spacing: -0.5px;
+				margin: 25px 0 10px;
+			}
+			.des {
+				font-size: 14px;
+				color: #999;
+				margin: 10px 0 0;
+				padding: 0 30px;
+				line-height: 24px;
+			}
+
+		}
+	}
+}
+
