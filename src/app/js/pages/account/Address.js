@@ -2,20 +2,10 @@ import React, { useEffect, useState} from "react";
 import MyAccountSidebar from "../../components/MyAccountSidebar";
 import '../../../style/scss/myAccount.scss';
 import Popup from "../../components/Popup";
-import  countryDatas from '../../india.json';
+import AddressForm from "../../components/AddressForm";
 
 
 export default function Address() {
-
- // Country Data
-  const [countryData, setCountryData] = useState(countryDatas);
-  const [states, setStates] = useState(null);
-  const [countrys, setCountry] = useState(null);
-  const [city, setCity] = useState(null);
-  //console.log(Object.entries(countryData), 'Original data');
-  console.log(countrys, 'Country');
-  console.log(states, 'states');
-
 
    // const addAddress = 
     const [show, setShow] = useState(false);
@@ -31,123 +21,6 @@ export default function Address() {
 
   }
 
- function renderCountry() {
-    return (
-      <div>
-      {countryData.countries.map((country) => (
-        <div key={country.name}>
-          {setCountry(country.name)}
-          {country.states.map((state) => (
-            <div key={state.name}>
-              {setStates(state.name)}
-              <ul>
-                {state.cities.map((city) => (
-                  <li key={city}>{city}</li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-      ))}
-    </div>
-   )
- }
-
- useEffect(()=>{
-  renderCountry();
- },[])
-  function addAddressForm() {
-        return (
-          <form action="#" id="frmShippingAddress" method="post">
-          <div className="mb-3 row">
-            <div className="form-group col-lg-6">
-              <label className="font-weight-bold text-dark text-2">First Name</label>
-               <input type ="text"className="form-control"id="first_name"name="first_name"/>
-            </div>
-            <div className="form-group col-lg-6">
-              <label className="font-weight-bold text-dark text-2">Last Name</label>
-              <input type="text" className="form-control" id="last_name" />
-            </div>
-          </div>
-          <div className="mb-3 row">
-            <div className="form-group col-lg-12">
-              <label className="font-weight-bold text-dark text-2">Phone Number</label>
-              <div className="input-group">
-                <div className="input-group-addon">
-                  <span className="input-group-text" id="basic-addon1">IN +91</span>
-                </div>
-                 <input ty pe= "text"className="form-control"placeholder="*Phone Number"id="phone_number"/>
-              </div>
-            </div>
-          </div>
-          <div className="mb-3 row">
-            <div className="form-group col-lg-4">
-              <label className="font-weight-bold text-dark text-2">State</label>
-              <select className="form-select" name="state">
-                <option> Please select a region. </option>
-                {countryData.countries.map((country, i) => (
-                  <option key={i} value={country.name}>{country.name}</option>
-                ))}
-              </select>
-            </div>
-            <div className="form-group col-lg-4">
-              <label className="font-weight-bold text-dark text-2">City</label>
-                <select className="form-select ct pl-0" name="city">
-                  <option value=""></option>
-                </select>
-            </div>
-            <div className="form-group col-lg-4">
-              <label className="font-weight-bold text-dark text-2">Post/Zipcode</label>
-              <input type="*Post/Zip Code" className="form-control" id="pincode" />
-            </div>
-          </div>
-          {/*end form Row*/} 
-          <div className="mb-3 row">
-            <div className="form-group col-lg-12">
-              <label className="font-weight-bold text-dark text-2">
-                Address (House No, Building, Street, Area) *
-              </label>
-              <textarea className="form-control" name="address_add" id="address_add" spellCheck="false" />
-              <small>Please enter your detailed Apartment to make it easier for us to serve!</small>
-            </div>
-          </div>
-          <div className="mb-3 row">
-            <div className="form-group col-lg-12">
-              <label className="font-weight-bold text-dark text-2">Landmark/Locality(Optional)</label>
-              <input type="text" className="form-control" id="landmark" />
-            </div>
-          </div>
-          <div className="row">
-            <div className="form-group col-lg-9">
-              <div className="address-type">
-                <span className="bold me-2">Type of Address</span>
-                <div className="form-check form-check-inline me-2">
-                  <input type="radio" id="FoterHOME" name="typeadd" className="form-check-input" defaultValue="home" />
-                  <label className="custom-control-label" htmlFor="FoterHOME">HOME</label>
-                </div>
-                <div className="form-check form-check-inline">
-                  <input type="radio" id="FoterOFFICE" name="typeadd" className="form-check-input" defaultValue="office" />
-                  <label className="custom-control-label" htmlFor="FoterOFFICE">OFFICE</label>
-                </div>
-              </div>
-              {/*address-type*/}
-            </div>
-            <div className="form-group col-lg-3">
-              <div className="custom-control custom-checkbox pull-right">
-                <input type="checkbox" className="custom-control-input" id="foteraddressdefault" name="makedefault" />
-                <label className="custom-control-label" htmlFor="foteraddressdefault">Make Default</label>
-              </div>
-            </div>
-          </div>
-          <div className="justify-content-center my-4 row text-center">
-            <div className="form-group col-sm-12">
-               <button type="button" className="btn btn-primary me-2" data-loading-text="Loading...">SAVE</button>
-                 <button type="button" className="btn btn-ou tline-primary text-uppercase ms-2">Update</button>
-            </div>
-          </div>
-        </form>        
-        )
-  }
  
   return (
     <section>
@@ -190,7 +63,7 @@ export default function Address() {
       <Popup
         show={show}
         handleClose={() => setShow(false)}
-        content={addAddressForm()}
+        content={<AddressForm />}
         title={'Add address'}
         dialogClassName={dialogClassName}
       />

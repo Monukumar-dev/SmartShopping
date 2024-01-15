@@ -5,7 +5,6 @@ import close from '../../style/images/close.svg';
 import { notUndefinedAndNull } from '../utils/Validation';
 
 function Popup(props) {
-
     function renderBody() {
         if (notUndefinedAndNull(props.bodyClassName)) {
             return (
@@ -23,7 +22,7 @@ function Popup(props) {
     }
 
     return (
-        <Fragment>
+        <>
             <Modal
                 show={props.show}
                 onHide={props.handleClose}
@@ -38,7 +37,7 @@ function Popup(props) {
                 </Modal.Header>
                 {renderBody()}
             </Modal>
-        </Fragment>
+        </>
     );
 }
 
