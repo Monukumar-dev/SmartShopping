@@ -101,7 +101,7 @@ export default function Address() {
               <input type="*Post/Zip Code" className="form-control" id="pincode" />
             </div>
           </div>
-          {/*end form Row*/}
+          {/*end form Row*/} 
           <div className="mb-3 row">
             <div className="form-group col-lg-12">
               <label className="font-weight-bold text-dark text-2">
