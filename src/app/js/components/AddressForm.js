@@ -1,12 +1,25 @@
 import React, { useState, useEffect } from 'react';
 
-const AddressForm = () => {
+const AddressForm = ({handleFormData}) => {
   const [countries, setCountries] = useState([]);
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
   const [selectedCountry, setSelectedCountry] = useState('');
   const [selectedState, setSelectedState] = useState('');
   const [selectedCity, setSelectedCity] = useState('');
+  const [formData, setFormData] = useState({
+                                            f_name: '',
+                                            l_name: '',
+                                            mobile: '', 
+                                            country: selectedCountry, 
+                                            state: selectedState, 
+                                            city: selectedCity,
+                                            address_add: '',
+                                            landmark: '',
+                                            typeadd: '',
+                                            typeadd: '',
+                                            makedefault: false,
+                                          });
 
   var headers = new Headers();
   headers.append("X-CSCAPI-KEY", "dmZ2MjZCRHl6dm5WdktJN3BveE14eWZ1QjIzdlZrUm53TU80aXpnNw==");
@@ -66,6 +79,7 @@ const AddressForm = () => {
 
   const handleCountryChange = (event) => {
     setSelectedCountry(event.target.value);
+    setFormData({...formData, [event.target.name]: event.target.value})
     setSelectedState('');
     setSelectedCity('');
   };
@@ -77,19 +91,35 @@ const AddressForm = () => {
 
   const handleCityChange = (event) => {
     setSelectedCity(event.target.value);
+    setFormData({...formData, [event.target.name]: event.target.value})
   };
+
+  const handleSaveAddress = (e) => {
+    e.preventDefault();
+    //console.log(formData);
+    handleFormData(formData)
+  }
+  const handleUpdateAddress = (e) => {
+    e.preventDefault();
+    console.log("handleUpdateAddress");
+  }
+
+  const onChange = (e) => {
+    e.preventDefault();
+    setFormData({...formData, [e.target.name]: e.target.value})
+  }
 
   return (
     <>
-    <form action="#" id="frmShippingAddress" method="post">
+    <form id="frmShippingAddress" onSubmit={handleSaveAddress}>
           <div className="mb-3 row">
-            <div className="form-group col-lg-6">
+            <div className="form-group col-md-6">
               <label className="font-weight-bold text-dark text-2">First Name</label>
-               <input type ="text"className="form-control"id="first_name"name="first_name"/>
+               <input type="text" className="form-control" name="f_name" onChange={onChange} value={formData.f_name}/>
             </div>
-            <div className="form-group col-lg-6">
+            <div className="form-group col-md-6">
               <label className="font-weight-bold text-dark text-2">Last Name</label>
-              <input type="text" className="form-control" id="last_name" />
+              <input type="text" className="form-control" name="l_name" onChange={onChange} value={formData.l_name} />
             </div>
           </div>
           <div className="mb-3 row">
@@ -99,14 +129,14 @@ const AddressForm = () => {
                 <div className="input-group-addon">
                   <span className="input-group-text" id="basic-addon1">IN +91</span>
                 </div>
-                 <input ty pe= "text"className="form-control"placeholder="*Phone Number"id="phone_number"/>
+                 <input type="text" name='mobile' className="form-control" placeholder="*Phone Number" onChange={onChange} value={formData.mobile}/>
               </div>
             </div>
           </div>
           <div className='mb-3 row'>
             <div className='col-md-4'>
               <label htmlFor="countryDropdown">Select a Country:</label>
-              <select className='form-select' id="countryDropdown" value={selectedCountry} onChange={handleCountryChange}>
+              <select className='form-select' name='country' id="countryDropdown" value={selectedCountry} onChange={handleCountryChange}>
                 <option value="" disabled>Select a country</option>
                 {countries.map(country => (
                   <option key={country.iso2} value={country.iso2}>{country.name}</option>
@@ -115,7 +145,7 @@ const AddressForm = () => {
             </div>     
             <div className='col-md-4'>
               <label htmlFor="stateDropdown">Select a State:</label>
-              <select className='form-select' id="stateDropdown" value={selectedState} onChange={handleStateChange}>
+              <select className='form-select' name='state' id="stateDropdown" value={selectedState} onChange={handleStateChange}>
                 <option value="" disabled>Select a state</option>
                 {states.map(state => (
                   <option key={state.iso2} value={state.iso2}>{state.name}</option>
@@ -124,7 +154,7 @@ const AddressForm = () => {
             </div>
             <div className='col-md-4'>
               <label htmlFor="cityDropdown">Select a City:</label>
-              <select className='form-select' id="cityDropdown" value={selectedCity} onChange={handleCityChange}>
+              <select className='form-select' name='city' id="cityDropdown" value={selectedCity} onChange={handleCityChange}>
                 <option value="" disabled>Select a city</option>
                 {cities.map(city => (
                   <option key={city.id} value={city.id}>{city.name}</option>
@@ -138,14 +168,14 @@ const AddressForm = () => {
               <label className="font-weight-bold text-dark text-2">
                 Address (House No, Building, Street, Area) *
               </label>
-              <textarea className="form-control" name="address_add" id="address_add" spellCheck="false" />
-              <small>Please enter your detailed Apartment to make it easier for us to serve!</small>
+              <textarea className="form-control" name="address_add" spellCheck="false" onChange={onChange} value={formData.address_add} />
+              {/* <small>Please enter your detailed Apartment to make it easier for us to serve!</small> */}
             </div>
           </div>
           <div className="mb-3 row">
             <div className="form-group col-lg-12">
               <label className="font-weight-bold text-dark text-2">Landmark/Locality(Optional)</label>
-              <input type="text" className="form-control" id="landmark" />
+              <input type="text" name='landmark' className="form-control" onChange={onChange} value={formData.landmark} />
             </div>
           </div>
           <div className="row">
@@ -153,11 +183,11 @@ const AddressForm = () => {
               <div className="address-type">
                 <span className="bold me-2">Type of Address</span>
                 <div className="form-check form-check-inline me-2">
-                  <input type="radio" id="FoterHOME" name="typeadd" className="form-check-input" defaultValue="home" />
+                  <input type="radio" id="FoterHOME" name="typeadd" className="form-check-input" onChange={onChange} value='Home'/>
                   <label className="custom-control-label" htmlFor="FoterHOME">HOME</label>
                 </div>
                 <div className="form-check form-check-inline">
-                  <input type="radio" id="FoterOFFICE" name="typeadd" className="form-check-input" defaultValue="office" />
+                  <input type="radio" id="FoterOFFICE" name="typeadd" className="form-check-input" onChange={onChange} value="Office" />
                   <label className="custom-control-label" htmlFor="FoterOFFICE">OFFICE</label>
                 </div>
               </div>
@@ -165,15 +195,15 @@ const AddressForm = () => {
             </div>
             <div className="form-group col-lg-3">
               <div className="custom-control custom-checkbox pull-right">
-                <input type="checkbox" className="custom-control-input" id="foteraddressdefault" name="makedefault" />
+                <input type="checkbox" className="custom-control-input" name="makedefault" onChange={onChange} value={formData.makedefault} />
                 <label className="custom-control-label" htmlFor="foteraddressdefault">Make Default</label>
               </div>
             </div>
           </div>
           <div className="justify-content-center my-4 row text-center">
             <div className="form-group col-sm-12">
-               <button type="button" className="btn btn-primary me-2" data-loading-text="Loading...">SAVE</button>
-                 <button type="button" className="btn btn-ou tline-primary text-uppercase ms-2">Update</button>
+               <button type="submit" className="btn btn-primary me-2">SAVE</button>
+               <button type="button" className="btn btn-ou tline-primary text-uppercase ms-2">Update</button>
             </div>
           </div>
         </form> 

@@ -3,24 +3,44 @@ import MyAccountSidebar from "../../components/MyAccountSidebar";
 import '../../../style/scss/myAccount.scss';
 import Popup from "../../components/Popup";
 import AddressForm from "../../components/AddressForm";
+import { useDispatch, useSelector } from "react-redux";
+import {startLoading,
+        stopLoading,
+        addAddress,
+        deleteAddress,
+        setAddressList,
+        setSelectedAddress,
+        setError,
+        selectAddresses,
+        selectSelectedAddress,
+        selectLoading,
+        selectError } from "../../redux/slice/addressSlice";
 
 
 export default function Address() {
+    const dispatch = useDispatch();
+    const addresses = useSelector(selectAddresses);
+    console.log(addresses, "Address Fetch From Store");
 
-   // const addAddress = 
     const [show, setShow] = useState(false);
    // const [title, setTitle] = useState("");
    // const [content, setContent] = useState('just for testing');
     const [dialogClassName, setDialogClassName] = useState("modal-dialog-centered modal-lg");
 
+    const handleAddAddress = (address) => {
+      const uniqueID = Math.random().toString(36).substring(7);
+      let finalAddress = {id:uniqueID,...address}
+      dispatch(addAddress(finalAddress));
+      console.log("Address Added to Store", finalAddress);
+    };
 
-
-  const updateProfile = (id) => {
-    //dispatch(userLogin(data))
-    //console.log(id);
-
-  }
-
+    const handleDeleteAddress = (address) => {
+      console.log(address);
+      //const uniqueID = Math.random().toString(36).substring(7);
+      //let finalAddress = {id:uniqueID,...address}
+      dispatch(deleteAddress(address));
+      //console.log("Address Added to Store", finalAddress);
+    };
  
   return (
     <section>
@@ -36,24 +56,31 @@ export default function Address() {
           </div>
           <div className="address-list-warp">
             <ul className="address-list row ul-style-none pl-14">
-              <li className="col-sm-6 ps-0 address-list-wrap address_card">
+              
+            {addresses.map((address, i) => (
+              <li key={i} className="col-sm-6 ps-0 address-list-wrap address_card">
                 <div className="c-address-item c-address-item-hover default-address">
-                  <p className="name">
-                    <input type="hidden" name="id" id="id1" defaultValue={387} />
-                    <strong>Monu Kumar Gautam Kumar </strong> | IN 09768612445</p>
-                  <p>
-                    <br />
-                    <strong>Address:</strong>
-                    <br />Worli
-                    Worli
-                    jaunpur ,  -400603</p>
+                  <p className="name text-capitalize">
+                    <strong>{address.f_name} {address.l_name} </strong> | {address.mobile}</p>
+                  <p><strong>{address.typeadd} Address:</strong></p>
+                  <p className="text-capitalize">
+                    {`${address.address_add}, ${address.state}, ${address.city} - ${address.city} `}
+                  </p>
                   <div className="operate">
-                    <a href="#" className="primary_address">Make Default</a>
-                    <a href="#">Delete</a> 
+                  {!address.makedefault ? (
+                      <a href="#" className="primary_address" onClick={(e) => console.log(e)}>
+                        Make Default
+                      </a>
+                    ) : (
+                      <a href="#">Default</a>
+                    )}
+                    <a href="#" onClick={()=> dispatch(deleteAddress({ id: address.id }))}>Delete</a> 
                     <a href="#" className="editAddressMyAccount">Edit</a>
                   </div>
                 </div>
               </li>
+            ))}
+              
             </ul>
           </div>
         </div>
@@ -63,7 +90,7 @@ export default function Address() {
       <Popup
         show={show}
         handleClose={() => setShow(false)}
-        content={<AddressForm />}
+        content={<AddressForm handleFormData={handleAddAddress} />}
         title={'Add address'}
         dialogClassName={dialogClassName}
       />
