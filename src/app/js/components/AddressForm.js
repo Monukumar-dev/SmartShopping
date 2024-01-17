@@ -1,6 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 const AddressForm = ({handleFormData}) => {
+
+  const defaultAdd = useRef()
+
   const [countries, setCountries] = useState([]);
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
@@ -16,10 +19,11 @@ const AddressForm = ({handleFormData}) => {
                                             city: selectedCity,
                                             address_add: '',
                                             landmark: '',
-                                            typeadd: '',
-                                            typeadd: '',
-                                            makedefault: false,
+                                            typeAdd: '',
+                                            makeDefault: false,
                                           });
+
+  //console.log(formData.makeDefault, isCheck);
 
   var headers = new Headers();
   headers.append("X-CSCAPI-KEY", "dmZ2MjZCRHl6dm5WdktJN3BveE14eWZ1QjIzdlZrUm53TU80aXpnNw==");
@@ -183,19 +187,19 @@ const AddressForm = ({handleFormData}) => {
               <div className="address-type">
                 <span className="bold me-2">Type of Address</span>
                 <div className="form-check form-check-inline me-2">
-                  <input type="radio" id="FoterHOME" name="typeadd" className="form-check-input" onChange={onChange} value='Home'/>
-                  <label className="custom-control-label" htmlFor="FoterHOME">HOME</label>
+                  <input type="radio" id="HOME" name="typeAdd" className="form-check-input" value='Home' onChange={onChange}/>
+                  <label className="custom-control-label" htmlFor="HOME">HOME</label>
                 </div>
                 <div className="form-check form-check-inline">
-                  <input type="radio" id="FoterOFFICE" name="typeadd" className="form-check-input" onChange={onChange} value="Office" />
-                  <label className="custom-control-label" htmlFor="FoterOFFICE">OFFICE</label>
+                  <input type="radio" id="OFFICE" name="typeAdd" className="form-check-input" value="Office" onChange={onChange}/>
+                  <label className="custom-control-label" htmlFor="OFFICE">OFFICE</label>
                 </div>
               </div>
               {/*address-type*/}
             </div>
             <div className="form-group col-lg-3">
               <div className="custom-control custom-checkbox pull-right">
-                <input type="checkbox" className="custom-control-input" name="makedefault" onChange={onChange} value={formData.makedefault} />
+                <input ref={defaultAdd} id='foteraddressdefault' type="checkbox" className="custom-control-input" name="makedefault" onChange={() => setFormData({...formData, makeDefault: defaultAdd.current.checked})} />
                 <label className="custom-control-label" htmlFor="foteraddressdefault">Make Default</label>
               </div>
             </div>

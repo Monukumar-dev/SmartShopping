@@ -8,8 +8,6 @@ import {startLoading,
         stopLoading,
         addAddress,
         deleteAddress,
-        setAddressList,
-        setSelectedAddress,
         setError,
         selectAddresses,
         selectSelectedAddress,
@@ -31,15 +29,8 @@ export default function Address() {
       const uniqueID = Math.random().toString(36).substring(7);
       let finalAddress = {id:uniqueID,...address}
       dispatch(addAddress(finalAddress));
+      setShow(false);
       console.log("Address Added to Store", finalAddress);
-    };
-
-    const handleDeleteAddress = (address) => {
-      console.log(address);
-      //const uniqueID = Math.random().toString(36).substring(7);
-      //let finalAddress = {id:uniqueID,...address}
-      dispatch(deleteAddress(address));
-      //console.log("Address Added to Store", finalAddress);
     };
  
   return (
@@ -62,19 +53,19 @@ export default function Address() {
                 <div className="c-address-item c-address-item-hover default-address">
                   <p className="name text-capitalize">
                     <strong>{address.f_name} {address.l_name} </strong> | {address.mobile}</p>
-                  <p><strong>{address.typeadd} Address:</strong></p>
-                  <p className="text-capitalize">
+                  <p><strong>{address.typeAdd} Address:</strong></p>
+                  <p className="text-capitalize" style={{lineHeight:1.4}}>
                     {`${address.address_add}, ${address.state}, ${address.city} - ${address.city} `}
                   </p>
                   <div className="operate">
-                  {!address.makedefault ? (
+                  {!address.makeDefault ? (
                       <a href="#" className="primary_address" onClick={(e) => console.log(e)}>
                         Make Default
                       </a>
                     ) : (
                       <a href="#">Default</a>
                     )}
-                    <a href="#" onClick={()=> dispatch(deleteAddress({ id: address.id }))}>Delete</a> 
+                    <a className="" onClick={()=> dispatch(deleteAddress({ id: address.id }))}>Delete</a> 
                     <a href="#" className="editAddressMyAccount">Edit</a>
                   </div>
                 </div>

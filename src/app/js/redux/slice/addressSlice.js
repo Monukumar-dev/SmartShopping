@@ -22,21 +22,13 @@ const addressSlice = createSlice({
           addAddress: (state, action) => {
             state.addresses.push(action.payload);
             localStorage.setItem('AddressList', JSON.stringify(state.addresses))
-            console.log(action.payload, "Address Added via Slice");
+           // console.log(action.payload, "Address Added via Slice");
           },
           deleteAddress: (state, action) => {
             const newAddresses = state.addresses.filter((address) => address.id !== action.payload.id);
-            // const newAdd = state.addresses.filter((address) => 
-            // address.id !== action.payload.id);
-            //state.addresses.push(newAdd);
-            //localStorage.setItem('AddressList', JSON.stringify(state.addresses))
-            // console.log(action.payload, "Address Added via Slice");
-          },
-          setAddressList: (state, action) => {
-            state.addresses = action.payload;
-          },
-          setSelectedAddress: (state, action) => {
-            state.selectedAddress = action.payload;
+            state.addresses = newAddresses;
+            localStorage.setItem('AddressList', JSON.stringify(newAddresses));
+            //console.log(action.payload, "Address deleted via Slice");
           },
           setError: (state, action) => {
             state.error = action.payload;
@@ -49,8 +41,6 @@ export const {
     stopLoading,
     addAddress,
     deleteAddress,
-    setAddressList,
-    setSelectedAddress,
     setError
     } = addressSlice.actions
 
