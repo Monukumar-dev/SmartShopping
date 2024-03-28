@@ -79,7 +79,7 @@ export default function Login() {
                   </div>
                 </div>
                 <div className="text-center w-100 pt-4 pb-5 pb-lg-3">
-                  <span className="txt1">Don't have an account?   </span>
+                  <span className="txt1">Don't have an account?</span>
                   <Link className="txt1 bo1 hov1 primary-clr" to={REGISTER}>Sign up</Link>
                 </div>
               </div>

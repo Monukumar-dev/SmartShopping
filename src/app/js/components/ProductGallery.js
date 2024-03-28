@@ -14,7 +14,7 @@ import "swiper/css/thumbs";
 export default function ProductGallery(props) {
 
     const [thumbsSwiper, setThumbsSwiper] = useState(null);
-    const { img } = props.data;
+    const { image } = props.data;
 
     return (
         <div className="row">
@@ -31,9 +31,9 @@ export default function ProductGallery(props) {
             modules={[FreeMode, Navigation, Thumbs]}
             className="mySwiper2"
           >
-            <SwiperSlide><img className="img-fluid w-100" src={img} /></SwiperSlide>
-            <SwiperSlide><img className="img-fluid w-100" src={img} /></SwiperSlide>
-            <SwiperSlide><img className="img-fluid w-100" src={img} /></SwiperSlide>
+            <SwiperSlide><img className="img-fluid w-100" src={image} /></SwiperSlide>
+            <SwiperSlide><img className="img-fluid w-100" src={image} /></SwiperSlide>
+            <SwiperSlide><img className="img-fluid w-100" src={image} /></SwiperSlide>
           </Swiper>
         </div>
      </div>

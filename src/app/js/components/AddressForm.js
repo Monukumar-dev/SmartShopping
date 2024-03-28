@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-const AddressForm = ({handleFormData}) => {
-
+const AddressForm = ({handleFormData, upDateFormData}) => {
+  //console.log("req Add Form", upDateFormData);
   const defaultAdd = useRef()
 
   const [countries, setCountries] = useState([]);
@@ -103,10 +103,17 @@ const AddressForm = ({handleFormData}) => {
     //console.log(formData);
     handleFormData(formData)
   }
-  const handleUpdateAddress = (e) => {
-    e.preventDefault();
+  const handleUpdateAddress = (id) => {
+    id.preventDefault();
     console.log("handleUpdateAddress");
   }
+  // useEffect(()=>{
+  //   if (upDateFormData !== null) {
+  //     setFormData(upDateFormData);
+  //     console.log("upDateFormData");
+  //   }
+  // },[])
+
 
   const onChange = (e) => {
     e.preventDefault();

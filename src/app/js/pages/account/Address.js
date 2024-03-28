@@ -8,6 +8,7 @@ import {startLoading,
         stopLoading,
         addAddress,
         deleteAddress,
+        updateAddress,
         setError,
         selectAddresses,
         selectSelectedAddress,
@@ -20,6 +21,8 @@ export default function Address() {
     const addresses = useSelector(selectAddresses);
     console.log(addresses, "Address Fetch From Store");
 
+    const [updateForm, setUpdateForm] = useState(null);
+
     const [show, setShow] = useState(false);
    // const [title, setTitle] = useState("");
    // const [content, setContent] = useState('just for testing');
@@ -31,6 +34,24 @@ export default function Address() {
       dispatch(addAddress(finalAddress));
       setShow(false);
       console.log("Address Added to Store", finalAddress);
+    };
+
+    const handleUpdateAddress = (id) => {
+     let SLindex = addresses.filter(address => address.id === id);
+      console.log(SLindex, 'SLindex');
+      if (SLindex !== null) {
+        setUpdateForm(SLindex)
+      }
+
+
+      //updateForm
+      //const uniqueID = Math.random().toString(36).substring(7);
+      //let finalAddress = {id:uniqueID,...address}
+      //dispatch(addAddress(finalAddress));
+
+      setShow(true);
+
+      console.log("Address Updated to Store", id);
     };
  
   return (
@@ -48,7 +69,7 @@ export default function Address() {
           <div className="address-list-warp">
             <ul className="address-list row ul-style-none pl-14">
               
-            {addresses.map((address, i) => (
+            {addresses && addresses.map((address, i) => (
               <li key={i} className="col-sm-6 ps-0 address-list-wrap address_card">
                 <div className="c-address-item c-address-item-hover default-address">
                   <p className="name text-capitalize">
@@ -66,7 +87,7 @@ export default function Address() {
                       <a href="#">Default</a>
                     )}
                     <a className="" onClick={()=> dispatch(deleteAddress({ id: address.id }))}>Delete</a> 
-                    <a href="#" className="editAddressMyAccount">Edit</a>
+                    <a href="#" className="editAddressMyAccount" onClick={()=> handleUpdateAddress(address.id)}>Edit</a>
                   </div>
                 </div>
               </li>
@@ -81,7 +102,7 @@ export default function Address() {
       <Popup
         show={show}
         handleClose={() => setShow(false)}
-        content={<AddressForm handleFormData={handleAddAddress} />}
+        content={<AddressForm handleFormData={handleAddAddress} upDateFormData={updateForm} />}
         title={'Add address'}
         dialogClassName={dialogClassName}
       />

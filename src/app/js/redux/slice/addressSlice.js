@@ -24,6 +24,18 @@ const addressSlice = createSlice({
             localStorage.setItem('AddressList', JSON.stringify(state.addresses))
            // console.log(action.payload, "Address Added via Slice");
           },
+          updateAddress: (state, action) => {
+            const updatedAddress = action.payload;
+            console.log(updatedAddress);
+            const index = state.addresses.findIndex(address => address.id === updatedAddress.id);
+            console.log(index, "index");
+      
+            if (index !== -1) {
+              state.addresses[index] = updatedAddress;
+             // localStorage.setItem('AddressList', JSON.stringify(state.addresses));
+             // console.log(updatedAddress, "Address Updated via Slice");
+            }
+          },
           deleteAddress: (state, action) => {
             const newAddresses = state.addresses.filter((address) => address.id !== action.payload.id);
             state.addresses = newAddresses;
@@ -41,6 +53,7 @@ export const {
     stopLoading,
     addAddress,
     deleteAddress,
+    updateAddress,
     setError
     } = addressSlice.actions
 

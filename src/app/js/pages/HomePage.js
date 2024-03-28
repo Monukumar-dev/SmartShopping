@@ -10,6 +10,8 @@ import banner4 from '../../style/images/banner19.jpg';
 
 import DealsOffersBg  from '../../style/images/background10.jpg'; 
 
+//import { API_BASE_URL } from "../../utils/Url";
+
 
 
 export default function HomePage() {
@@ -19,7 +21,7 @@ export default function HomePage() {
   
   const apiUrl = "https://6339831366857f698fb72ce1.mockapi.io/api/home_banners";
 
-  const productApiUrl = "https://63cec9f4fdfe2764c72a860a.mockapi.io/api/products"
+  const productApiUrl = "https://fakestoreapi.com/products"
 
 
 const getBanners = async () => {

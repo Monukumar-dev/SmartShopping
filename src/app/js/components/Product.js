@@ -10,7 +10,7 @@ export default function Product(props) {
 
     //console.log(props.data, "category list");
 
-    const { id, title, img, price } = props.data;
+    const { id, title, image, price } = props.data;
 
     return (
         <div className="product-item">
@@ -23,7 +23,7 @@ export default function Product(props) {
                             <i className="fa fa-bag" aria-hidden="true"></i></span> Add to Cart
                         </Link> */}
                     </div>
-                    <Link to={`/products/${id}`} title={title}><img src={img} alt={title} /></Link>
+                    <Link to={`/products/${id}`} title={title}><img src={image} alt={title} /></Link>
                 </div>
                 <div className="info">
                     <Link to={`/products/${id}`} className="product-name">{title}</Link>

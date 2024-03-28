@@ -5,7 +5,7 @@ import '../../style/scss/category.scss';
 import Product from "../components/Product";
 import { useDispatch, useSelector } from "react-redux";
 import { STATUS } from "../constants/Status";
-import { getProducts } from "../redux/action/productAction";
+import { getAllProducts } from "../redux/action/productAction";
 
 import { setCategoryFilter, setPriceFilter } from '../redux/slice/filterSlice';
 import Loader from "../components/Loader";
@@ -26,34 +26,10 @@ export default function Category () {
   }  = useSelector((state) => state.filter);
 
   const handleFilterChange = (event) => {
-    const { name, value } = event.target;
-    console.log(name, value);
-    //setCate(...cate, [...cate, value]);
-    setCate([...cate, value]);
-    if (name === 'category') {
-      dispatch(setCategoryFilter(cate));
-    } else if (name === 'price') {
-      dispatch(setPriceFilter(value));
-    }
+
   };
 
-  // filter products based on the current filter settings
-  // const filteredProducts = productList.filter((product) => {
-  //   // filter by category
-  //   if (category && product.category !== category) {
-  //     //console.log(category, 'FILTER CATEGORY');
-  //     //console.log(product.category, 'PRODUCT.CATEGORY');
-  //     //return false;
-  //     dispatch(setCategoryFilter('all'));
-  //   }
-
-    // Filter products based on the current filter settings
-    // const filteredProducts1 = productList.filter((product) => {
-    // if (category && category !== 'all' && product.category !== category) {
-    //   return false;
-    // }
-
-    const filteredProducts = cate.map((item, i) => {
+  const filteredProducts = cate.map((item, i) => {
       productList.filter((product) => {
         if (item && item !== 'all' && product.category !== item) {
           return false;
@@ -81,7 +57,7 @@ export default function Category () {
 
 
   useEffect(()=> {
-    dispatch(getProducts());
+    dispatch(getAllProducts());
   }, [])
 
   
@@ -276,7 +252,7 @@ export default function Category () {
 
         <div className="row product-grid">
           {
-           filteredProducts.length>0 ? filteredProducts.map((item) => (
+           productList.length>0 ? productList.map((item) => (
               <div className="col-ss-12 col-xs-6 col-sm-6 col-md-3 col-lg-3" key={item.id}>
                 <Product data={item} addToCart={item}/>
               </div>
