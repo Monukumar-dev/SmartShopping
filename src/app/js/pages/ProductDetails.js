@@ -57,7 +57,7 @@ export default function ProductDetails() {
   
   //console.log(product.category, "category");
   const relatedProducts = data? data.filter((item) => item.category === product.category): [];
-  console.log(relatedProducts, "category Name");
+  //console.log(relatedProducts, "category Name");
  
   return (
     <div className="main-content product-single-page">

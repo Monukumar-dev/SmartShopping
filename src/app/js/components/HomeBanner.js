@@ -1,5 +1,7 @@
 import React, {  } from 'react';
 import { Link } from 'react-router-dom';
+import {handleImageError} from '../../js/utils/Utils';
+import defualtImg from '../../style/images/defultImg.jpg';
 
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -32,12 +34,16 @@ export default function HomeBanner(props) {
                 freeMode={true}
                 //onSlideChange={() => console.log('slide change')}
                 //onSwiper={(swiper) => console.log(swiper)}
-                >
+                >   
                 
                 {
                   bannerItems.length>0 ? bannerItems.map((item) => (
+
                         <SwiperSlide key={item.id}>
-                            <img className='sliderImg img-fluid' src={item.image} />
+                            <img 
+                            className='sliderImg img-fluid'
+                            onError={(event) => handleImageError(event, defualtImg)}
+                            src={item.image}  />
                             <div className="slide-content">
                                 <h3 className="title">{item.title}</h3>
                                 <h4 className="subtitle">{item.desc}</h4>

@@ -1,3 +1,8 @@
+export const handleImageError = (event, fallbackSrc) => {
+    event.target.src = fallbackSrc; // Set fallback image
+};
+
+
 export function getLocation() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(showPosition, showError);

@@ -8,7 +8,8 @@ import banner2 from '../../style/images/banner17.jpg';
 import banner3 from '../../style/images/banner18.jpg';
 import banner4 from '../../style/images/banner19.jpg';
 
-import DealsOffersBg  from '../../style/images/background10.jpg'; 
+import DealsOffersBg  from '../../style/images/background10.jpg';
+
 
 //import { API_BASE_URL } from "../../utils/Url";
 
@@ -26,7 +27,7 @@ export default function HomePage() {
 
 const getBanners = async () => {
     let result  = await axios.get(apiUrl);
-    //console.log('Homepage', result.data);
+    console.log('Homepage getBanners', result.data);
     setBanner(result.data);
 }
 const getProducts = async () => {

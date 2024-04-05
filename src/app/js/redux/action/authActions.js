@@ -1,7 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import * as url from '../../utils/Url';
 import axios from "axios";
-//import { BASE_URL } from "../../utils/Url";
 
 export const registerUser = createAsyncThunk(
     'auth/resister',
@@ -12,7 +11,7 @@ export const registerUser = createAsyncThunk(
                     'Content-Type': 'application/json',
                   },
             }
-           await axios.post(`${url.BASE_URL}${url.REGISTER}`, {name, email, password, password_confirmation, tc}, config)
+           await axios.post(`${url.API_BASE_URL}/auth/${url.REGISTER}`, {name, email, password, password_confirmation, tc}, config)
         }catch (error) {
             // return custom error message from backend if present
             if (error.response && error.response.data.message) {
@@ -28,14 +27,17 @@ export const userLogin = createAsyncThunk(
     'auth/login',
     async ({email, password}, {rejectWithValue}) => {
         try {
-             // configure header's Content-Type as JSON
+            // configure header's Content-Type as JSON
             const config = {
                 headers: {
                 'Content-Type': 'application/json',
                 },
             }
             //const {data} = await axios.post(`${url.BASE_URL}${url.LOGIN}`, {email, password}, config)
-            const {data} = await axios.post(`https://6339831366857f698fb72ce1.mockapi.io/api/user`, {email, password}, config)
+           //const {data} = await axios.post(`${url.API_BASE_URL}auth${url.LOGIN}`, {email, password}, config)
+            debugger;
+            const {data} = await axios.post(`${url.API_BASE_URL}auth${url.LOGIN}`, JSON.stringify({"username":email, "password":password}), config)
+
             localStorage.setItem('user-info', JSON.stringify(data))
             return data
 
@@ -95,7 +97,7 @@ export const userLogout = createAsyncThunk(
                 'Authorization': `Bearer ${token}`,
                 },
             }
-            await axios.post(`${url.BASE_URL}${url.LOGOUT}`, payload, config)
+            await axios.post(`${url.API_BASE_URL}${url.LOGOUT}`, payload, config)
             localStorage.clear();
             return null
 
