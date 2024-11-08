@@ -29,8 +29,9 @@ import Loader from "../components/Loader";
 
 export default function ProductDetails() {
 
-  const {cartItems, totalQty } = useSelector((state)=> state.allCart);
-  const {data:product, status} = useSelector((state) => state.product);
+ const {cartItems, product, productStatus, totalQty } = useSelector(selectStoreState);
+ //const {cartItems, totalQty } = useSelector((state)=> state.allCart);
+ //const {data:product, status} = useSelector((state) => state.product);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -41,7 +42,6 @@ export default function ProductDetails() {
   }, [params])
 
   
-
   const curCartItem = cartItems.findIndex((item)=> item.id === params.id);
   
   const { data, error, loading } = useFetch(`products`);
@@ -269,3 +269,18 @@ export default function ProductDetails() {
   
   ); 
 }
+
+
+  // storeSelectors.js
+  const selectStoreState = (state) => ({
+    cartItems: state.allCart.cartItems,
+    totalQty: state.allCart.totalQty,
+    product: state.product.data,
+    productStatus: state.product.status,
+    // showPageLoader: state.payments.showPageLoader,
+    // paymentStatus: state.payments.paymentStatus,
+    // receiptEmailed: state.payments.receiptEmailed,
+    // uiPaymentConfigLabel: state.uiConfig.uiPaymentConfigLabel,
+    // instituteDetails: state.institute.instituteDetails,
+    // appInfo: state.payments.appInfo,
+  });

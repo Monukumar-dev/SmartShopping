@@ -7,7 +7,7 @@ import Login from "./app/js/components/Login";
 import Register from "./app/js/components/Register";
 import Footer from "./app/js/components/Footer";
 import HomePage from "./app/js/pages/HomePage";
-import Category from "./app/js/pages/Category";
+import Category from "./app/js/pages/Category/Category";
 import ProductDetails from "./app/js/pages/ProductDetails";
 import Cart from "./app/js/pages/Cart";
 import Checkout from "./app/js/pages/Checkout";

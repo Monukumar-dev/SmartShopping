@@ -79,3 +79,7 @@ export function isWithinMinMax(value, min, max) {
     }
     return true;
 }
+
+export function isEqualObj(obj1, obj2) {
+    return JSON.stringify(obj1) === JSON.stringify(obj2);
+}
