@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./RangeSlider.css";
 
 const RangeSlider = ({ min, max, step, defaultMin, defaultMax, onChange }) => {
@@ -7,13 +7,18 @@ const RangeSlider = ({ min, max, step, defaultMin, defaultMax, onChange }) => {
     maxValue: defaultMax || max,
   });
 
-  const handlePriceChange = (e) => {
+  // Handle slider changes and update local state
+  const handleSliderChange = (e) => {
     const { name, value } = e.target;
-    setPriceRange((prevRange) => ({
-      ...prevRange,
+    const updatedPriceRange = {
+      ...priceRange,
       [name]: Number(value),
-    }));
+    };
 
+    // Update local state
+    setPriceRange(updatedPriceRange);
+
+    // Trigger onChange with keys 'min' and 'max' for compatibility with parent handler
     if (onChange) {
       onChange({
         min: name === "minValue" ? Number(value) : priceRange.minValue,
@@ -22,11 +27,12 @@ const RangeSlider = ({ min, max, step, defaultMin, defaultMax, onChange }) => {
     }
   };
 
+  // Percentage calculations for slider UI
   const minPercent = ((priceRange.minValue - min) / (max - min)) * 100;
   const maxPercent = ((priceRange.maxValue - min) / (max - min)) * 100;
 
   return (
-    <div className="container">
+    <>
       <div className="slider">
         <div
           className="slider-track"
@@ -41,8 +47,8 @@ const RangeSlider = ({ min, max, step, defaultMin, defaultMax, onChange }) => {
           max={max}
           step={step}
           value={priceRange.minValue}
-          onChange={handlePriceChange}
-          name="minValue" // Set name attribute for the minimum slider
+          onChange={handleSliderChange}
+          name="minValue"
           className="slider-thumb"
         />
         <input
@@ -51,8 +57,8 @@ const RangeSlider = ({ min, max, step, defaultMin, defaultMax, onChange }) => {
           max={max}
           step={step}
           value={priceRange.maxValue}
-          onChange={handlePriceChange}
-          name="maxValue" // Set name attribute for the maximum slider
+          onChange={handleSliderChange}
+          name="maxValue"
           className="slider-thumb"
         />
       </div>
@@ -60,16 +66,17 @@ const RangeSlider = ({ min, max, step, defaultMin, defaultMax, onChange }) => {
         <span>₹{priceRange.minValue.toLocaleString()}</span>
         <span>₹{priceRange.maxValue.toLocaleString()}</span>
       </div>
-    </div>
+    </>
   );
 };
 
+// Default props
 RangeSlider.defaultProps = {
   min: 0,
   max: 10000,
   step: 100,
-  defaultMin: 2000,
-  defaultMax: 8000,
+  defaultMin: null,
+  defaultMax: null,
   onChange: null,
 };
 
