@@ -7,9 +7,6 @@ import '../../../style/scss/myAccount.scss';
 import * as url from '../../utils/Url';
 import { request } from "../../services/Request";
 
-import { useSelector, useDispatch } from "react-redux";
-import { userLogged } from "../../redux/action/authActions";
-
 
 export default function MyAccount() {
   const [data, setData] = useState({name: '', lName: '', email: '', mobile: '', gender: '', dob: '' });
