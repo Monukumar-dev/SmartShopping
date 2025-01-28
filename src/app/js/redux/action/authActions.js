@@ -33,10 +33,10 @@ export const userLogin = createAsyncThunk(
                 'Content-Type': 'application/json',
                 },
             }
-            //const {data} = await axios.post(`${url.BASE_URL}${url.LOGIN}`, {email, password}, config)
-           //const {data} = await axios.post(`${url.API_BASE_URL}auth${url.LOGIN}`, {email, password}, config)
-            debugger;
-            const {data} = await axios.post(`${url.API_BASE_URL}auth${url.LOGIN}`, JSON.stringify({"username":email, "password":password}), config)
+            const {data} = await axios.post(`${url.BASE_URL}users/login`, {email, password}, config)
+           
+            //debugger;
+           // const {data} = await axios.post(`${url.API_BASE_URL}auth${url.LOGIN}`, JSON.stringify({"username":email, "password":password}), config)
 
             localStorage.setItem('user-info', JSON.stringify(data))
             return data
@@ -57,18 +57,15 @@ export const userLogged = createAsyncThunk(
     async (payload, {rejectWithValue}) => {
         try {
            const isLogin =  JSON.parse(localStorage.getItem('user-info'))
-           const token = isLogin.token;
-
-            console.log(token, 'token');
-             // configure header's Content-Type as JSON
+           const token = isLogin.accessToken;
+            //console.log(token, 'token');
             const config = {
                 headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`,
                 },
             }
-            const {data} = await axios.get(`${url.BASE_URL}/loggeduser`, config)
-            //console.log(data.user, 'Acion');
+            const {data} = await axios.get(`${url.BASE_URL}profile`, config)
             return data.user
 
         } catch (error) {
@@ -87,9 +84,9 @@ export const userLogout = createAsyncThunk(
     async (payload, {rejectWithValue}) => {
         try {
            const isLogin =  JSON.parse(localStorage.getItem('user-info'))
-           const token = isLogin.token;
+           const token = isLogin.accessToken;
 
-           console.log(token, 'token');
+           console.log(token, 'accesstoken');
              // configure header's Content-Type as JSON
             const config = {
                 headers: {

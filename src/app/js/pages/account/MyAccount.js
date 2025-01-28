@@ -1,4 +1,5 @@
 import React, { useEffect, useState} from "react";
+import moment from 'moment';
 import MyAccountSidebar from "../../components/MyAccountSidebar";
 import '../../../style/scss/myAccount.scss';
 
@@ -6,18 +7,55 @@ import '../../../style/scss/myAccount.scss';
 import * as url from '../../utils/Url';
 import { request } from "../../services/Request";
 
-//import { useSelector, useDispatch } from "react-redux";
-//import { userLogged } from "../../redux/action/authActions";
+import { useSelector, useDispatch } from "react-redux";
+import { userLogged } from "../../redux/action/authActions";
 
 
 export default function MyAccount() {
   const [data, setData] = useState({name: '', lName: '', email: '', mobile: '', gender: '', dob: '' });
 
-const getUserData = async () => {
-  const result = await request(url.BASE_URL).get("/loggeduser");
-  const { user, status, message} = result.data 
-  setData(user);
-}
+
+  const isLogin =  JSON.parse(localStorage.getItem('user-info'))
+  const token = isLogin.accessToken;
+  //console.log(token, 'token');
+  
+  const getUserData = async () => {
+    try {
+      if (!token) {
+        throw new Error('Token is missing');
+      }
+  
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+      };
+  
+      const result = await request(url.BASE_URL).get('/profile', config);
+      
+      if (result.status === 200) {
+        const { name, lName, email, mobile, gender,dob  } = result.data;
+        
+        let tempdob = moment(dob).format('YYYY-MM-DD')
+
+        setData(prevState => ({
+          ...prevState,
+          name: name,
+          lName: lName,
+          email: email,
+          mobile: mobile,
+          gender:gender,
+          dob:tempdob,
+        }));
+      } else {
+        console.error('Error fetching data:', result.message || 'Unknown error');
+      }
+    } catch (error) {
+      console.error('An error occurred:', error.message);
+    }
+  };
+  
 
 useEffect(()=> {
   getUserData();
@@ -71,13 +109,13 @@ useEffect(()=> {
               <label style={{marginBottom: '15px'}}>Gender:*</label>
               <div className="gender-item">
                 <label className="she-radio">
-                  <input type="radio" className="gender" name="gender" id="gender" /> <i />
+                  <input type="radio" className="gender" name="gender" id="gender" checked={data.gender == 'Male'} /> <i />
                 </label>
                 Male
               </div>
               <div className="gender-item">
                 <label className="she-radio">
-                  <input type="radio" className="gender" name="gender" id="gender" /> <i /></label>
+                  <input type="radio" className="gender" name="gender" id="gender" checked={data.gender == 'Female'} /> <i /></label>
                 Female
               </div>
             </div>

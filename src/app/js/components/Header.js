@@ -19,14 +19,14 @@ export default function  Header(props) {
   const { userInfo } = useSelector((state)=> state.auth)
   const { wishList } = useSelector((state)=> state.wishlist);
 
-  const isLogin =  userInfo?.token ? true : false;
+  const isLogin =  userInfo?.accessToken ? true : false;
   
   const [miniCart, setMiniCart] = useState(false);
 
   const logOut =()=> {
     dispatch(userLogout())
     navigate(LOGIN);
-    console.log("Logout successfuly");
+    //console.log("Logout successfuly");
   }
 
   // const handleSidebarCart = () => {
