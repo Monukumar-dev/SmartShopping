@@ -11,7 +11,6 @@ export default function Login() {
   const navigate = useNavigate();
 
   const {loading, userInfo, error} = useSelector((state) => state.auth)
-  //const isLogin =  userInfo?.token ? true : false;
   const isLogin =  userInfo? true : false;
   const [data, setData] = useState({email: '', password: ''});
 
