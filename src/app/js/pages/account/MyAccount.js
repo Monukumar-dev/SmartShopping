@@ -106,13 +106,13 @@ useEffect(()=> {
               <label style={{marginBottom: '15px'}}>Gender:*</label>
               <div className="gender-item">
                 <label className="she-radio">
-                  <input type="radio" className="gender" name="gender" id="gender" checked={data.gender == 'Male'} /> <i />
+                  <input type="radio" className="gender" name="gender" id="male" checked={data.gender == 'Male'} /> <i />
                 </label>
                 Male
               </div>
               <div className="gender-item">
                 <label className="she-radio">
-                  <input type="radio" className="gender" name="gender" id="gender" checked={data.gender == 'Female'} /> <i /></label>
+                  <input type="radio" className="gender" name="gender" id="female" checked={data.gender == 'Female'} /> <i /></label>
                 Female
               </div>
             </div>

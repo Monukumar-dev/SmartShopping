@@ -13,9 +13,7 @@ export default function Login() {
   const {loading, userInfo, error} = useSelector((state) => state.auth)
   //const isLogin =  userInfo?.token ? true : false;
   const isLogin =  userInfo? true : false;
-
   const [data, setData] = useState({email: '', password: ''});
-
 
   // redirect authenticated user to profile screen
   useEffect(() => {

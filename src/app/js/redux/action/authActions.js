@@ -27,17 +27,14 @@ export const userLogin = createAsyncThunk(
     'auth/login',
     async ({email, password}, {rejectWithValue}) => {
         try {
-            // configure header's Content-Type as JSON
             const config = {
                 headers: {
                 'Content-Type': 'application/json',
                 },
-            }
-            const {data} = await axios.post(`${url.BASE_URL}users/login`, {email, password}, config)
-           
-            //debugger;
-           // const {data} = await axios.post(`${url.API_BASE_URL}auth${url.LOGIN}`, JSON.stringify({"username":email, "password":password}), config)
+                withCredentials: true,
+            }         
 
+            const {data} = await axios.post(`${url.BASE_URL}/users/login`, {email, password}, config)
             localStorage.setItem('user-info', JSON.stringify(data))
             return data
 
@@ -86,20 +83,18 @@ export const userLogout = createAsyncThunk(
            const isLogin =  JSON.parse(localStorage.getItem('user-info'))
            const token = isLogin.accessToken;
 
-           console.log(token, 'accesstoken');
-             // configure header's Content-Type as JSON
             const config = {
                 headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`,
                 },
+                withCredentials: true,
             }
-            await axios.post(`${url.API_BASE_URL}${url.LOGOUT}`, payload, config)
+            await axios.post(`${url.BASE_URL}${url.LOGOUT}`, {}, config)
             localStorage.clear();
             return null
 
         } catch (error) {
-            // return custom error message from API if any
             if (error.response && error.response.data.message) {
                 console.log(rejectWithValue(error.response.data.message))
             } else {
