@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { BASE_URL } from "../utils/Url";
 
 const base_url = "https://fakestoreapi.com/";
 
@@ -13,7 +14,7 @@ export default function useFetch(url) {
     (async function () {
       try {
         setLoading(true);
-        const response = await axios.get(`${base_url + url}`);
+        const response = await axios.post(`${BASE_URL + url}`);
         setData(response.data);
       } catch (err) {
         setError(err);

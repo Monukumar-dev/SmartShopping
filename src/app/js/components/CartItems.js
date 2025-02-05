@@ -10,6 +10,9 @@ export default function CartItems(props) {
     const dispatch = useDispatch();
     const { cartItems } = useSelector((state)=> state.allCart)
 
+    console.log(cartItems);
+    
+
     return (
         <>
         {
@@ -18,7 +21,8 @@ export default function CartItems(props) {
                           <div className="itemContainer-base-item p-2">
                             <div className="itemContainer-base-itemLeft">
                               <div className="LazyLoad is-visible">
-                                <img className="image-base-imgResponsive" src={item.image} alt={item.title} />
+                                <img className="image-base-imgResponsive" 
+                                src={`../${item.coverImage}`} alt={item.title} />
                               </div>
                             </div>
                             <div className="itemContainer-base-itemRight">

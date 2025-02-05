@@ -47,7 +47,7 @@ export const getFilter = createAsyncThunk(
     async (id) => {
       
     const data = await axios.get(`${BASE_URL}/products/${id}`).then((res) => res.data);
-    console.log(data, "fetch Product data");
+    //console.log(data, "fetch Product data");
     return data;
   });
 

@@ -14,10 +14,9 @@ import Sneakers2 from '../../style/images/Sneakers2.jpg';
 import Sneakers3 from '../../style/images/Sneakers3.jpg';
 
 
-
-import { useDispatch, useSelector } from "react-redux";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import {addToCart, increaseItemQuantity, decreaseItemQuantity, getCartTotal } from "../redux/slice/cartSlice";
-//import { addToCart } from "../redux/slice/cartSlice";
+
 
 import { getProductsById } from "../redux/action/productAction";
 import { addToWishlist } from "../redux/slice/wishlistSlice";
@@ -29,9 +28,13 @@ import Loader from "../components/Loader";
 
 export default function ProductDetails() {
 
- const {cartItems, product, productStatus, totalQty } = useSelector(selectStoreState);
+  const store = useSelector(connectToStore, shallowEqual);
+ const {cartItems, product, productStatus, totalQty } = store;
  //const {cartItems, totalQty } = useSelector((state)=> state.allCart);
  //const {data:product, status} = useSelector((state) => state.product);
+
+ //console.log("ProductData", product);
+ 
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -44,9 +47,7 @@ export default function ProductDetails() {
   
   const curCartItem = cartItems.findIndex((item)=> item.id === params.id);
   
-  const { data, error, loading } = useFetch(`products`);
-  //console.log(product, "single product");
-  //console.log(data, "All Products ");
+  const { data, error, loading } = useFetch(`/products`);
 
   if (!error && loading) {
     return <Loader />;
@@ -55,9 +56,14 @@ export default function ProductDetails() {
     return <h3>{error.message}</h3>;
   }
   
-  //console.log(product.category, "category");
-  const relatedProducts = data? data.filter((item) => item.category === product.category): [];
-  //console.log(relatedProducts, "category Name");
+  const relatedProducts = data?.products ? data?.products.filter((item) => item?.category === product?.category): [];
+  
+  const updatedProducts = relatedProducts.map(product => ({
+    ...product,
+    coverImage: `../${product.coverImage.replace(/\\/g, '/')}`, // Add '../' and replace backslashes
+    thumbImages: product.thumbImages.map(img => `../${img.replace(/\\/g, '/')}`) // Add '../' to each image
+  }));
+
  
   return (
     <div className="main-content product-single-page">
@@ -65,17 +71,18 @@ export default function ProductDetails() {
     <nav aria-label="breadcrumb">
       <ol className="breadcrumb">
         <li className="breadcrumb-item"><Link href="/">Home</Link></li>
-        <li className="breadcrumb-item active" aria-current="page">Products</li>
+        <li className="breadcrumb-item"><Link href="/">Products</Link></li>
+        <li className="breadcrumb-item active" aria-current="page">{product?.title}</li>
       </ol>
     </nav>
 
 			<div className="product-single-content">
 				<div className="about-product row">
 					<div className="details-thumb col-md-6">
-           <ProductGallery data={product} />
+           <ProductGallery data={product ? product : [] } />
 					</div>
 					<div className="details-info col-md-6">
-						<Link className="product-name" href="#">{product.title} </Link>
+						<Link className="product-name" href="#">{product?.title} </Link>
 						<div className="rating">
 							<ul className="list-star">
 								<li><a href="#"><i className="fa fa-star" aria-hidden="true"></i></a></li>
@@ -87,13 +94,14 @@ export default function ProductDetails() {
 							<span className="text">( Be the firt person to review this item )</span>
 						</div>
 						<div className="price">
-              <span className="ins"><i className="fas fa-regular fa-indian-rupee-sign"></i>{product.price}</span>
+              <span className="ins">
+                <i className="fas fa-regular fa-indian-rupee-sign"></i>{product?.price}</span>
               <span className="pdp-mrp"><s>₹1999</s></span>
               <span className="pdp-discount primary-clr">(50% OFF)</span>
             </div>
             <p className="pdp-selling-price"><span className="pdp-vatInfo">inclusive of all taxes</span></p>
 
-						<div className="des">{product.desc}</div>
+						<div className="des">{product?.description}</div>
 
             <div className="colors-container">
                   <p className="attributeHeading"><strong>More Colors</strong></p>
@@ -111,27 +119,40 @@ export default function ProductDetails() {
             <div className="size-container">
               <p className="attributeHeading"><strong>select size</strong></p>
               <div className="size-tab-content">
-                  <button type="button" className="size-select-button"data-size="6">6</button>
+                
+                    <button type="button" className="size-select-button"data-size={product?.size }>{product?.size }</button>
+                   
+                  {/* <button type="button" className="size-select-button"data-size="6">6</button>
                   <button type="button" className="size-select-button active"data-size="7">7</button>
                   <button type="button" className="size-select-button"data-size="8">8</button>
                   <button type="button" className="size-select-button"data-size="9">9</button>
                   <button type="button" className="size-select-button"data-size="10">10</button>
-                  <button type="button" className="size-select-button"data-size="11">11</button>
+                  <button type="button" className="size-select-button"data-size="11">11</button> */}
               </div>
             </div>
 
 						<div className="quantity">
-							<input className="input-text qty text" type="text" size="4"
-              value={cartItems.quantity? cartItems.quantity : '1'} onChange={()=> null} title="Qty" name="quantity" />
-							<div className="group-quantity-button">
-                <Link className="plus" to="#" onClick={()=> dispatch(increaseItemQuantity(product.id))}>
+              <input
+                className="input-text qty text"
+                type="text"
+                size="4"
+                value={
+                  cartItems.find((item) => item._id === product._id)?.quantity || 1
+                }
+                onChange={() => null}
+                title="Qty"
+                name="quantity"
+              />
+              <div className="group-quantity-button">
+                <Link className="plus" to="#" onClick={() => dispatch(increaseItemQuantity(product.id))}>
                   <i className="fa fa-sort-asc" aria-hidden="true"></i>
                 </Link>
-								<Link className="minus" to="#" onClick={()=> dispatch(decreaseItemQuantity(product.id))}>
+                <Link className="minus" to="#" onClick={() => dispatch(decreaseItemQuantity(product.id))}>
                   <i className="fa fa-sort-desc" aria-hidden="true"></i>
                 </Link>
-							</div>
+              </div>
             </div>
+
             
               { curCartItem>=0 ? <Link to="/cart" className="add-to-cart border-0">GO TO CART </Link> : 
               <button className="add-to-cart border-0" onClick={()=> dispatch(addToCart(product))}>ADD TO CART</button>
@@ -262,7 +283,7 @@ export default function ProductDetails() {
 		<div className="related-product py-4">
 			<div className="container">
 				<h3 className="supper-title mb-4 text-center">Related Products</h3>
-        <FeatureCarousel Products={relatedProducts} slidesPerView={4} />
+        <FeatureCarousel Products={updatedProducts} slidesPerView={4} />
 			</div>
 		</div>
 	</div>
@@ -272,10 +293,11 @@ export default function ProductDetails() {
 
 
   // storeSelectors.js
-  const selectStoreState = (state) => ({
+  const connectToStore = (state) => ({
     cartItems: state.allCart.cartItems,
     totalQty: state.allCart.totalQty,
-    product: state.product.data,
+    //product: state.product.data?.products,
+    product: state.product.data.product,
     productStatus: state.product.status,
     // showPageLoader: state.payments.showPageLoader,
     // paymentStatus: state.payments.paymentStatus,
