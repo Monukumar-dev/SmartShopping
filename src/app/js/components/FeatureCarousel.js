@@ -33,10 +33,9 @@ export default function ProductCarousel(props) {
                 modules={[Autoplay,Navigation,Pagination]}
                 freeMode={true}
                 >
-				
 				{
-					productItems.map((item) => (
-						<SwiperSlide key={item.id}>
+					productItems.map((item,i) => (
+						<SwiperSlide key={i}>
 							<Product data={item} />
                 		</SwiperSlide>
 				))

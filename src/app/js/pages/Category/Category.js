@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import '../../../style/scss/category.scss';
 
 import { useDispatch, useSelector } from "react-redux";
-import { getAllProducts } from "../../redux/action/productAction";
+import { getAllProducts, getFilter } from "../../redux/action/productAction";
 import { setCategoryFilter, setPriceFilter } from '../../redux/slice/filterSlice';
 
 import Loader from "../../components/Loader";
@@ -10,86 +10,164 @@ import Product from "../../components/Product";
 import { STATUS } from "../../constants/Status";
 import FilterProduct from "./FilterProduct";
 
+
 export default function Category() {
-  const dispatch = useDispatch();
-  const { productList, status } = useSelector(selectStoreState);
 
-  const [selectedCategories, setSelectedCategories] = useState([]);
-  const [priceRange, setPriceRange] = useState({ min: 0, max: 1000 });
-  const [minRating, setMinRating] = useState(0);
-  const [sortOrder, setSortOrder] = useState("Default");
+const dispatch = useDispatch();
+const { productList, filters, total, status } = useSelector(selectStoreState);
+
+//console.log("productList", productList);
+//console.log("filters", filters);
+
+const [selectedCategories, setSelectedCategories] = useState([]);
+const [selectedSize, setSelectedSize] = useState([]);
+const [selectedBrands, setSelectedBrands] = useState([]);
+const [selectedColor, setSelectedColor] = useState("");
+const [priceRange, setPriceRange] = useState({ min: null, max: null });
+const [sortOrder, setSortOrder] = useState("Default");
+
+const [filteredProducts, setFilteredProducts] = useState([]);
 
 
+useEffect(()=>{
+  let req = {
+    "filters": {
+        "minPrice": "",
+        "maxPrice": "",
+        "category": "",
+        "size": "",
+        "color": "",
+        "searchTerm": "",
+        "dateRange": {
+            "startDate": "",
+            "endDate": ""
+        }
+    },
+    "pagination": {
+        "page": 0,
+        "pageSize": 10
+    }
+}
+  dispatch(getFilter(req));
+},[])
 
-  const filterProducts = () => {
-    const filtered = productList.filter((product) => {
-      const isCategoryMatch = selectedCategories.length
-        ? selectedCategories.includes(product.category)
-        : true;
-      const isPriceMatch = product.price >= priceRange.min && product.price <= priceRange.max;
-      const isRatingMatch = product.rating.rate >= minRating;
-      return isCategoryMatch && isPriceMatch && isRatingMatch;
-    });
-  
-    // Apply sorting with added checks for undefined names
+useEffect(() => {
+  let requestBody = {
+    filters: {
+      minPrice: priceRange.min,
+      maxPrice: priceRange.max,
+      category: selectedCategories.length > 0 ? selectedCategories : null,
+      size: selectedSize.length > 0 ? selectedSize : null,
+      brand: selectedBrands.length > 0 ? selectedBrands : null,
+      color: selectedColor || null,
+      "searchTerm": "",
+      "dateRange": {
+          "startDate": "",
+          "endDate": ""
+      }
+    },
+    pagination: {
+      page: 0,
+      pageSize: 10,
+    },
+  };
+
+  dispatch(getAllProducts(requestBody));
+}, [selectedCategories, selectedSize, selectedBrands, selectedColor, priceRange, sortOrder]);
+
+useEffect(() => {
+  if (Array.isArray(productList)) {
+    let filtered = [...productList];
+
+    // Category filter
+    if (selectedCategories.length > 0) {
+      filtered = filtered.filter((item) => selectedCategories.includes(item.category));
+    }
+
+    // Size filter
+    if (selectedSize.length > 0) {
+      filtered = filtered.filter((item) => selectedSize.includes(item.size));
+    }
+
+    // Brand filter
+    if (selectedBrands.length > 0) {
+      filtered = filtered.filter((item) => selectedBrands.includes(item.brand));
+    }
+
+    // Color filter
+    if (selectedColor) {
+      filtered = filtered.filter((item) => item.color.toLowerCase() === selectedColor.toLowerCase());
+    }
+
+    // Price filter
+    if (priceRange.min !== null && priceRange.max !== null) {
+      filtered = filtered.filter((item) => item.price >= priceRange.min && item.price <= priceRange.max);
+    }
+
+    // Sorting
     switch (sortOrder) {
       case "ATOZ":
-        return filtered.sort((a, b) => (a.name || "").localeCompare(b.name || ""));
+        filtered.sort((a, b) => a.title.localeCompare(b.title));
+        break;
       case "ZTOA":
-        return filtered.sort((a, b) => (b.name || "").localeCompare(a.name || ""));
+        filtered.sort((a, b) => b.title.localeCompare(a.title));
+        break;
       case "pricelow":
-        return filtered.sort((a, b) => a.price - b.price);
+        filtered.sort((a, b) => a.price - b.price);
+        break;
       case "pricehigh":
-        return filtered.sort((a, b) => b.price - a.price);
+        filtered.sort((a, b) => b.price - a.price);
+        break;
       default:
-        return filtered;
+        break;
     }
-  };
 
-  const handleCategoryChange = (category) => {
-    setSelectedCategories((prevCategories) =>
-      prevCategories.includes(category)
-        ? prevCategories.filter((c) => c !== category)
-        : [...prevCategories, category]
-    );
-  };
-
-  const handlePriceChange = (e) => {
-    setPriceRange((prev) => ({
-      ...prev,
-      min: e.min,
-      max: e.max,
-    }));
-  };
-
-  const handleSortChange = (e) => {
-    setSortOrder(e.target.value);
-  };
-
-  const filteredProducts = filterProducts();
-
-  //const cate = productList.filter().
-  const uniqueCategories = [...new Set(productList.map(item => item.category))];
-
-  //console.log(uniqueCategories);
-
-  
-  
-
-  const totalProducts = productList.length; // Total count of products
-  const displayedProductsCount = filteredProducts.length; // Count of filtered products
-
-  useEffect(() => {
-    dispatch(getAllProducts());
-  }, []);
-
-  if (status === STATUS.LOADING) {
-    return <Loader />;
+    setFilteredProducts(filtered);
   }
+}, [productList, selectedCategories, selectedSize, selectedBrands, selectedColor, priceRange, sortOrder]);
 
-  if (status === STATUS.ERROR) {
-    return <h2>Something went wrong. Check API..</h2>;
-  }
+// Handle Filters
+const handleCategoryChange = (category) => {
+  setSelectedCategories((prev) =>
+    prev.includes(category) ? prev.filter((c) => c !== category) : [...prev, category]
+  );
+};
+
+const handleSizeChange = (size) => {
+  setSelectedSize((prev) =>
+    prev.includes(size) ? prev.filter((s) => s !== size) : [...prev, size]
+  );
+};
+
+const handleBrandChange = (brand) => {
+  setSelectedBrands((prev) =>
+    prev.includes(brand) ? prev.filter((b) => b !== brand) : [...prev, brand]
+  );
+};
+
+const handleColorChange = (color) => {
+  setSelectedColor(color);
+};
+
+const handlePriceChange = (newValue) => {
+  setPriceRange({ min: newValue[0], max: newValue[1] });
+};
+
+const handleSortChange = (e) => {
+  setSortOrder(e.target.value);
+};
+
+const totalProducts = total //productList?.length; // Total count of products
+const displayedProductsCount = filteredProducts?.length; // Count of filtered products
+
+if (status === STATUS.LOADING) {
+  return <Loader />;
+}
+
+if (status === STATUS.ERROR) {
+  return <h2>Something went wrong. Check API..</h2>;
+}
+
 
   function renderRightContent() {
     return (
@@ -106,11 +184,11 @@ export default function Category() {
                   <form className="align-items-center d-flex">
                     <label className="control-label pe-2" htmlFor="input-sort">SortBy:</label>
                     <select
-                      defaultValue={'Default'}
                       id="input-sort"
                       name="OrderByGet"
                       className="form-select"
                       onChange={handleSortChange}
+                      value={sortOrder}
                     >
                       <option value="Default">Default</option>
                       <option value="ATOZ">Name (A - Z)</option>
@@ -129,7 +207,7 @@ export default function Category() {
           <div className="row product-grid">
             {filteredProducts.length > 0 ? (
               filteredProducts.map((item) => (
-                <div className="col-ss-12 col-xs-6 col-sm-6 col-md-3 col-lg-3" key={item.id}>
+                <div className="col-ss-12 col-xs-6 col-sm-6 col-md-3 col-lg-3" key={item._id}>
                   <Product data={item} addToCart={item} />
                 </div>
               ))
@@ -161,30 +239,35 @@ export default function Category() {
         <div className="row">
           <FilterProduct
             filters={[
-              {
+              filters.category && {
                 title: "Categories",
-                options: uniqueCategories,
+                options: filters.category ? filters.category : [],
                 selected: selectedCategories,
                 handleChange: handleCategoryChange,
               },
-              {
-                title: "Brand",
-                options: ["Tshirts", "Lounge Tshirts", "Shoes", "Clothing"],
-                //selected: selectedBrands,
-                //handleChange: handleBrandChange,
-              },
-              {
+              // filters.brand && {
+              //   title: "Brand",
+              //   options: uniqueBrands, // Use all available brands
+              //   selected: selectedBrands,
+              //   handleChange: handleBrandChange,
+              // },
+              filters.size && {
                 title: "Size",
-                options: ["S", "M", "L", "XL"],
-                //selected: selectedSizes,
-                //handleChange: handleSizeChange,
+                options: filters.size, // Use all available sizes
+                selected: selectedSize,
+                handleChange: handleSizeChange,
               },
-              // Add other filters as needed
+              filters.color && {
+                title: "Color",
+                options: filters.color, // Use all available colors
+                selected: selectedColor,
+                handleChange: handleColorChange,
+              }
             ]}
-            priceRange={priceRange}
+            priceRange={{min: filters.minPrice, max: filters.maxPrice }}
             handlePriceChange={handlePriceChange}
           />
-
+          
           {renderRightContent()}
         </div>
       </div>
@@ -194,6 +277,8 @@ export default function Category() {
 
 // storeSelectors.js
 const selectStoreState = (state) => ({
-  productList: state.product.data,
+  productList: state.product.data?.products,
+  filters: state.product.filters,
   status: state.product.status,
+  total: state.product.data.total,
 });

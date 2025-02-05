@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+
 import HomeBanner from "../components/HomeBanner";
 import ProductCarousel from "../components/FeatureCarousel";
 
@@ -10,48 +11,70 @@ import banner4 from '../../style/images/banner19.jpg';
 
 import DealsOffersBg  from '../../style/images/background10.jpg';
 
+import { BASE_URL } from "../utils/Url";
 
-//import { API_BASE_URL } from "../../utils/Url";
-
+import {shallowEqual, useDispatch, useSelector } from "react-redux";
+import { getAllProducts } from "../redux/action/productAction";
 
 
 export default function HomePage() {
+  
+  const store = useSelector(connectToStore, shallowEqual);
+  const dispatch = useDispatch();
 
   const [banner, setBanner] = useState([]);
-  const [productList, setProductList] = useState([]);
-  
-  const apiUrl = "https://6339831366857f698fb72ce1.mockapi.io/api/home_banners";
-
-  const productApiUrl = "https://fakestoreapi.com/products"
-
-
-const getBanners = async () => {
-    let result  = await axios.get(apiUrl);
-    console.log('Homepage getBanners', result.data);
-    setBanner(result.data);
-}
-const getProducts = async () => {
-  let result  = await axios.get(productApiUrl);
-  //console.log('Product Home', result.data);
-  setProductList(result.data);
-}
+ 
+  const getBanners = async () => {
+      let result  = await axios.get(`${BASE_URL}/banners/`);
+      setBanner(result.data);
+  }
 
   useEffect(()=> {
     getBanners();
-    getProducts();
   }, [])
 
+  useEffect(() => {
+    dispatch(getAllProducts());
+  }, []);
 
 
-  function renderSpecialsProducts() {
+
+  function renderTrendingBags() {
+    const { productList } = store
+    let specialsProduct = productList?.filter(product => product?.category.toLowerCase() === 'bag');
+    if (!specialsProduct) return;
+
     return (
       <>
       <section>
         <div className="container">
         <div className="our-products specials-products">
-          <h4 className="section-title text-center">Specials Products</h4>
+          <h4 className="section-title text-center"> Trending Bags</h4>
           <p className="section-des text-center">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum scelerisque risus lacus, vitae vehicula nisl rhoncus vitae. Sed consectetur sapien velit</p>
-          <ProductCarousel Products={productList} slidesPerView={5} />
+          <ProductCarousel Products={specialsProduct} slidesPerView={5} />
+        </div>
+      </div>
+    </section>
+      </>
+    );
+  }
+
+  function renderTrendingMen() {
+    const { productList } = store
+
+    let specialsProduct = productList?.filter(product => 
+      ['men', 'shose', 'electronic'].includes(product?.category?.toLowerCase()) 
+    );
+    if (!specialsProduct) return;
+
+    return (
+      <>
+      <section>
+        <div className="container">
+        <div className="our-products specials-products">
+          <h4 className="section-title text-center"> Trending Men's Products</h4>
+          <p className="section-des text-center">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum scelerisque risus lacus, vitae vehicula nisl rhoncus vitae. Sed consectetur sapien velit</p>
+          <ProductCarousel Products={specialsProduct} slidesPerView={5} />
         </div>
       </div>
     </section>
@@ -160,11 +183,20 @@ const getProducts = async () => {
     <>
       <HomeBanner bannerData={banner} />
       {renderHomeOffer()}
-      {renderSpecialsProducts()}
+      {renderTrendingBags()}
       {renderDealsOffers()}
-      {renderSpecialsProducts()}
+      {renderTrendingMen()}
       {renderFeatureBox()}
 
     </>
   ); 
 }
+
+
+// storeSelectors.js
+const connectToStore = (state) => ({
+  productList: state.product.data?.products,
+  filters: state.product.filters,
+  status: state.product.status,
+  total: state.product.data.total,
+});

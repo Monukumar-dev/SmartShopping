@@ -22,10 +22,10 @@ export default function HomeBanner(props) {
                 spaceBetween={0}
                 slidesPerView={1}
                 autoplay={{
-                    delay: 5000,
+                    delay: 50000,
                     disableOnInteraction: false,
                   }}
-                
+                loop={true}
                 pagination={{
                     clickable: true,
                   }}
@@ -37,25 +37,25 @@ export default function HomeBanner(props) {
                 >   
                 
                 {
-                  bannerItems.length>0 ? bannerItems.map((item) => (
+                  bannerItems.length>0 ? bannerItems.map((item, i) => (
 
-                        <SwiperSlide key={item.id}>
+                        <SwiperSlide key={i}>
                             <img 
                             className='sliderImg img-fluid'
                             onError={(event) => handleImageError(event, defualtImg)}
-                            src={item.image}  />
+                            src={item.imageUrl}  />
                             <div className="slide-content">
                                 <h3 className="title">{item.title}</h3>
-                                <h4 className="subtitle">{item.desc}</h4>
-                                <Link to={item.desc} className="btn btn-primary me-2">View Lookbook</Link>
-                                <Link href="#" className="btn btn-outline-primary ms-2">View Promotion</Link>
+                                <h4 className="subtitle">
+                                    {item.desc ? item.desc : 'Discover the collection as styled by fashion in our new season campaign.'}
+                                </h4>
+                                <Link to={item.desc} className="btn btn-primary px-4 py-2">SHOP NOW</Link>
+                                {/* <Link href="#" className="btn btn-outline-primary ms-2">View Promotion</Link> */}
                             </div>
                         </SwiperSlide>
 
                     )) : <h2 className='text-center'>Not found any slider 😔</h2>
-                }
-                
-                
+                } 
             </Swiper>
         </div>
     )

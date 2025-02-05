@@ -6,18 +6,18 @@ export default function FilterProduct(props) {
   
   return (
     <div className="col-xs-12 col-sm-4 col-md-3 col-lg-3 leftside-filters">
-      {filters.map((filter) => (
-        <div key={filter.title} className="widget filters-itmes">
+      {filters.map((filter, i) => (
+        <div key={i} className="widget filters-itmes">
           <div className="filter-heading d-flex align-items-center justify-content-between">
-            <h4 className="widgettitle">{filter.title}</h4>
+            <h4 className="widgettitle">{filter?.title}</h4>
             <p className="widgettitleIcons">
               <i className="fa-search fas float-right"></i>
             </p>
           </div>
           <form>
             <div className="style-2">
-              {filter.options.map((option) => (
-                <label key={option} className="CusCheckBox control--checkbox text-capitalize">
+              {filter?.options.map((option, i) => (
+                <label key={i} className="CusCheckBox control--checkbox text-capitalize">
                   {option}
                   <input
                     type="checkbox"
@@ -38,10 +38,13 @@ export default function FilterProduct(props) {
         <h4 className="widgettitle">Filter by price</h4>
         <RangeSlider 
           min={1} 
-          max={10000} 
-          step={100} 
+          max={9999} 
+          step={100}
+          //value={[priceRange.min, priceRange.max]} 
           onChange={handlePriceChange} 
         />
+
+
       </div>
     </div>
   );

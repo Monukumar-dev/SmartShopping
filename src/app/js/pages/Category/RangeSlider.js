@@ -7,27 +7,33 @@ const RangeSlider = ({ min, max, step, defaultMin, defaultMax, onChange }) => {
     maxValue: defaultMax || max,
   });
 
-  // Handle slider changes and update local state
+  // Log the updated priceRange after it changes
+  useEffect(() => {
+    //console.log("Updated price range:", priceRange);
+  }, [priceRange]);
+
   const handleSliderChange = (e) => {
     const { name, value } = e.target;
-    const updatedPriceRange = {
-      ...priceRange,
-      [name]: Number(value),
-    };
 
-    // Update local state
-    setPriceRange(updatedPriceRange);
+    // Update the price range value based on the slider change
+    setPriceRange((prevState) => {
+      const updatedPriceRange = {
+        ...prevState,
+        [name]: Number(value),
+      };
 
-    // Trigger onChange with keys 'min' and 'max' for compatibility with parent handler
-    if (onChange) {
-      onChange({
-        min: name === "minValue" ? Number(value) : priceRange.minValue,
-        max: name === "maxValue" ? Number(value) : priceRange.maxValue,
-      });
-    }
+      // Trigger onChange with updated values
+      if (onChange) {
+        onChange({
+          min: name === "minValue" ? updatedPriceRange.minValue : prevState.minValue,
+          max: name === "maxValue" ? updatedPriceRange.maxValue : prevState.maxValue,
+        });
+      }
+
+      return updatedPriceRange; // Set updated state
+    });
   };
 
-  // Percentage calculations for slider UI
   const minPercent = ((priceRange.minValue - min) / (max - min)) * 100;
   const maxPercent = ((priceRange.maxValue - min) / (max - min)) * 100;
 
@@ -70,7 +76,6 @@ const RangeSlider = ({ min, max, step, defaultMin, defaultMax, onChange }) => {
   );
 };
 
-// Default props
 RangeSlider.defaultProps = {
   min: 0,
   max: 10000,

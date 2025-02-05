@@ -12,8 +12,8 @@ const initialState = {
     company: "all",
     color: "all",
     maxPrice: 0,
-    price: 0,
     minPrice: 0,
+    price: 0,
   },
 };
 

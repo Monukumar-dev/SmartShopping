@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getAllProducts, getProductsById } from "../action/productAction";
+import { getAllProducts, getFilter, getProductsById } from "../action/productAction";
 import { STATUS } from "../../constants/Status";
 
 const productSlice = createSlice({
@@ -7,17 +7,10 @@ const productSlice = createSlice({
     initialState: {
         data: [],
         status: STATUS.IDLE,
+        filters: {},
     },
 
-    reducers: {
-        // setProducts(state, action) {
-        //     state.data = action.payload;
-        // },
-
-        // setStatus(state, action) {
-        //     state.status = action.payload;
-        // },
-    },
+    reducers: {},
     extraReducers: (builder) => {
       //getAllProducts
         builder
@@ -42,6 +35,23 @@ const productSlice = createSlice({
             state.status = STATUS.IDLE;
           })
           .addCase(getProductsById.rejected, (state, action) => {
+            state.status = STATUS.ERROR;
+          });
+
+          //getProductsById
+          builder
+          .addCase(getFilter.pending, (state, action) => {
+            state.status = STATUS.LOADING;
+          })
+          .addCase(getFilter.fulfilled, (state, action) => {
+            state.status = STATUS.IDLE;
+            state.filters.category = action.payload.category;
+            state.filters.color = action.payload.color;
+            state.filters.size = action.payload.size;
+            state.filters.minPrice = action.payload.minPrice;
+            state.filters.maxPrice = action.payload.maxPrice;
+          })
+          .addCase(getFilter.rejected, (state, action) => {
             state.status = STATUS.ERROR;
           });
    
